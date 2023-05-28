@@ -1,0 +1,24 @@
+{
+    "manifest_version": 2,
+    "name": "CrunchyScore",
+    "version": "1.0",
+    "description": "Insert MAL Ranking on Crunchyroll page",
+    "permissions": [
+      "activeTab",
+      "storage"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },  
+    "content_scripts": [
+      {
+        "matches": [
+          "https://www.crunchyroll.com/*"
+        ],
+        "js": ["script/content.js"]
+      }
+    ],"browser_action": {
+      "default_popup": "./popup/popup.html"
+    }
+  }
+  
