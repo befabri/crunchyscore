@@ -125,7 +125,7 @@ function updateNotFoundCache(id, data) {
   setNotFoundCache(cacheData);
 }
 
-async function handleSimulcastPage() {
+async function handleVideoPage() {
   if (isDetailPage(location.href)) {
     return;
   }
@@ -315,7 +315,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (check === false) {
       if (IsVideoPage()) {
         updateConfig();
-        handleSimulcastPage();
+        handleVideoPage();
         check = true;
       }
     }
@@ -333,7 +333,7 @@ window.addEventListener("scroll", () => {
     throttleTimeout = setTimeout(() => {
       if (IsVideoPage()) {
         updateConfig();
-        handleSimulcastPage();
+        handleVideoPage();
       }
       throttleTimeout = null;
     }, 800);
