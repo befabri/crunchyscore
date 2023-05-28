@@ -1,0 +1,53 @@
+{
+    "title": {
+        "message": "CrunchyScore"
+    },
+    "textColorLabel": {
+        "message": "Tekst Kleur"
+    },
+    "sortItemsLabel": {
+        "message": "Sorteer Items Op"
+    },
+    "sortOptionDefault": {
+        "message": "Standaard"
+    },
+    "sortOptionAsc": {
+        "message": "Oplopend"
+    },
+    "sortOptionDesc": {
+        "message": "Aflopend"
+    },
+    "scoreLayoutLabel": {
+        "message": "Selecteer Score Layout"
+    },
+    "layoutOption1": {
+        "message": "Layout 1"
+    },
+    "layoutOption2": {
+        "message": "Layout 2"
+    },
+    "layoutOption3": {
+        "message": "Layout 3"
+    },
+    "displayTextLabel": {
+        "message": "Voer Weergave Tekst In"
+    },
+    "decimalPrecisionLabel": {
+        "message": "Selecteer Decimale Nauwkeurigheid"
+    },
+    "decimalOption1": {
+        "message": "5,43"
+    },
+    "decimalOption2": {
+        "message": "5,4"
+    },
+    "decimalOption3": {
+        "message": "5"
+    },
+    "helperText": {
+        "message": "(*) De webpagina wordt opnieuw geladen wanneer de decimale precisie wordt gewijzigd."
+    },
+    "saveChangesButton": {
+        "message": "Wijzigingen Opslaan"
+    }
+}

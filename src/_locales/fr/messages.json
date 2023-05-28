@@ -1,0 +1,53 @@
+{
+    "title": {
+        "message": "CrunchyScore"
+    },
+    "textColorLabel": {
+        "message": "Couleur du Texte"
+    },
+    "sortItemsLabel": {
+        "message": "Trier les Articles Par"
+    },
+    "sortOptionDefault": {
+        "message": "Défaut"
+    },
+    "sortOptionAsc": {
+        "message": "Ascendant"
+    },
+    "sortOptionDesc": {
+        "message": "Descendant"
+    },
+    "scoreLayoutLabel": {
+        "message": "Sélectionnez la Disposition des Scores"
+    },
+    "layoutOption1": {
+        "message": "Disposition 1"
+    },
+    "layoutOption2": {
+        "message": "Disposition 2"
+    },
+    "layoutOption3": {
+        "message": "Disposition 3"
+    },
+    "displayTextLabel": {
+        "message": "Entrer le Texte à Afficher"
+    },
+    "decimalPrecisionLabel": {
+        "message": "Sélectionnez la Précision Décimale"
+    },
+    "decimalOption1": {
+        "message": "5,43"
+    },
+    "decimalOption2": {
+        "message": "5,4"
+    },
+    "decimalOption3": {
+        "message": "5"
+    },
+    "helperText": {
+        "message": "(*) La page web se recharge chaque fois que la précision décimale est modifiée."
+    },
+    "saveChangesButton": {
+        "message": "Enregistrer les Modifications"
+    }
+}

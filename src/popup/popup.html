@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CrunchyScore</title>
+    <title>__MSG_title__</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />
   </head>
 
   <body>
-    <h1>CrunchyScore</h1>
+    <h1>__MSG_title__</h1>
     <div class="container">
       <div class="input-group">
-        <label for="colorChoice">Text Color</label>
+        <label for="colorChoice">__MSG_textColorLabel__</label>
         <div class="form-container">
           <div id="color-container" class="form">
             <input type="color" id="colorChoice" class="circular-color" />
@@ -19,46 +19,46 @@
       </div>
 
       <div class="input-group">
-        <label for="orderChoice">Sort Items By</label>
+        <label for="orderChoice">__MSG_sortItemsLabel__</label>
         <div class="form-container">
           <select id="orderChoice" class="form">
-            <option value="order1">Default</option>
-            <option value="order2">Ascending</option>
-            <option value="order3">Descending</option>
+            <option value="order1">__MSG_sortOptionDefault__</option>
+            <option value="order2">__MSG_sortOptionAsc__</option>
+            <option value="order3">__MSG_sortOptionDesc__</option>
           </select>
         </div>
       </div>
 
       <div class="input-group">
-        <label for="layoutChoice">Select Score Layout</label>
+        <label for="layoutChoice">__MSG_scoreLayoutLabel__</label>
         <div class="form-container">
           <select id="layoutChoice" class="form">
-            <option value="layout1">Layout 1</option>
-            <option value="layout2">Layout 2</option>
-            <option value="layout3">Layout 3</option>
+            <option value="layout1">__MSG_layoutOption1__</option>
+            <option value="layout2">__MSG_layoutOption2__</option>
+            <option value="layout3">__MSG_layoutOption3__</option>
           </select>
         </div>
       </div>
 
       <div class="input-group">
-        <label for="textChoice">Input Display Text</label>
+        <label for="textChoice">__MSG_displayTextLabel__</label>
         <div class="form-container">
           <input type="text" id="textChoice" class="form" />
         </div>
       </div>
 
       <div class="input-group">
-        <label for="decimalChoice">Select Decimal Precision*</label>
+        <label for="decimalChoice">__MSG_decimalPrecisionLabel__*</label>
         <div class="form-container">
           <select id="decimalChoice" class="form">
-            <option value="decimal1">5.43</option>
-            <option value="decimal2">5.4</option>
-            <option value="decimal3">5</option>
+            <option value="decimal1">__MSG_decimalOption1__</option>
+            <option value="decimal2">__MSG_decimalOption2__</option>
+            <option value="decimal3">__MSG_decimalOption3__</option>
           </select>
         </div>
-        <p id="helperText">(*) The webpage reloads whenever decimal precision are altered.</p>
+        <p id="helperText">__MSG_helperText__</p>
       </div>
-      <button class="rounded-button" id="saveButton">Save changes</button>
+      <button class="rounded-button" id="saveButton">__MSG_saveChangesButton__</button>
     </div>
     <script src="popup.js"></script>
   </body>

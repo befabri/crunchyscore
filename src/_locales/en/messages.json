@@ -1,0 +1,53 @@
+{
+    "title": {
+        "message": "CrunchyScore"
+    },
+    "textColorLabel": {
+        "message": "Text Color"
+    },
+    "sortItemsLabel": {
+        "message": "Sort Items By"
+    },
+    "sortOptionDefault": {
+        "message": "Default"
+    },
+    "sortOptionAsc": {
+        "message": "Ascending"
+    },
+    "sortOptionDesc": {
+        "message": "Descending"
+    },
+    "scoreLayoutLabel": {
+        "message": "Select Score Layout"
+    },
+    "layoutOption1": {
+        "message": "Layout 1"
+    },
+    "layoutOption2": {
+        "message": "Layout 2"
+    },
+    "layoutOption3": {
+        "message": "Layout 3"
+    },
+    "displayTextLabel": {
+        "message": "Input Display Text"
+    },
+    "decimalPrecisionLabel": {
+        "message": "Select Decimal Precision"
+    },
+    "decimalOption1": {
+        "message": "5.43"
+    },
+    "decimalOption2": {
+        "message": "5.4"
+    },
+    "decimalOption3": {
+        "message": "5"
+    },
+    "helperText": {
+        "message": "(*) The webpage reloads whenever decimal precision is altered."
+    },
+    "saveChangesButton": {
+        "message": "Save changes"
+    }
+}

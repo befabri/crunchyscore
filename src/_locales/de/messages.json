@@ -1,0 +1,53 @@
+{
+    "title": {
+        "message": "CrunchyScore"
+    },
+    "textColorLabel": {
+        "message": "Textfarbe"
+    },
+    "sortItemsLabel": {
+        "message": "Elemente Sortieren Nach"
+    },
+    "sortOptionDefault": {
+        "message": "Standard"
+    },
+    "sortOptionAsc": {
+        "message": "Aufsteigend"
+    },
+    "sortOptionDesc": {
+        "message": "Absteigend"
+    },
+    "scoreLayoutLabel": {
+        "message": "Wählen Sie das Score-Layout aus"
+    },
+    "layoutOption1": {
+        "message": "Layout 1"
+    },
+    "layoutOption2": {
+        "message": "Layout 2"
+    },
+    "layoutOption3": {
+        "message": "Layout 3"
+    },
+    "displayTextLabel": {
+        "message": "Anzeigetext Eingeben"
+    },
+    "decimalPrecisionLabel": {
+        "message": "Wählen Sie die Dezimalgenauigkeit aus"
+    },
+    "decimalOption1": {
+        "message": "5,43"
+    },
+    "decimalOption2": {
+        "message": "5,4"
+    },
+    "decimalOption3": {
+        "message": "5"
+    },
+    "helperText": {
+        "message": "(*) Die Webseite lädt neu, wann immer die Dezimalgenauigkeit geändert wird."
+    },
+    "saveChangesButton": {
+        "message": "Änderungen Speichern"
+    }
+}

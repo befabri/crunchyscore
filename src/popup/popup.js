@@ -1,5 +1,24 @@
 let oldDecimalChoice = document.getElementById("decimalChoice").value;
 
+function localizeHtmlPage() {
+  //Localize by replacing __MSG_***__ meta tags
+  let objects = document.getElementsByTagName("html");
+  for (let j = 0; j < objects.length; j++) {
+    let obj = objects[j];
+
+    let valStrH = obj.innerHTML.toString();
+    let valNewH = valStrH.replace(/__MSG_(\w+)__/g, function (match, v1) {
+      return v1 ? chrome.i18n.getMessage(v1) : "";
+    });
+
+    if (valNewH != valStrH) {
+      obj.innerHTML = valNewH;
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", localizeHtmlPage);
+
 document.getElementById("colorChoice").addEventListener("input", function () {
   document.getElementById("colorText").value = this.value;
 });

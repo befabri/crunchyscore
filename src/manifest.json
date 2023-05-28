@@ -3,6 +3,7 @@
     "name": "CrunchyScore",
     "version": "1.0",
     "description": "Insert MAL Ranking on Crunchyroll page",
+    "default_locale": "en",
     "permissions": [
       "activeTab",
       "storage"

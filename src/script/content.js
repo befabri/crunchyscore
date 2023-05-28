@@ -300,7 +300,6 @@ function IsVideoPage() {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.type === "colorChanged") {
-    console.log(request.color, request.layout, request.text, request.decimal, request.order);
     let elements = document.getElementsByClassName("score");
     for (let i = 0; i < elements.length; i++) {
       elements[i].style.color = request.color;
