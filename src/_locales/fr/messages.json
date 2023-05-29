@@ -18,16 +18,16 @@
         "message": "Décroissant"
     },
     "scoreLayoutLabel": {
-        "message": "Sélectionnez la disposition des scores"
+        "message": "Sélectionnez l'affichage des scores"
     },
     "layoutOption1": {
-        "message": "Disposition 1"
+        "message": "Affichage 1"
     },
     "layoutOption2": {
-        "message": "Disposition 2"
+        "message": "Affichage 2"
     },
     "layoutOption3": {
-        "message": "Disposition 3"
+        "message": "Affichage 3"
     },
     "displayTextLabel": {
         "message": "Entrer le texte à afficher"
