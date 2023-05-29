@@ -18,7 +18,7 @@
         "message": "Absteigend"
     },
     "scoreLayoutLabel": {
-        "message": "Wählen Sie das Score-Layout aus"
+        "message": "Wählen sie das score-layout aus"
     },
     "layoutOption1": {
         "message": "Layout 1"
@@ -30,10 +30,10 @@
         "message": "Layout 3"
     },
     "displayTextLabel": {
-        "message": "Anzeigetext Eingeben"
+        "message": "Anzeigetext eingeben"
     },
     "decimalPrecisionLabel": {
-        "message": "Wählen Sie die Dezimalgenauigkeit aus"
+        "message": "Wählen sie die dezimalgenauigkeit aus"
     },
     "decimalOption1": {
         "message": "5,43"
@@ -45,9 +45,9 @@
         "message": "5"
     },
     "helperText": {
-        "message": "(*) Die Webseite lädt neu, wann immer die Dezimalgenauigkeit geändert wird."
+        "message": "(*) Die Webseite lädt neu, wann immer die dezimalgenauigkeit geändert wird."
     },
     "saveChangesButton": {
-        "message": "Änderungen Speichern"
+        "message": "Änderungen speichern"
     }
 }

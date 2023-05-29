@@ -3,10 +3,10 @@
         "message": "CrunchyScore"
     },
     "textColorLabel": {
-        "message": "Text Color"
+        "message": "Text color"
     },
     "sortItemsLabel": {
-        "message": "Sort Scores By"
+        "message": "Sort scores by"
     },
     "sortOptionDefault": {
         "message": "Default"
@@ -18,7 +18,7 @@
         "message": "Descending"
     },
     "scoreLayoutLabel": {
-        "message": "Select Score Layout"
+        "message": "Select score layout"
     },
     "layoutOption1": {
         "message": "Layout 1"
@@ -30,10 +30,10 @@
         "message": "Layout 3"
     },
     "displayTextLabel": {
-        "message": "Input Display Text"
+        "message": "Input display text"
     },
     "decimalPrecisionLabel": {
-        "message": "Select Decimal Precision"
+        "message": "Select decimal precision"
     },
     "decimalOption1": {
         "message": "5.43"
