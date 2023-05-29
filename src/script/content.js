@@ -130,8 +130,7 @@ async function handleVideoPage() {
     return;
   }
   let data = await getStorageAnimeData();
-  const cards = Array.from(getCardsFromVideoPage());
-  const animeNotFound = await insertScoreController(cards, data);
+  const animeNotFound = await insertScoreController(data);
   if (animeNotFound) {
     const notFoundCache = getnotFoundCache();
     let urls = getUrlsFromNotFound(animeNotFound);
@@ -141,27 +140,10 @@ async function handleVideoPage() {
       if (animeFetch) {
         await saveData(animeFetch.filter((anime) => anime.score !== 0));
         data = await getStorageAnimeData();
-        await insertScoreController(cards, data);
+        await insertScoreController(data);
       }
     }
   }
-}
-
-async function insertScoreController() {
-  const cards = Array.from(getCardsFromVideoPage());
-  const animes = await getStorageAnimeData();
-  const notFound = [];
-  await Promise.all(
-    cards.map(async (card) => {
-      const data = getDataFromCard(card, animes);
-      if (data) {
-        insertScoreIntoCard(card, data.score);
-      } else {
-        notFound.push(getSearchFromCard(card));
-      }
-    })
-  );
-  return notFound;
 }
 
 async function fetchandSaveAnimeScores(urls) {
@@ -176,8 +158,77 @@ async function fetchandSaveAnimeScores(urls) {
   }
 }
 
+function returnHref(children) {
+  return Array.from(children)
+    .map((child) => child.href)
+    .sort()
+    .join("|");
+}
+
+let pastURL = location.href;
+let parentContainer = null;
+let parentClonedContainer = null;
+
+async function insertScoreController(animes) {
+  if (isSimulcastPage() && pastURL !== location.href && parentContainer && parentClonedContainer) {
+    const parentHref = returnHref(parentContainer.children);
+    if (!parentHref || parentHref === returnHref(parentClonedContainer.children)) {
+      location.reload();
+      return;
+    }
+    if (parentClonedContainer.childElementCount !== 0 && parentContainer.childElementCount !== 0) {
+      parentClonedContainer.parentNode.replaceChild(parentContainer, parentClonedContainer);
+    }
+  }
+
+  const cards = Array.from(getCardsFromVideoPage());
+  const notFound = cards.reduce((notFoundCards, card) => {
+    const data = getDataFromCard(card, animes);
+    if (data) {
+      insertScoreIntoCard(card, data.score);
+    } else {
+      notFoundCards.push(getSearchFromCard(card));
+    }
+    return notFoundCards;
+  }, []);
+
+  if (!isSimulcastPage() || config.order === "order1") {
+    pastURL = location.href;
+    return notFound;
+  }
+
+  const sortChildren = (node, config) => {
+    const sorted = Array.from(node.children)
+      .map((card) => {
+        const scoreElement = card.querySelector(".score");
+        return {
+          node: card,
+          score: scoreElement ? parseFloat(scoreElement.getAttribute("data-value")) : 0,
+        };
+      })
+      .sort((a, b) => (config.order === "order2" ? a.score - b.score : b.score - a.score));
+
+    sorted.forEach(({ node: childNode }) => node.appendChild(childNode));
+  };
+
+  parentContainer = document.querySelector(".erc-browse-cards-collection");
+  parentClonedContainer = parentContainer.cloneNode(true);
+  const unwantedChildren = parentClonedContainer.querySelectorAll(
+    ".browse-card-placeholder--6UpIg.browse-card, .browse-card-placeholder--6UpIg.browse-card.hidden-mobile"
+  );
+  unwantedChildren.forEach((child) => child.parentNode.removeChild(child));
+
+  sortChildren(parentClonedContainer, config);
+  if (parentClonedContainer.childElementCount !== 0) {
+    parentContainer.parentNode.replaceChild(parentClonedContainer, parentContainer);
+  }
+
+  pastURL = location.href;
+  return notFound;
+}
+
 function getCardsFromVideoPage() {
-  return document.querySelectorAll(".browse-card-static--UqkrO");
+  return document.querySelectorAll('[data-t="series-card "]'); //document.querySelectorAll(".browse-card:not(.browse-card-placeholder--6UpIg):not(.hidden-mobile)");
 }
 
 async function fetchAnimeScores(crunchyrollList) {
@@ -211,6 +262,16 @@ function extractIdFromUrl(url) {
   return pathParts[idIndex];
 }
 
+function isSimulcastPage() {
+  let kiu = location.href;
+  kiu = kiu.split("/");
+  const lastSegment = kiu[kiu.length - 2];
+  if (lastSegment === "seasons") {
+    return true;
+  }
+  return false;
+}
+
 function isDetailPage(url) {
   if (!url) {
     return null;
@@ -231,6 +292,7 @@ function insertScoreIntoCard(card, score) {
   scoreElement.textContent = ` ${config.text} ${roundScore(score, config.decimal)}`;
   scoreElement.style.color = config.color;
   scoreElement.classList.add("id", "score");
+  scoreElement.setAttribute("data-value", roundScore(score, config.decimal));
   card.querySelector("h4").appendChild(scoreElement);
 }
 
@@ -292,10 +354,13 @@ function createNewElement(score, id) {
 }
 
 function IsVideoPage() {
-  return (
-    document.querySelector(".browse-card:not(.browse-card-placeholder--6UpIg)") ||
-    document.querySelector("#content > div > div.app-body-wrapper > div > div > div.erc-genres-header")
-  );
+  if (!document.querySelector(".div.erc-browse-collection state-loading")) {
+    return (
+      document.querySelector(".browse-card:not(.browse-card-placeholder--6UpIg)") ||
+      document.querySelector("#content > div > div.app-body-wrapper > div > div > div.erc-genres-header")
+    );
+  }
+  return false;
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -331,7 +396,7 @@ let throttleTimeout = null;
 window.addEventListener("scroll", () => {
   if (!throttleTimeout) {
     throttleTimeout = setTimeout(() => {
-      if (IsVideoPage()) {
+      if (IsVideoPage() && !isSimulcastPage()) {
         updateConfig();
         handleVideoPage();
       }
