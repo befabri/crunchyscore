@@ -12,10 +12,10 @@
         "message": "Défaut"
     },
     "sortOptionAsc": {
-        "message": "Ascendant"
+        "message": "Croissant"
     },
     "sortOptionDesc": {
-        "message": "Descendant"
+        "message": "Décroissant"
     },
     "scoreLayoutLabel": {
         "message": "Sélectionnez la disposition des scores"
