@@ -29,6 +29,9 @@
     "layoutOption3": {
         "message": "Layout 3"
     },
+    "layoutOption4": {
+        "message": "Layout 4"
+    },
     "displayTextLabel": {
         "message": "Anzeigetext eingeben"
     },

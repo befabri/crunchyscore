@@ -29,6 +29,9 @@
     "layoutOption3": {
         "message": "Diseño 3"
     },
+    "layoutOption4": {
+        "message": "Diseño 4"
+    },
     "displayTextLabel": {
         "message": "Introducir texto de visualización"
     },

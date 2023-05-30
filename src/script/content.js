@@ -180,7 +180,6 @@ async function insertScoreController(animes) {
       parentClonedContainer.parentNode.replaceChild(parentContainer, parentClonedContainer);
     }
   }
-
   const cards = Array.from(getCardsFromVideoPage());
   const notFound = cards.reduce((notFoundCards, card) => {
     const data = getDataFromCard(card, animes);
@@ -191,38 +190,33 @@ async function insertScoreController(animes) {
     }
     return notFoundCards;
   }, []);
-
   if (!isSimulcastPage() || config.order === "order1") {
     pastURL = location.href;
     return notFound;
   }
-
-  const sortChildren = (node, config) => {
+  const sortChildren = (node) => {
     const sorted = Array.from(node.children)
       .map((card) => {
         const scoreElement = card.querySelector(".score");
         return {
           node: card,
-          score: scoreElement ? parseFloat(scoreElement.getAttribute("data-value")) : 0,
+          score: scoreElement ? parseFloat(scoreElement.getAttribute("data-numberscore")) : 0,
         };
       })
       .sort((a, b) => (config.order === "order2" ? a.score - b.score : b.score - a.score));
 
     sorted.forEach(({ node: childNode }) => node.appendChild(childNode));
   };
-
   parentContainer = document.querySelector(".erc-browse-cards-collection");
   parentClonedContainer = parentContainer.cloneNode(true);
   const unwantedChildren = parentClonedContainer.querySelectorAll(
     ".browse-card-placeholder--6UpIg.browse-card, .browse-card-placeholder--6UpIg.browse-card.hidden-mobile"
   );
   unwantedChildren.forEach((child) => child.parentNode.removeChild(child));
-
-  sortChildren(parentClonedContainer, config);
+  sortChildren(parentClonedContainer);
   if (parentClonedContainer.childElementCount !== 0) {
     parentContainer.parentNode.replaceChild(parentClonedContainer, parentContainer);
   }
-
   pastURL = location.href;
   return notFound;
 }
@@ -292,8 +286,22 @@ function insertScoreIntoCard(card, score) {
   scoreElement.textContent = ` ${config.text} ${roundScore(score, config.decimal)}`;
   scoreElement.style.color = config.color;
   scoreElement.classList.add("id", "score");
-  scoreElement.setAttribute("data-value", roundScore(score, config.decimal));
-  card.querySelector("h4").appendChild(scoreElement);
+  scoreElement.setAttribute("data-textscore", config.text);
+  scoreElement.setAttribute("data-numberscore", roundScore(score, config.decimal));
+  insertToLayout(scoreElement, card, config.layout);
+}
+
+function insertToLayout(score, card, layout) {
+  const h4Element = card.querySelector("h4");
+  if (layout == "layout1") {
+    card.querySelector("h4").appendChild(score);
+  } else if (layout == "layout2") {
+    h4Element.parentNode.insertBefore(score, h4Element.nextElementSibling);
+  } else if (layout == "layout3") {
+    card.querySelector('div[data-t="meta-tags"]').appendChild(score);
+  } else if (layout == "layout4") {
+    card.appendChild(score);
+  }
 }
 
 function getUrlsFromNotFound(notFound) {
@@ -363,19 +371,30 @@ function IsVideoPage() {
   return false;
 }
 
+let check = false;
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.type === "colorChanged") {
+  if (request.type != "popupSaved") {
+    check = false;
+  }
+  if (request.type === "popupSaved") {
     let elements = document.getElementsByClassName("score");
     for (let i = 0; i < elements.length; i++) {
       elements[i].style.color = request.color;
-      let score = parseFloat(elements[i].textContent.replace(config.text, ""));
-      let roundedScore = roundScore(score, request.decimal);
+      let numberScore = parseFloat(elements[i].getAttribute("data-numberscore"));
+      let roundedScore = roundScore(numberScore, request.decimal);
       elements[i].textContent = ` ${request.text} ${roundedScore}`;
+      const card = elements[i].closest(".browse-card__body--yGjzX");
+      insertToLayout(elements[i], card, request.layout);
     }
     updateConfig();
+    if (request.order != config.order) {
+      (async () => {
+        let data = await getStorageAnimeData();
+        await insertScoreController(data);
+      })();
+    }
   }
 
-  let check = false;
   setInterval(function () {
     if (check === false) {
       if (IsVideoPage()) {
