@@ -4,7 +4,7 @@ updateConfig();
 
 function restore() {
   return new Promise((resolve, reject) => {
-    chrome.storage.local.get(["color", "text", "layout", "order", "decimal"], function (data) {
+    chrome.storage.local.get(["tab1", "tab2"], function (data) {
       if (chrome.runtime.lastError) {
         reject(chrome.runtime.lastError);
       } else {
@@ -17,11 +17,8 @@ function restore() {
 async function updateConfig() {
   try {
     const data = await restore();
-    config.color = data.color !== undefined ? data.color : config.color;
-    config.text = data.text !== undefined ? data.text : config.text;
-    config.layout = data.layout !== undefined ? data.layout : config.layout;
-    config.order = data.order !== undefined ? data.order : config.order;
-    config.decimal = data.decimal !== undefined ? data.decimal : config.decimal;
+    config.tab1 = data.tab1 !== undefined ? data.tab1 : config.tab1;
+    config.tab2 = data.tab2 !== undefined ? data.tab2 : config.tab2;
   } catch (error) {
     console.error(error);
   }
@@ -178,7 +175,7 @@ async function insertScoreController(animes) {
     }
     return notFoundCards;
   }, []);
-  if (!isSimulcastPage() || config.order === "order1") {
+  if (!isSimulcastPage() || config.tab1.order === "order1") {
     pastURL = location.href;
     return notFound;
   }
@@ -191,7 +188,7 @@ async function insertScoreController(animes) {
           score: scoreElement ? parseFloat(scoreElement.getAttribute("data-numberscore")) : 0,
         };
       })
-      .sort((a, b) => (config.order === "order2" ? a.score - b.score : b.score - a.score));
+      .sort((a, b) => (config.tab1.order === "order2" ? a.score - b.score : b.score - a.score));
 
     sorted.forEach(({ node: childNode }) => node.appendChild(childNode));
   };
@@ -271,12 +268,12 @@ function insertScoreIntoCard(card, score) {
     return;
   }
   const scoreElement = document.createElement("span");
-  scoreElement.textContent = ` ${config.text} ${roundScore(score, config.decimal)}`;
-  scoreElement.style.color = config.color;
-  scoreElement.classList.add("score");
-  scoreElement.setAttribute("data-textscore", config.text);
-  scoreElement.setAttribute("data-numberscore", roundScore(score, config.decimal));
-  insertToLayout(scoreElement, card, config.layout);
+  scoreElement.textContent = ` ${config.tab1.text} ${roundScore(score, config.tab1.decimal)}`;
+  scoreElement.style.color = config.tab1.color;
+  scoreElement.classList.add("score-card");
+  scoreElement.setAttribute("data-textscore", config.tab1.text);
+  scoreElement.setAttribute("data-numberscore", roundScore(score, config.tab1.decimal));
+  insertToLayout(scoreElement, card, config.tab1.layout);
 }
 
 function insertToLayout(score, card, layout) {
@@ -297,12 +294,12 @@ function insertScoreIntoHero(card, score) {
     return;
   }
   const scoreElement = document.createElement("span");
-  scoreElement.textContent = ` ${config.text} ${roundScore(score, config.decimal)}`;
-  scoreElement.style.color = config.color;
-  scoreElement.classList.add("score");
-  scoreElement.setAttribute("data-textscore", config.text);
-  scoreElement.setAttribute("data-numberscore", roundScore(score, config.decimal));
-  insertToLayoutHero(scoreElement, card, config.layout);
+  scoreElement.textContent = ` ${config.tab2.text} ${roundScore(score, config.tab2.decimal)}`;
+  scoreElement.style.color = config.tab2.color;
+  scoreElement.classList.add("score-hero");
+  scoreElement.setAttribute("data-textscore", config.tab2.text);
+  scoreElement.setAttribute("data-numberscore", roundScore(score, config.tab2.decimal));
+  insertToLayoutHero(scoreElement, card, config.tab2.layout);
 }
 
 // function insertToLayoutHero(score, card, layout) {
@@ -408,17 +405,26 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     check = false;
   }
   if (request.type === "popupSaved") {
-    let elements = document.getElementsByClassName("score");
+    let elements = document.getElementsByClassName("score-card");
     for (let i = 0; i < elements.length; i++) {
-      elements[i].style.color = request.color;
+      elements[i].style.color = request.tab1.color;
       let numberScore = parseFloat(elements[i].getAttribute("data-numberscore"));
-      let roundedScore = roundScore(numberScore, request.decimal);
-      elements[i].textContent = ` ${request.text} ${roundedScore}`;
+      let roundedScore = roundScore(numberScore, request.tab1.decimal);
+      elements[i].textContent = ` ${request.tab1.text} ${roundedScore}`;
       const card = elements[i].closest(".browse-card__body--yGjzX");
-      insertToLayout(elements[i], card, request.layout);
+      insertToLayout(elements[i], card, request.tab1.layout);
+    }
+    elements = document.getElementsByClassName("score-hero");
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].style.color = request.tab2.color;
+      let numberScore = parseFloat(elements[i].getAttribute("data-numberscore"));
+      let roundedScore = roundScore(numberScore, request.tab2.decimal);
+      elements[i].textContent = ` ${request.tab2.text} ${roundedScore}`;
+      const card = elements[i].closest(".hero-heading-line");
+      insertToLayoutHero(elements[i], card, request.tab2.layout);
     }
     updateConfig();
-    if (request.order != config.order) {
+    if (request.tab1.order != config.tab1.order) {
       (async () => {
         let data = await getStorageAnimeData();
         await insertScoreController(data);

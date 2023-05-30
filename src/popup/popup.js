@@ -49,72 +49,68 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  document.getElementById("saveButton1").addEventListener("click", function () {
-    const colorChoice = document.getElementById("colorChoice1").value;
-    const layoutChoice = document.getElementById("layoutChoice1").value;
-    const textChoice = document.getElementById("textChoice1").value;
-    const decimalChoice = document.getElementById("decimalChoice1").value;
-    const orderChoice = document.getElementById("orderChoice1").value;
+  document.querySelectorAll(".saveButton").forEach(function (button) {
+    button.addEventListener("click", function () {
+      console.log("SAVING");
+      const colorChoice = document.getElementById("colorChoice1").value;
+      const layoutChoice = document.getElementById("layoutChoice1").value;
+      const textChoice = document.getElementById("textChoice1").value;
+      const decimalChoice = document.getElementById("decimalChoice1").value;
+      const orderChoice = document.getElementById("orderChoice1").value;
 
-    // Save tab 1 data to storage
-    chrome.storage.local.set({
-      colorTab1: colorChoice,
-      layoutTab1: layoutChoice,
-      textTab1: textChoice,
-      orderTab1: orderChoice,
-      decimalTab1: decimalChoice,
+      const colorChoiceTab2 = document.getElementById("colorChoice2").value;
+      const layoutChoiceTab2 = document.getElementById("layoutChoice2").value;
+      const textChoiceTab2 = document.getElementById("textChoice2").value;
+      const decimalChoiceTab2 = document.getElementById("decimalChoice2").value;
+
+      const tab1 = {
+        color: colorChoice,
+        layout: layoutChoice,
+        text: textChoice,
+        order: orderChoice,
+        decimal: decimalChoice,
+      };
+
+      const tab2 = {
+        color: colorChoiceTab2,
+        layout: layoutChoiceTab2,
+        text: textChoiceTab2,
+        decimal: decimalChoiceTab2,
+      };
+
+      chrome.storage.local.set({ tab1, tab2 }, function () {
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+          chrome.tabs.sendMessage(tabs[0].id, {
+            type: "popupSaved",
+            tab1,
+            tab2,
+          });
+        });
+      });
     });
   });
-
-  document.getElementById("saveButton2").addEventListener("click", function () {
-    const colorChoice = document.getElementById("colorChoice2").value;
-    const layoutChoice = document.getElementById("layoutChoice2").value;
-    const textChoice = document.getElementById("textChoice2").value;
-    const decimalChoice = document.getElementById("decimalChoice2").value;
-
-    // Save tab 2 data to storage
-    chrome.storage.local.set({
-      colorTab2: colorChoice,
-      layoutTab2: layoutChoice,
-      textTab2: textChoice,
-      decimalTab2: decimalChoice,
-    });
-  });
-
   // Load tab 1 data
-  chrome.storage.local.get(["colorTab1", "layoutTab1", "textTab1", "orderTab1", "decimalTab1"], function (data) {
-    if (data.colorTab1) {
-      document.getElementById("colorChoice1").value = data.colorTab1;
-      document.getElementById("colorText1").value = data.colorTab1;
-    }
-    if (data.layoutTab1) {
-      document.getElementById("layoutChoice1").value = data.layoutTab1;
-    }
-    if (data.textTab1) {
-      document.getElementById("textChoice1").value = data.textTab1;
-    }
-    if (data.orderTab1) {
-      document.getElementById("orderChoice1").value = data.orderTab1;
-    }
-    if (data.decimalTab1) {
-      document.getElementById("decimalChoice1").value = data.decimalTab1;
+  chrome.storage.local.get(["tab1"], function (data) {
+    let tab1Data = data.tab1;
+    if (tab1Data) {
+      document.getElementById("colorChoice1").value = tab1Data.color;
+      document.getElementById("colorText1").value = tab1Data.color;
+      document.getElementById("layoutChoice1").value = tab1Data.layout;
+      document.getElementById("textChoice1").value = tab1Data.text;
+      document.getElementById("orderChoice1").value = tab1Data.order;
+      document.getElementById("decimalChoice1").value = tab1Data.decimal;
     }
   });
 
   // Load tab 2 data
-  chrome.storage.local.get(["colorTab2", "layoutTab2", "textTab2", "decimalTab2"], function (data) {
-    if (data.colorTab2) {
-      document.getElementById("colorChoice2").value = data.colorTab2;
-      document.getElementById("colorText2").value = data.colorTab2;
-    }
-    if (data.layoutTab2) {
-      document.getElementById("layoutChoice2").value = data.layoutTab2;
-    }
-    if (data.textTab2) {
-      document.getElementById("textChoice2").value = data.textTab2;
-    }
-    if (data.decimalTab2) {
-      document.getElementById("decimalChoice2").value = data.decimalTab2;
+  chrome.storage.local.get(["tab2"], function (data) {
+    let tab2Data = data.tab2;
+    if (tab2Data) {
+      document.getElementById("colorChoice2").value = tab2Data.color;
+      document.getElementById("colorText2").value = tab2Data.color;
+      document.getElementById("layoutChoice2").value = tab2Data.layout;
+      document.getElementById("textChoice2").value = tab2Data.text;
+      document.getElementById("decimalChoice2").value = tab2Data.decimal;
     }
   });
 });
