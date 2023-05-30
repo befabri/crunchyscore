@@ -362,7 +362,7 @@ function createNewElement(score, id) {
 }
 
 function IsVideoPage() {
-  if (!document.querySelector(".div.erc-browse-collection state-loading")) {
+  if (!document.querySelector(".erc-browse-collection.state-loading")) {
     return (
       document.querySelector(".browse-card:not(.browse-card-placeholder--6UpIg)") ||
       document.querySelector("#content > div > div.app-body-wrapper > div > div > div.erc-genres-header")
