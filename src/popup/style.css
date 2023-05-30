@@ -88,3 +88,22 @@ label{
   transform: scale(0.99);
 }
 
+
+.tab {
+  display: inline-block;
+  cursor: pointer;
+  padding: 10px;
+  background: #ddd;
+}
+
+.tabcontent {
+  display: none;
+}
+
+.tab.active {
+  background: #bbb;
+}
+
+.tabcontent.active {
+  display: block;
+}

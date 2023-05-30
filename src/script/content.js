@@ -57,17 +57,6 @@ async function handleDetailPage() {
   }
 }
 
-function insertScoreIntoHero(card, score) {
-  if (card.querySelector(".score")) {
-    return;
-  }
-  const scoreElement = document.createElement("span");
-  scoreElement.textContent = ` ${config.text} ${roundScore(score, config.decimal)}`;
-  scoreElement.style.color = config.color;
-  scoreElement.classList.add("id", "score");
-  card.querySelector("h1").appendChild(scoreElement);
-}
-
 function getDataFromCard(card, animes) {
   const { name, alternativeName, id } = getSearchFromCard(card);
   return animes.find((obj) => obj.id === id);
@@ -284,7 +273,7 @@ function insertScoreIntoCard(card, score) {
   const scoreElement = document.createElement("span");
   scoreElement.textContent = ` ${config.text} ${roundScore(score, config.decimal)}`;
   scoreElement.style.color = config.color;
-  scoreElement.classList.add("id", "score");
+  scoreElement.classList.add("score");
   scoreElement.setAttribute("data-textscore", config.text);
   scoreElement.setAttribute("data-numberscore", roundScore(score, config.decimal));
   insertToLayout(scoreElement, card, config.layout);
@@ -300,6 +289,49 @@ function insertToLayout(score, card, layout) {
     card.querySelector('div[data-t="meta-tags"]').appendChild(score);
   } else if (layout == "layout4") {
     card.appendChild(score);
+  }
+}
+
+function insertScoreIntoHero(card, score) {
+  if (card.querySelector(".score")) {
+    return;
+  }
+  const scoreElement = document.createElement("span");
+  scoreElement.textContent = ` ${config.text} ${roundScore(score, config.decimal)}`;
+  scoreElement.style.color = config.color;
+  scoreElement.classList.add("score");
+  scoreElement.setAttribute("data-textscore", config.text);
+  scoreElement.setAttribute("data-numberscore", roundScore(score, config.decimal));
+  insertToLayoutHero(scoreElement, card, config.layout);
+}
+
+// function insertToLayoutHero(score, card, layout) {
+//   console.log(card);
+//   const test = document.querySelector(
+//     "#content > div > div.app-body-wrapper > div > div.content-wrapper--MF5LS > div.erc-series-hero > div.body > div.erc-ratings.series-ratings"
+//   );
+//   const h4Element = card.querySelector("h1");
+//   if (layout == "layout1") {
+//     h4Element.appendChild(score);
+//   } else if (layout == "layout2") {
+//     h4Element.parentNode.insertBefore(score, h4Element.nextElementSibling);
+//   } else if (layout == "layout3") {
+//     test.children[0].children[1].appendChild(score);
+//   } else if (layout == "layout4") {
+//     card.insertBefore(score, secondChild.nextElementSibling);
+//   }
+// }
+
+function insertToLayoutHero(score, card, layout) {
+  const h1Element = card.querySelector("h1");
+
+  const tag = document.querySelector("div.erc-series-tags.tags");
+  if (layout == "layout1") {
+    h1Element.appendChild(score);
+  } else if (layout == "layout2") {
+    h1Element.parentNode.insertBefore(score, h1Element.nextElementSibling);
+  } else if (layout == "layout3") {
+    tag.querySelector('div[data-t="meta-tags"]').appendChild(score);
   }
 }
 

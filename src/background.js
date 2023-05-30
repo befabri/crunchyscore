@@ -1,10 +1,14 @@
 chrome.runtime.onInstalled.addListener(function (details) {
   let defaultData = {
-    color: "#6AD271",
-    layout: "layout1",
-    text: "Score:",
-    order: "order1",
-    decimal: "decimal1",
+    colorTab1: "#6AD271",
+    layoutTab1: "layout1",
+    textTab1: "Score:",
+    orderTab1: "order1",
+    decimalTab1: "decimal1",
+    colorTab2: "#6AD271",
+    layoutTab2: "layout1",
+    textTab2: "Score:",
+    decimalTab2: "decimal1",
   };
 
   chrome.storage.local.set(defaultData);
