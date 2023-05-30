@@ -18,7 +18,6 @@ async function updateConfig() {
   try {
     const data = await restore();
     config.color = data.color !== undefined ? data.color : config.color;
-    config.option = data.option !== undefined ? data.option : config.option;
     config.text = data.text !== undefined ? data.text : config.text;
     config.layout = data.layout !== undefined ? data.layout : config.layout;
     config.order = data.order !== undefined ? data.order : config.order;
