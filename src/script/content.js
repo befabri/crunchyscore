@@ -38,7 +38,7 @@ function roundScore(score, decimalConfig) {
 
 async function handleDetailPage() {
   const targetElem = document.querySelector("div.hero-heading-line");
-  if (targetElem && !document.getElementById(".score")) {
+  if (targetElem && !document.getElementById(".score-hero")) {
     const animes = await getStorageAnimeData();
     let data = getDataFromHero(targetElem, animes);
     if (data) {
@@ -182,7 +182,7 @@ async function insertScoreController(animes) {
   const sortChildren = (node) => {
     const sorted = Array.from(node.children)
       .map((card) => {
-        const scoreElement = card.querySelector(".score");
+        const scoreElement = card.querySelector(".score-card");
         return {
           node: card,
           score: scoreElement ? parseFloat(scoreElement.getAttribute("data-numberscore")) : 0,
@@ -207,7 +207,7 @@ async function insertScoreController(animes) {
 }
 
 function getCardsFromVideoPage() {
-  return document.querySelectorAll('[data-t="series-card "]'); //document.querySelectorAll(".browse-card:not(.browse-card-placeholder--6UpIg):not(.hidden-mobile)");
+  return document.querySelectorAll('[data-t="series-card "]');
 }
 
 async function fetchAnimeScores(crunchyrollList) {
@@ -264,7 +264,7 @@ function isDetailPage(url) {
 }
 
 function insertScoreIntoCard(card, score) {
-  if (card.querySelector(".score")) {
+  if (card.querySelector(".score-card")) {
     return;
   }
   const scoreElement = document.createElement("span");
@@ -290,7 +290,7 @@ function insertToLayout(score, card, layout) {
 }
 
 function insertScoreIntoHero(card, score) {
-  if (card.querySelector(".score")) {
+  if (card.querySelector(".score-hero")) {
     return;
   }
   const scoreElement = document.createElement("span");
@@ -301,23 +301,6 @@ function insertScoreIntoHero(card, score) {
   scoreElement.setAttribute("data-numberscore", roundScore(score, config.tab2.decimal));
   insertToLayoutHero(scoreElement, card, config.tab2.layout);
 }
-
-// function insertToLayoutHero(score, card, layout) {
-//   console.log(card);
-//   const test = document.querySelector(
-//     "#content > div > div.app-body-wrapper > div > div.content-wrapper--MF5LS > div.erc-series-hero > div.body > div.erc-ratings.series-ratings"
-//   );
-//   const h4Element = card.querySelector("h1");
-//   if (layout == "layout1") {
-//     h4Element.appendChild(score);
-//   } else if (layout == "layout2") {
-//     h4Element.parentNode.insertBefore(score, h4Element.nextElementSibling);
-//   } else if (layout == "layout3") {
-//     test.children[0].children[1].appendChild(score);
-//   } else if (layout == "layout4") {
-//     card.insertBefore(score, secondChild.nextElementSibling);
-//   }
-// }
 
 function insertToLayoutHero(score, card, layout) {
   const h1Element = card.querySelector("h1");
@@ -346,15 +329,18 @@ function getUrlsFromNotFound(notFound) {
 }
 
 async function saveData(animeFetch) {
-  chrome.storage.local.get(["datas"], async function (result) {
-    let animeData = result.datas || [];
-    animeFetch.forEach((anime) => {
-      if (anime && !animeData.some((a) => a && a.id === anime.id) && anime.score) {
-        animeData.push(anime);
-      }
-    });
-    chrome.storage.local.set({ datas: animeData }, function () {
-      console.log("Data saved to chrome storage.");
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(["datas"], function (result) {
+      let animeData = result.datas || [];
+      animeFetch.forEach((anime) => {
+        if (anime && !animeData.some((a) => a && a.id === anime.id) && anime.score) {
+          animeData.push(anime);
+        }
+      });
+      chrome.storage.local.set({ datas: animeData }, function () {
+        console.log("Data saved to chrome storage.");
+        resolve();
+      });
     });
   });
 }
