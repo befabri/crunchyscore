@@ -1,6 +1,21 @@
 {
     "title": {
-        "message": "CrunchyScore"
+        "message": "Configuración"
+    },
+    "customizeCardDisplayDescription": {
+        "message": "Personalice cómo se muestran las puntuaciones en las tarjetas de anime."
+    },
+    "cardDisplaySettingsButton": {
+        "message": "Configuración de visualización de tarjetas"
+    },
+    "customizeIndividualPageDescription": {
+        "message": "Personalice cómo se muestra la puntuación en la página individual del anime."
+    },
+    "individualPageSettingsButton": {
+        "message": "Configuración de la página individual"
+    },
+    "goBackButton": {
+        "message": "Regresar"
     },
     "textColorLabel": {
         "message": "Color de texto"
@@ -52,5 +67,8 @@
     },
     "saveChangesButton": {
         "message": "Guardar cambios"
+    },
+    "saveChangesButtonSuccess": {
+        "message": "¡Cambios guardados!"
     }
 }

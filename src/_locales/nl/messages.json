@@ -1,6 +1,21 @@
 {
     "title": {
-        "message": "CrunchyScore"
+        "message": "Instellingen"
+    },
+    "customizeCardDisplayDescription": {
+        "message": "Personaliseer hoe scores worden weergegeven op anime kaarten."
+    },
+    "cardDisplaySettingsButton": {
+        "message": "Kaartweergave instellingen"
+    },
+    "customizeIndividualPageDescription": {
+        "message": "Personaliseer hoe de score wordt weergegeven op de individuele anime pagina."
+    },
+    "individualPageSettingsButton": {
+        "message": "Individuele pagina instellingen"
+    },
+    "goBackButton": {
+        "message": "Terug"
     },
     "textColorLabel": {
         "message": "Tekst kleur"
@@ -52,5 +67,8 @@
     },
     "saveChangesButton": {
         "message": "Wijzigingen opslaan"
+    },
+    "saveChangesButtonSuccess": {
+        "message": "Wijzigingen opgeslagen!"
     }
 }

@@ -6,52 +6,67 @@ document.addEventListener("DOMContentLoaded", function () {
     element.textContent = message;
   });
 
-  // Tab functionality
-  let tabs = document.querySelectorAll(".tab");
-  let contents = document.querySelectorAll(".tabcontent");
+  const tabTitle = document.getElementById("tabTitle");
 
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      tabs.forEach((t) => t.classList.remove("active"));
-      tab.classList.add("active");
+  const btnGlobal = document.getElementById("btnGlobal");
+  const btnIndividual = document.getElementById("btnIndividual");
+  const btnBackFromGlobal = document.getElementById("btnBackFromGlobal");
+  const btnBackFromIndividual = document.getElementById("btnBackFromIndividual");
+  const home = document.getElementById("home");
+  const globalSettings = document.getElementById("globalSettings");
+  const individualSettings = document.getElementById("individualSettings");
+  const colorChoice1 = document.getElementById("colorChoice1");
+  const colorText1 = document.getElementById("colorText1");
+  const colorChoice2 = document.getElementById("colorChoice2");
+  const colorText2 = document.getElementById("colorText2");
 
-      contents.forEach((content) => {
-        if (content.id === "content" + tab.id.charAt(tab.id.length - 1)) {
-          content.classList.add("active");
-        } else {
-          content.classList.remove("active");
-        }
-      });
+  function showGlobalSettings() {
+    home.style.display = "none";
+    globalSettings.style.display = "block";
+    tabTitle.innerText = btnGlobal.innerText;
+  }
+
+  function showIndividualSettings() {
+    home.style.display = "none";
+    individualSettings.style.display = "block";
+    tabTitle.innerText = btnIndividual.innerText;
+  }
+
+  function goBack() {
+    home.style.display = "block";
+    globalSettings.style.display = "none";
+    individualSettings.style.display = "none";
+    tabTitle.innerText = chrome.i18n.getMessage("title");
+  }
+
+  btnGlobal.addEventListener("click", showGlobalSettings);
+  btnIndividual.addEventListener("click", showIndividualSettings);
+  btnBackFromGlobal.addEventListener("click", goBack);
+  btnBackFromIndividual.addEventListener("click", goBack);
+
+  [colorChoice1, colorChoice2].forEach((colorChoice, index) => {
+    colorChoice.addEventListener("input", function () {
+      document.getElementById(`colorText${index + 1}`).value = this.value;
     });
   });
 
-  // Color choice for Tab 1
-  document.getElementById("colorChoice1").addEventListener("input", function () {
-    document.getElementById("colorText1").value = this.value;
+  [colorText1, colorText2].forEach((colorText, index) => {
+    colorText.addEventListener("input", function () {
+      const colorCode = this.value;
+      if (/^#[0-9A-F]{6}$/i.test(colorCode)) {
+        document.getElementById(`colorChoice${index + 1}`).value = colorCode;
+      }
+    });
   });
 
-  document.getElementById("colorText1").addEventListener("input", function () {
-    const colorCode = this.value;
-    if (/^#[0-9A-F]{6}$/i.test(colorCode)) {
-      document.getElementById("colorChoice1").value = colorCode;
-    }
-  });
-
-  // Color choice for Tab 2
-  document.getElementById("colorChoice2").addEventListener("input", function () {
-    document.getElementById("colorText2").value = this.value;
-  });
-
-  document.getElementById("colorText2").addEventListener("input", function () {
-    const colorCode = this.value;
-    if (/^#[0-9A-F]{6}$/i.test(colorCode)) {
-      document.getElementById("colorChoice2").value = colorCode;
-    }
-  });
-
-  document.querySelectorAll(".saveButton").forEach(function (button) {
+  document.querySelectorAll(".saveButton").forEach((button, index) => {
     button.addEventListener("click", function () {
-      console.log("SAVING");
+      const textButton = button.innerText;
+      const buttonWidth = button.getBoundingClientRect().width;
+      button.innerText = chrome.i18n.getMessage("saveChangesButtonSuccess");
+      button.style.width = buttonWidth + "px";
+      button.disabled = true;
+
       const colorChoice = document.getElementById("colorChoice1").value;
       const layoutChoice = document.getElementById("layoutChoice1").value;
       const textChoice = document.getElementById("textChoice1").value;
@@ -87,30 +102,27 @@ document.addEventListener("DOMContentLoaded", function () {
           });
         });
       });
+      button.disabled = false;
+      button.innerText = textButton;
+      // setTimeout(function () {
+      //   button.disabled = false;
+      //   button.innerText = textButton;
+      // }, 1500);
     });
   });
-  // Load tab 1 data
-  chrome.storage.local.get(["tab1"], function (data) {
-    let tab1Data = data.tab1;
-    if (tab1Data) {
-      document.getElementById("colorChoice1").value = tab1Data.color;
-      document.getElementById("colorText1").value = tab1Data.color;
-      document.getElementById("layoutChoice1").value = tab1Data.layout;
-      document.getElementById("textChoice1").value = tab1Data.text;
-      document.getElementById("orderChoice1").value = tab1Data.order;
-      document.getElementById("decimalChoice1").value = tab1Data.decimal;
-    }
-  });
-
-  // Load tab 2 data
-  chrome.storage.local.get(["tab2"], function (data) {
-    let tab2Data = data.tab2;
-    if (tab2Data) {
-      document.getElementById("colorChoice2").value = tab2Data.color;
-      document.getElementById("colorText2").value = tab2Data.color;
-      document.getElementById("layoutChoice2").value = tab2Data.layout;
-      document.getElementById("textChoice2").value = tab2Data.text;
-      document.getElementById("decimalChoice2").value = tab2Data.decimal;
-    }
+  ["tab1", "tab2"].forEach((tab, index) => {
+    chrome.storage.local.get([tab], function (data) {
+      let tabData = data[tab];
+      if (tabData) {
+        document.getElementById(`colorChoice${index + 1}`).value = tabData.color;
+        document.getElementById(`colorText${index + 1}`).value = tabData.color;
+        document.getElementById(`layoutChoice${index + 1}`).value = tabData.layout;
+        document.getElementById(`textChoice${index + 1}`).value = tabData.text;
+        document.getElementById(`decimalChoice${index + 1}`).value = tabData.decimal;
+      }
+      if (tabData.hasOwnProperty("order")) {
+        document.getElementById(`orderChoice${index + 1}`).value = tabData.order;
+      }
+    });
   });
 });

@@ -6,114 +6,124 @@
   </head>
 
   <body>
-    <h1 data-i18n="title"></h1>
+    <h2 id="tabTitle" data-i18n="title"></h2>
+    
+    <div id="home" class="container">
+      <div class="setting-option">
+        <p data-i18n="customizeCardDisplayDescription"></p>
+        <button id="btnGlobal" class="rounded-button" data-i18n="cardDisplaySettingsButton"></button>
+      </div>
 
-    <div class="tabs">
-      <div id="tab1" class="tab">Tab 1</div>
-      <div id="tab2" class="tab">Tab 2</div>
+      <div class="setting-option">
+        <p data-i18n="customizeIndividualPageDescription"></p>
+        <button id="btnIndividual" class="rounded-button" data-i18n="individualPageSettingsButton"></button>
+      </div>
     </div>
 
-    <div class="container">
-      <div id="content1" class="tabcontent">
-        <div class="container">
-          <div class="input-group">
-            <label for="colorChoice1" data-i18n="textColorLabel"></label>
-            <div class="form-container">
-              <div id="color-container" class="form">
-                <input type="color" id="colorChoice1" class="circular-color" />
-                <input type="text" id="colorText1" class="color-code" />
-              </div>
-            </div>
+    <div id="globalSettings" class="container" style="display: none">
+      <div class="input-group">
+        <label for="colorChoice1" data-i18n="textColorLabel"></label>
+        <div class="form-container">
+          <div id="color-container" class="form">
+            <input type="color" id="colorChoice1" class="circular-color" />
+            <input type="text" id="colorText1" class="color-code" />
           </div>
-
-          <div class="input-group">
-            <label for="orderChoice1" data-i18n="sortItemsLabel"></label>
-            <div class="form-container">
-              <select id="orderChoice1" class="form">
-                <option value="order1" data-i18n="sortOptionDefault"></option>
-                <option value="order2" data-i18n="sortOptionAsc"></option>
-                <option value="order3" data-i18n="sortOptionDesc"></option>
-              </select>
-            </div>
-          </div>
-
-          <div class="input-group">
-            <label for="layoutChoice1" data-i18n="scoreLayoutLabel"></label>
-            <div class="form-container">
-              <select id="layoutChoice1" class="form">
-                <option value="layout1" data-i18n="layoutOption1"></option>
-                <option value="layout2" data-i18n="layoutOption2"></option>
-                <option value="layout3" data-i18n="layoutOption3"></option>
-                <option value="layout4" data-i18n="layoutOption4"></option>
-              </select>
-            </div>
-          </div>
-
-          <div class="input-group">
-            <label for="textChoice1" data-i18n="displayTextLabel"></label>
-            <div class="form-container">
-              <input type="text" id="textChoice1" class="form" />
-            </div>
-          </div>
-
-          <div class="input-group">
-            <label for="decimalChoice1 data-i18n="decimalPrecisionLabel"></label>
-            <div class="form-container">
-              <select id="decimalChoice1" class="form">
-                <option value="decimal1" data-i18n="decimalOption1"></option>
-                <option value="decimal2" data-i18n="decimalOption2"></option>
-                <option value="decimal3" data-i18n="decimalOption3"></option>
-              </select>
-            </div>
-            <p id="helperText" data-i18n="helperText"></p>
-          </div>
-          <button class="rounded-button saveButton" data-i18n="saveChangesButton"></button>
-
         </div>
       </div>
-      <div id="content2" class="tabcontent">
-        <div class="container">
-          <div class="input-group">
-            <label for="colorChoice2" data-i18n="textColorLabel"></label>
-            <div class="form-container">
-              <div id="color-container2" class="form">
-                <input type="color" id="colorChoice2" class="circular-color" />
-                <input type="text" id="colorText2" class="color-code" />
-              </div>
-            </div>
-          </div>
 
-          <div class="input-group">
-            <label for="layoutChoice2" data-i18n="scoreLayoutLabel"></label>
-            <div class="form-container">
-              <select id="layoutChoice2" class="form">
-                <option value="layout1" data-i18n="layoutOption1"></option>
-                <option value="layout2" data-i18n="layoutOption2"></option>
-                <option value="layout3" data-i18n="layoutOption3"></option>
-              </select>
-            </div>
-          </div>
-
-          <div class="input-group">
-            <label for="textChoice2" data-i18n="displayTextLabel"></label>
-            <div class="form-container">
-              <input type="text" id="textChoice2" class="form" />
-            </div>
-          </div>
-
-          <div class="input-group">
-            <label for="decimalChoice2" data-i18n="decimalPrecisionLabel"></label>
-            <div class="form-container">
-              <select id="decimalChoice2" class="form">
-                <option value="decimal1" data-i18n="decimalOption1"></option>
-                <option value="decimal2" data-i18n="decimalOption2"></option>
-                <option value="decimal3" data-i18n="decimalOption3"></option>
-              </select>
-            </div>
-            <p id="helperText" data-i18n="helperText"></p>
-          </div>
-          <button class="rounded-button saveButton" data-i18n="saveChangesButton"></button>
+      
+      <div class="input-group">
+        <label for="textChoice1" data-i18n="displayTextLabel"></label>
+        <div class="form-container">
+          <input type="text" id="textChoice1" class="form" />
         </div>
+      </div>
+
+      <div class="input-group">
+        <label for="orderChoice1" data-i18n="sortItemsLabel"></label>
+        <div class="form-container">
+          <select id="orderChoice1" class="form">
+            <option value="order1" data-i18n="sortOptionDefault"></option>
+            <option value="order2" data-i18n="sortOptionAsc"></option>
+            <option value="order3" data-i18n="sortOptionDesc"></option>
+          </select>
+        </div>
+      </div>
+
+
+      <div class="input-group">
+        <label for="layoutChoice1" data-i18n="scoreLayoutLabel"></label>
+        <div class="form-container">
+          <select id="layoutChoice1" class="form">
+            <option value="layout1" data-i18n="layoutOption1"></option>
+            <option value="layout2" data-i18n="layoutOption2"></option>
+            <option value="layout3" data-i18n="layoutOption3"></option>
+            <option value="layout4" data-i18n="layoutOption4"></option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="decimalChoice1" data-i18n="decimalPrecisionLabel"></label>
+        <div class="form-container">
+          <select id="decimalChoice1" class="form">
+            <option value="decimal1" data-i18n="decimalOption1"></option>
+            <option value="decimal2" data-i18n="decimalOption2"></option>
+            <option value="decimal3" data-i18n="decimalOption3"></option>
+          </select>
+        </div>
+        <p id="helperText" data-i18n="helperText"></p>
+      </div>
+      <div class="button-container">
+        <button id="btnBackFromGlobal" class="rounded-button" data-i18n="goBackButton"></button>
+        <button class="rounded-button saveButton" data-i18n="saveChangesButton"></button>
+      </div>
+    </div>
+
+    <div id="individualSettings" class="container" style="display: none">
+      <div class="input-group">
+        <label for="colorChoice2" data-i18n="textColorLabel"></label>
+        <div class="form-container">
+          <div id="color-container" class="form">
+            <input type="color" id="colorChoice2" class="circular-color" />
+            <input type="text" id="colorText2" class="color-code" />
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="textChoice2" data-i18n="displayTextLabel"></label>
+        <div class="form-container">
+          <input type="text" id="textChoice2" class="form" />
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="layoutChoice2" data-i18n="scoreLayoutLabel"></label>
+        <div class="form-container">
+          <select id="layoutChoice2" class="form">
+            <option value="layout1" data-i18n="layoutOption1"></option>
+            <option value="layout2" data-i18n="layoutOption2"></option>
+            <option value="layout3" data-i18n="layoutOption3"></option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="decimalChoice2" data-i18n="decimalPrecisionLabel"></label>
+        <div class="form-container">
+          <select id="decimalChoice2" class="form">
+            <option value="decimal1" data-i18n="decimalOption1"></option>
+            <option value="decimal2" data-i18n="decimalOption2"></option>
+            <option value="decimal3" data-i18n="decimalOption3"></option>
+          </select>
+        </div>
+        <p id="helperText" data-i18n="helperText"></p>
+      </div>
+      <div class="button-container">
+        <button id="btnBackFromIndividual" class="rounded-button" data-i18n="goBackButton"></button>
+        <button class="rounded-button saveButton" data-i18n="saveChangesButton"></button>
+        <div id="saveMessage" style="display: none; color: green;">Settings saved successfully!</div>
       </div>
     </div>
 

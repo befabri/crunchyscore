@@ -1,6 +1,21 @@
 {
     "title": {
-        "message": "CrunchyScore"
+        "message": "Einstellungen"
+    },
+    "customizeCardDisplayDescription": {
+        "message": "Passen Sie die Anzeige der Scores auf den Anime-Karten an."
+    },
+    "cardDisplaySettingsButton": {
+        "message": "Kartenanzeige Einstellungen"
+    },
+    "customizeIndividualPageDescription": {
+        "message": "Passen Sie die Anzeige der Scores auf der individuellen Anime-Seite an."
+    },
+    "individualPageSettingsButton": {
+        "message": "Einzelseiten Einstellungen"
+    },
+    "goBackButton": {
+        "message": "Zurück"
     },
     "textColorLabel": {
         "message": "Textfarbe"
@@ -52,5 +67,8 @@
     },
     "saveChangesButton": {
         "message": "Änderungen speichern"
+    },
+    "saveChangesButtonSuccess": {
+        "message": "Änderungen gespeichert!"
     }
 }

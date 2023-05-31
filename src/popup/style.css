@@ -78,7 +78,6 @@ label{
   cursor: pointer;
   align-self: flex-end;
   transition: background 0.3s ease;
-  margin: 10px;
 }
 
 .rounded-button:hover {
@@ -88,22 +87,8 @@ label{
   transform: scale(0.99);
 }
 
-
-.tab {
-  display: inline-block;
-  cursor: pointer;
-  padding: 10px;
-  background: #ddd;
-}
-
-.tabcontent {
-  display: none;
-}
-
-.tab.active {
-  background: #bbb;
-}
-
-.tabcontent.active {
-  display: block;
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
