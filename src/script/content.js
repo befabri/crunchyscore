@@ -55,31 +55,25 @@ async function handleDetailPage() {
 }
 
 function getDataFromCard(card, animes) {
-  const { name, alternativeName, id } = getSearchFromCard(card);
+  const { id } = getSearchFromCard(card);
   return animes.find((obj) => obj.id === id);
 }
 
 function getSearchFromCard(card) {
   const href = card.querySelector('a[tabindex="0"]');
-  const animeName = href ? getLastPartUrl(href.getAttribute("href")) : null;
   const id = extractIdFromUrl(href);
-  const title = card.querySelector("h4");
-  const animeNametwo = title ? title.textContent : null;
-  return { name: animeName, alternativeName: animeNametwo, id: id };
+  return { id: id };
 }
 
 function getDataFromHero(card, animes) {
-  const { name, alternativeName, id } = getSearchFromHero(card);
+  const { id } = getSearchFromHero(card);
   return animes.find((obj) => obj.id === id);
 }
 
 function getSearchFromHero(card) {
   const href = location.href;
-  const animeName = href ? getLastPartUrl(href) : null;
   const id = extractIdFromUrl(href);
-  const title = card.querySelector("h1");
-  const animeNametwo = title ? title.textContent : null;
-  return { name: animeName, alternativeName: animeNametwo, id: id };
+  return { id: id };
 }
 
 async function getStorageAnimeData() {
@@ -89,6 +83,13 @@ async function getStorageAnimeData() {
       resolve(animes);
     });
   });
+}
+
+async function refreshNotFoundCache() {
+  const notFoundCache = getnotFoundCache();
+  const urls = Object.values(notFoundCache);
+  await fetchandSaveAnimeScores(urls);
+  localStorage.setItem("lastRefreshTime", Date.now().toString());
 }
 
 function getnotFoundCache() {
@@ -104,9 +105,10 @@ function setNotFoundCache(cacheData) {
   localStorage.setItem("notFoundCache", JSON.stringify(cacheData));
 }
 
-function updateNotFoundCache(id, data) {
+function updateNotFoundCache(updates) {
+  console.log("Update cache");
   let cacheData = getnotFoundCache();
-  cacheData[id] = data;
+  updates.forEach((anime) => (cacheData[anime.id] = anime));
   setNotFoundCache(cacheData);
 }
 
@@ -114,14 +116,18 @@ async function handleVideoPage() {
   if (isDetailPage(location.href)) {
     return;
   }
+  const lastRefreshTime = parseInt(localStorage.getItem("lastRefreshTime")) || 0;
+  if (Date.now() - lastRefreshTime >= 172800000) {
+    // 2 days
+    await refreshNotFoundCache();
+  }
   let data = await getStorageAnimeData();
   const animeNotFound = await insertScoreController(data);
   if (animeNotFound) {
     const notFoundCache = getnotFoundCache();
-    let urls = getUrlsFromNotFound(animeNotFound);
-    urls = urls.filter((url) => !notFoundCache[url.id]);
-    if (urls.length > 0) {
-      const animeFetch = await fetchandSaveAnimeScores(urls);
+    const animes = animeNotFound.filter((url) => !notFoundCache[url.id]);
+    if (animes.length > 0) {
+      const animeFetch = await fetchandSaveAnimeScores(animes);
       if (animeFetch) {
         await saveData(animeFetch.filter((anime) => anime.score !== 0));
         data = await getStorageAnimeData();
@@ -131,16 +137,27 @@ async function handleVideoPage() {
   }
 }
 
-async function fetchandSaveAnimeScores(urls) {
-  const animeFetch = await fetchAnimeScores(urls);
+async function fetchandSaveAnimeScores(animes) {
+  if (Object.keys(animes).length === 0) {
+    return;
+  }
+  const crunchyrollList = prepareObjectFetch(animes);
+  const animeFetch = await fetchAnimeScores(crunchyrollList);
   if (animeFetch) {
-    animeFetch.forEach((anime) => {
-      if (anime.score === 0) {
-        updateNotFoundCache(anime.id, anime);
-      }
-    });
+    const updates = animeFetch.filter((anime) => anime.score === 0);
+    updateNotFoundCache(updates);
     return animeFetch;
   }
+}
+
+function prepareObjectFetch(animes) {
+  const list = [];
+  for (const anime of animes) {
+    if (anime.id) {
+      list.push({ id: anime.id });
+    }
+  }
+  return list;
 }
 
 function returnHref(children) {
@@ -315,19 +332,6 @@ function insertToLayoutHero(score, card, layout) {
   }
 }
 
-function getUrlsFromNotFound(notFound) {
-  const urls = [];
-  for (const search of notFound) {
-    if (search.name) {
-      urls.push({ name: search.name, id: search.id });
-    }
-    if (search.alternativeName) {
-      urls.push({ name: search.alternativeName, id: search.id });
-    }
-  }
-  return urls;
-}
-
 async function saveData(animeFetch) {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get(["datas"], function (result) {
@@ -348,14 +352,6 @@ async function saveData(animeFetch) {
 function getLastPartUrl(url) {
   const parts = url.split("/");
   return parts[parts.length - 1].replace(/-/g, " ");
-}
-
-function findAnimeByName(animes, pageName, animeName) {
-  return animes.find((entry) => entry.name === pageName || entry.name === animeName);
-}
-
-function findFirstNonNull(data) {
-  return data.find((entry) => entry !== null) || null;
 }
 
 async function addAnimeToStorage(animes, anime) {
@@ -391,17 +387,16 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     check = false;
   }
   if (request.type === "popupSaved") {
-    let elements = document.getElementsByClassName("score-card");
+    let elements = document.querySelectorAll(".score-card");
     for (let i = 0; i < elements.length; i++) {
       elements[i].style.color = request.tab1.color;
       let numberScore = parseFloat(elements[i].getAttribute("data-numberscore"));
       let roundedScore = roundScore(numberScore, request.tab1.decimal);
       elements[i].textContent = ` ${request.tab1.text} ${roundedScore}`;
-      const card = elements[i].closest(".browse-card__body--yGjzX");
-      insertToLayout(elements[i], card, request.tab1.layout);
+      insertToLayout(elements[i], elements[i].parentNode, request.tab1.layout);
     }
     elements = document.getElementsByClassName("score-hero");
-    for (let i = 0; i < elements.length; i++) {
+    if (elements) {
       elements[i].style.color = request.tab2.color;
       let numberScore = parseFloat(elements[i].getAttribute("data-numberscore"));
       let roundedScore = roundScore(numberScore, request.tab2.decimal);
