@@ -413,10 +413,17 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
     updateConfig();
     if (request.tab1.order != config.tab1.order) {
-      (async () => {
-        let data = await getStorageAnimeData();
-        await insertScoreController(data);
-      })();
+      if (request.tab1.order === "order1") {
+        location.reload();
+      } else {
+        (async () => {
+          let data = await getStorageAnimeData();
+          await insertScoreController(data);
+        })();
+      }
+    }
+    if (request.tab1.decimal != config.tab1.decimal || request.tab2.decimal != config.tab2.decimal) {
+      location.reload();
     }
   }
 
