@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       setTimeout(function () {
         button.disabled = false;
-      }, 500);
+      }, 800);
     });
   });
   ["tab1", "tab2"].forEach((tab, index) => {

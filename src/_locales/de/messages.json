@@ -3,16 +3,16 @@
         "message": "Einstellungen"
     },
     "customizeCardDisplayDescription": {
-        "message": "Passen Sie die Anzeige der Scores auf den Anime-Karten an."
+        "message": "Passen Sie die Anzeige von Anime-Scores an."
     },
     "cardDisplaySettingsButton": {
-        "message": "Kartenanzeige Einstellungen"
+        "message": "Score-Einstellungen"
     },
     "customizeIndividualPageDescription": {
-        "message": "Passen Sie die Anzeige der Scores auf der individuellen Anime-Seite an."
+        "message": "Passen Sie die Score-Anzeige auf der Anime-Seite an, auf der sich der Videoplayer befindet"
     },
     "individualPageSettingsButton": {
-        "message": "Einzelseiten Einstellungen"
+        "message": "Score-Einstellungen"
     },
     "goBackButton": {
         "message": "Zurück"
@@ -21,7 +21,7 @@
         "message": "Textfarbe"
     },
     "sortItemsLabel": {
-        "message": "Scores sortieren nach"
+        "message": "Sortieren Sie die Scores nach (nur für Simulcast)"
     },
     "sortOptionDefault": {
         "message": "Standard"
@@ -33,25 +33,25 @@
         "message": "Absteigend"
     },
     "scoreLayoutLabel": {
-        "message": "Wählen sie das score-layout aus"
+        "message": "Wählen Sie die Anzeige aus"
     },
     "layoutOption1": {
-        "message": "Layout 1"
+        "message": "Anzeige 1"
     },
     "layoutOption2": {
-        "message": "Layout 2"
+        "message": "Anzeige 2"
     },
     "layoutOption3": {
-        "message": "Layout 3"
+        "message": "Anzeige 3"
     },
     "layoutOption4": {
-        "message": "Layout 4"
+        "message": "Anzeige 4"
     },
     "displayTextLabel": {
-        "message": "Anzeigetext eingeben"
+        "message": "Geben Sie den anzuzeigenden Text ein"
     },
     "decimalPrecisionLabel": {
-        "message": "Wählen sie die dezimalgenauigkeit aus"
+        "message": "Wählen Sie die Dezimalgenauigkeit aus"
     },
     "decimalOption1": {
         "message": "5,43"
@@ -63,12 +63,9 @@
         "message": "5"
     },
     "helperText": {
-        "message": "(*) Die Webseite lädt neu, wann immer die dezimalgenauigkeit geändert wird."
+        "message": "(*) Die Seite wird neu geladen, wenn die Dezimalgenauigkeit geändert wird"
     },
     "saveChangesButton": {
         "message": "Änderungen speichern"
-    },
-    "saveChangesButtonSuccess": {
-        "message": "Änderungen gespeichert!"
     }
 }

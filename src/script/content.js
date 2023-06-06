@@ -387,22 +387,29 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     check = false;
   }
   if (request.type === "popupSaved") {
-    let elements = document.querySelectorAll(".score-card");
+    const cards = document.querySelectorAll('[data-t="series-card "]');
+    cards.forEach((card) => {
+      let scoreCard = card.querySelector(".score-card");
+      if (scoreCard) {
+        scoreCard.style.color = request.tab1.color;
+        const numberScore = parseFloat(scoreCard.getAttribute("data-numberscore"));
+        let roundedScore = roundScore(numberScore, request.tab1.decimal);
+        scoreCard.setAttribute("data-textscore", request.tab1.text);
+        scoreCard.setAttribute("data-numberscore", roundedScore);
+        scoreCard.textContent = ` ${request.tab1.text} ${roundedScore}`;
+        insertToLayout(scoreCard, card, request.tab1.layout);
+      }
+    });
+    let elements = document.getElementsByClassName("score-hero");
+    const parentElem = document.querySelector(".erc-series-hero");
     for (let i = 0; i < elements.length; i++) {
-      elements[i].style.color = request.tab1.color;
-      let numberScore = parseFloat(elements[i].getAttribute("data-numberscore"));
-      let roundedScore = roundScore(numberScore, request.tab1.decimal);
-      elements[i].textContent = ` ${request.tab1.text} ${roundedScore}`;
-      insertToLayout(elements[i], elements[i].parentNode, request.tab1.layout);
-    }
-    elements = document.getElementsByClassName("score-hero");
-    if (elements) {
       elements[i].style.color = request.tab2.color;
       let numberScore = parseFloat(elements[i].getAttribute("data-numberscore"));
       let roundedScore = roundScore(numberScore, request.tab2.decimal);
+      elements[i].setAttribute("data-textscore", request.tab2.text);
+      elements[i].setAttribute("data-numberscore", roundedScore);
       elements[i].textContent = ` ${request.tab2.text} ${roundedScore}`;
-      const card = elements[i].closest(".hero-heading-line");
-      insertToLayoutHero(elements[i], card, request.tab2.layout);
+      insertToLayoutHero(elements[i], parentElem, request.tab2.layout);
     }
     updateConfig();
     if (request.tab1.order != config.tab1.order) {

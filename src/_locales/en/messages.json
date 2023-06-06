@@ -3,25 +3,25 @@
         "message": "Settings"
     },
     "customizeCardDisplayDescription": {
-        "message": "Customize how scores are displayed on anime cards."
+        "message": "Customize the display of anime scores."
     },
     "cardDisplaySettingsButton": {
-        "message": "Card Display Settings"
+        "message": "Score settings"
     },
     "customizeIndividualPageDescription": {
-        "message": "Customize how scores are displayed on the individual anime page."
+        "message": "Customize the score display on the anime page where the video player is located"
     },
     "individualPageSettingsButton": {
-        "message": "Individual Page Settings"
+        "message": "Score settings"
     },
     "goBackButton": {
-        "message": "Go Back"
+        "message": "Back"
     },
     "textColorLabel": {
         "message": "Text color"
     },
     "sortItemsLabel": {
-        "message": "Sort scores by"
+        "message": "Sort scores by (simulcast only)"
     },
     "sortOptionDefault": {
         "message": "Default"
@@ -33,22 +33,22 @@
         "message": "Descending"
     },
     "scoreLayoutLabel": {
-        "message": "Select score layout"
+        "message": "Select the display"
     },
     "layoutOption1": {
-        "message": "Layout 1"
+        "message": "Display 1"
     },
     "layoutOption2": {
-        "message": "Layout 2"
+        "message": "Display 2"
     },
     "layoutOption3": {
-        "message": "Layout 3"
+        "message": "Display 3"
     },
     "layoutOption4": {
-        "message": "Layout 4"
+        "message": "Display 4"
     },
     "displayTextLabel": {
-        "message": "Input display text"
+        "message": "Enter the text to display"
     },
     "decimalPrecisionLabel": {
         "message": "Select decimal precision"
@@ -63,12 +63,9 @@
         "message": "5"
     },
     "helperText": {
-        "message": "(*) The webpage reloads whenever decimal precision is altered."
+        "message": "(*) The page will reload if decimal precision is changed"
     },
     "saveChangesButton": {
         "message": "Save changes"
-    },
-    "saveChangesButtonSuccess": {
-        "message": "Settings saved!"
     }
 }

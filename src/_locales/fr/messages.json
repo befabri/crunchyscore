@@ -21,7 +21,7 @@
         "message": "Couleur du texte"
     },
     "sortItemsLabel": {
-        "message": "Trier les scores par"
+        "message": "Trier les scores par (uniquement pour les simulcast)"
     },
     "sortOptionDefault": {
         "message": "Défaut"
@@ -33,7 +33,7 @@
         "message": "Décroissant"
     },
     "scoreLayoutLabel": {
-        "message": "Sélectionnez l'affichage des scores"
+        "message": "Sélectionnez l'affichage"
     },
     "layoutOption1": {
         "message": "Affichage 1"
@@ -63,12 +63,9 @@
         "message": "5"
     },
     "helperText": {
-        "message": "(*) La page web se recharge chaque fois que la précision décimale est modifiée."
+        "message": "(*) La page se rechargera si la précision décimale est modifiée"
     },
     "saveChangesButton": {
         "message": "Enregistrer les modifications"
-    },
-    "saveChangesButtonSuccess": {
-        "message": "Sauvegardés !"
     }
 }

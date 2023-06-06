@@ -3,25 +3,25 @@
         "message": "Instellingen"
     },
     "customizeCardDisplayDescription": {
-        "message": "Personaliseer hoe scores worden weergegeven op anime kaarten."
+        "message": "Personaliseer de weergave van anime scores."
     },
     "cardDisplaySettingsButton": {
-        "message": "Kaartweergave instellingen"
+        "message": "Score-instellingen"
     },
     "customizeIndividualPageDescription": {
-        "message": "Personaliseer hoe de score wordt weergegeven op de individuele anime pagina."
+        "message": "Personaliseer de scoreweergave op de animepagina waar de videospeler zich bevindt"
     },
     "individualPageSettingsButton": {
-        "message": "Individuele pagina instellingen"
+        "message": "Score-instellingen"
     },
     "goBackButton": {
         "message": "Terug"
     },
     "textColorLabel": {
-        "message": "Tekst kleur"
+        "message": "Tekstkleur"
     },
     "sortItemsLabel": {
-        "message": "Sorteer scores op"
+        "message": "Sorteer scores op (alleen voor simulcast)"
     },
     "sortOptionDefault": {
         "message": "Standaard"
@@ -33,25 +33,25 @@
         "message": "Aflopend"
     },
     "scoreLayoutLabel": {
-        "message": "Selecteer score layout"
+        "message": "Selecteer de weergave"
     },
     "layoutOption1": {
-        "message": "Layout 1"
+        "message": "Weergave 1"
     },
     "layoutOption2": {
-        "message": "Layout 2"
+        "message": "Weergave 2"
     },
     "layoutOption3": {
-        "message": "Layout 3"
+        "message": "Weergave 3"
     },
     "layoutOption4": {
-        "message": "Layout 4"
+        "message": "Weergave 4"
     },
     "displayTextLabel": {
-        "message": "Voer weergave tekst in"
+        "message": "Voer de tekst in om te tonen"
     },
     "decimalPrecisionLabel": {
-        "message": "Selecteer decimale nauwkeurigheid"
+        "message": "Selecteer de decimale precisie"
     },
     "decimalOption1": {
         "message": "5,43"
@@ -63,12 +63,9 @@
         "message": "5"
     },
     "helperText": {
-        "message": "(*) De webpagina wordt opnieuw geladen wanneer de decimale precisie wordt gewijzigd."
+        "message": "(*) De pagina wordt opnieuw geladen als de decimale precisie wordt gewijzigd"
     },
     "saveChangesButton": {
         "message": "Wijzigingen opslaan"
-    },
-    "saveChangesButtonSuccess": {
-        "message": "Wijzigingen opgeslagen!"
     }
 }

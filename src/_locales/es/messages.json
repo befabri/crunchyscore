@@ -1,30 +1,30 @@
 {
     "title": {
-        "message": "Configuración"
+        "message": "Configuraciones"
     },
     "customizeCardDisplayDescription": {
-        "message": "Personalice cómo se muestran las puntuaciones en las tarjetas de anime."
+        "message": "Personaliza la visualización de las puntuaciones de los animes."
     },
     "cardDisplaySettingsButton": {
-        "message": "Configuración de visualización de tarjetas"
+        "message": "Configuraciones de puntuaciones"
     },
     "customizeIndividualPageDescription": {
-        "message": "Personalice cómo se muestra la puntuación en la página individual del anime."
+        "message": "Personaliza la visualización de la puntuación en la página del anime donde se encuentra el reproductor de vídeo"
     },
     "individualPageSettingsButton": {
-        "message": "Configuración de la página individual"
+        "message": "Configuraciones de puntuación"
     },
     "goBackButton": {
-        "message": "Regresar"
+        "message": "Regreso"
     },
     "textColorLabel": {
-        "message": "Color de texto"
+        "message": "Color del texto"
     },
     "sortItemsLabel": {
-        "message": "Ordenar puntuaciones por"
+        "message": "Ordena las puntuaciones por (solo para simulcast)"
     },
     "sortOptionDefault": {
-        "message": "Predeterminado"
+        "message": "Por defecto"
     },
     "sortOptionAsc": {
         "message": "Ascendente"
@@ -33,25 +33,25 @@
         "message": "Descendente"
     },
     "scoreLayoutLabel": {
-        "message": "Seleccionar diseño de puntuación"
+        "message": "Selecciona la visualización"
     },
     "layoutOption1": {
-        "message": "Diseño 1"
+        "message": "Visualización 1"
     },
     "layoutOption2": {
-        "message": "Diseño 2"
+        "message": "Visualización 2"
     },
     "layoutOption3": {
-        "message": "Diseño 3"
+        "message": "Visualización 3"
     },
     "layoutOption4": {
-        "message": "Diseño 4"
+        "message": "Visualización 4"
     },
     "displayTextLabel": {
-        "message": "Introducir texto de visualización"
+        "message": "Ingresa el texto a mostrar"
     },
     "decimalPrecisionLabel": {
-        "message": "Seleccionar precisión decimal"
+        "message": "Selecciona la precisión decimal"
     },
     "decimalOption1": {
         "message": "5,43"
@@ -63,12 +63,9 @@
         "message": "5"
     },
     "helperText": {
-        "message": "(*) La página web se recarga cada vez que se modifica la precisión decimal."
+        "message": "(*) La página se recargará si se modifica la precisión decimal"
     },
     "saveChangesButton": {
         "message": "Guardar cambios"
-    },
-    "saveChangesButtonSuccess": {
-        "message": "¡Cambios guardados!"
     }
 }
