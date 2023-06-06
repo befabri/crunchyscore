@@ -26,23 +26,24 @@
   margin-top: 5px;
   margin-bottom: 20px;
   border-radius: 5px;
-  border: none;
+  border-color: black;
+  border-style: solid;
+  border-radius: 0.25rem;
+  border-width: 1px;
   padding: 4px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  -ms-box-sizing:content-box;
-  -moz-box-sizing:content-box;
-  -webkit-box-sizing:content-box; 
-  box-sizing:content-box;
+  -ms-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
 }
 
-label{
+label {
   margin-left: 15px;
 }
 
-
 .circular-color {
   width: 30px;
-  height: 30px;
+  height: 20px;
   padding: 0;
   border: none;
   border-radius: 50%;
@@ -56,7 +57,7 @@ label{
   align-items: center;
 }
 
-.color-code{
+.color-code {
   border: none;
 }
 
@@ -70,19 +71,41 @@ label{
 }
 
 .rounded-button {
-  padding: 10px 10px;
-  border-radius: 5px;
-  border: none;
-  background: #2E51A2;
-  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 5px;
+  border-color: black;
+  border-radius: 0.25rem;
+  border-width: 2px;
+  background: #ffffff;
+  color: #000000;
   cursor: pointer;
   align-self: flex-end;
-  transition: background 0.3s ease;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+.rounded-button.home {
+  width: 100%;
+}
+
+.rounded-button span.left {
+  font-weight: bold;
 }
 
 .rounded-button:hover {
-  background: #4f74c8; 
+  background-color: rgba(24, 24, 24, 0.089);
 }
+
+.rounded-button:active {
+  transform: scale(0.99);
+}
+
+.rounded-button:disabled {
+  border-color: rgba(0, 0, 0, 0.164);
+}
+
 .rounded-button:active {
   transform: scale(0.99);
 }

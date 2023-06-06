@@ -3,16 +3,16 @@
         "message": "Paramètres"
     },
     "customizeCardDisplayDescription": {
-        "message": "Personnalisez l'affichage des scores sur les cartes d'anime."
+        "message": "Personnalisez l'affichage des scores des animes."
     },
     "cardDisplaySettingsButton": {
-        "message": "Paramètres d'affichage de carte"
+        "message": "Paramètres des scores"
     },
     "customizeIndividualPageDescription": {
-        "message": "Personnalisez l'affichage des scores sur la page individuelle d'anime."
+        "message": "Personnalisez l'affichage de score sur la page d'anime où se trouve le lecteur vidéo"
     },
     "individualPageSettingsButton": {
-        "message": "Paramètres de la page individuelle"
+        "message": "Paramètres du score"
     },
     "goBackButton": {
         "message": "Retour"

@@ -23,13 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function showGlobalSettings() {
     home.style.display = "none";
     globalSettings.style.display = "block";
-    tabTitle.innerText = btnGlobal.innerText;
+    tabTitle.innerText = chrome.i18n.getMessage("cardDisplaySettingsButton");
   }
 
   function showIndividualSettings() {
     home.style.display = "none";
     individualSettings.style.display = "block";
-    tabTitle.innerText = btnIndividual.innerText;
+    tabTitle.innerText = chrome.i18n.getMessage("individualPageSettingsButton");
   }
 
   function goBack() {
@@ -61,12 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.querySelectorAll(".saveButton").forEach((button, index) => {
     button.addEventListener("click", function () {
-      const textButton = button.innerText;
-      const buttonWidth = button.getBoundingClientRect().width;
-      button.innerText = chrome.i18n.getMessage("saveChangesButtonSuccess");
-      button.style.width = buttonWidth + "px";
       button.disabled = true;
-
       const colorChoice = document.getElementById("colorChoice1").value;
       const layoutChoice = document.getElementById("layoutChoice1").value;
       const textChoice = document.getElementById("textChoice1").value;
@@ -102,12 +97,9 @@ document.addEventListener("DOMContentLoaded", function () {
           });
         });
       });
-      button.disabled = false;
-      button.innerText = textButton;
-      // setTimeout(function () {
-      //   button.disabled = false;
-      //   button.innerText = textButton;
-      // }, 1500);
+      setTimeout(function () {
+        button.disabled = false;
+      }, 500);
     });
   });
   ["tab1", "tab2"].forEach((tab, index) => {

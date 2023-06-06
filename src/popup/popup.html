@@ -2,21 +2,26 @@
 <html>
   <head>
     <title data-i18n="title"></title>
+    <link rel="icon" type="image/png" sizes="16x16" href="icon16.png" />
     <link rel="stylesheet" type="text/css" href="./style.css" />
   </head>
 
   <body>
     <h2 id="tabTitle" data-i18n="title"></h2>
-    
+
     <div id="home" class="container">
       <div class="setting-option">
         <p data-i18n="customizeCardDisplayDescription"></p>
-        <button id="btnGlobal" class="rounded-button" data-i18n="cardDisplaySettingsButton"></button>
+        <button id="btnGlobal" class="rounded-button home">
+          <span data-i18n="cardDisplaySettingsButton"></span><span class="left">></span>
+        </button>
       </div>
 
       <div class="setting-option">
         <p data-i18n="customizeIndividualPageDescription"></p>
-        <button id="btnIndividual" class="rounded-button" data-i18n="individualPageSettingsButton"></button>
+        <button id="btnIndividual" class="rounded-button home">
+          <span data-i18n="individualPageSettingsButton"></span><span class="left">></span>
+        </button>
       </div>
     </div>
 
@@ -31,7 +36,6 @@
         </div>
       </div>
 
-      
       <div class="input-group">
         <label for="textChoice1" data-i18n="displayTextLabel"></label>
         <div class="form-container">
@@ -49,7 +53,6 @@
           </select>
         </div>
       </div>
-
 
       <div class="input-group">
         <label for="layoutChoice1" data-i18n="scoreLayoutLabel"></label>
@@ -123,7 +126,6 @@
       <div class="button-container">
         <button id="btnBackFromIndividual" class="rounded-button" data-i18n="goBackButton"></button>
         <button class="rounded-button saveButton" data-i18n="saveChangesButton"></button>
-        <div id="saveMessage" style="display: none; color: green;">Settings saved successfully!</div>
       </div>
     </div>
 

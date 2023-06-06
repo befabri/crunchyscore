@@ -3,6 +3,11 @@
     "name": "CrunchyScore",
     "version": "1.0",
     "description": "Insert MAL Ranking on Crunchyroll page",
+    "icons": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    },
     "default_locale": "en",
     "permissions": [
       "activeTab",
