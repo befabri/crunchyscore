@@ -1,4 +1,7 @@
 {
+    "extensionDescription": {
+        "message": "Voeg MyAnimeList ranking toe op Crunchyroll pagina"
+    },
     "title": {
         "message": "Instellingen"
     },

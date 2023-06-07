@@ -1,4 +1,7 @@
 {
+    "extensionDescription": {
+        "message": "Añade la clasificación de MyAnimeList en la página de Crunchyroll"
+    },
     "title": {
         "message": "Configuraciones"
     },

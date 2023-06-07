@@ -1,4 +1,7 @@
 {
+    "extensionDescription": {
+        "message": "Ajoute les scores de MyAnimeList sur les animes de Crunchyroll"
+    },
     "title": {
         "message": "Paramètres"
     },
