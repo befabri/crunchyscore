@@ -106,7 +106,6 @@ function setNotFoundCache(cacheData) {
 }
 
 function updateNotFoundCache(updates) {
-  console.log("Update cache");
   let cacheData = getnotFoundCache();
   updates.forEach((anime) => (cacheData[anime.id] = anime));
   setNotFoundCache(cacheData);
@@ -224,7 +223,7 @@ async function insertScoreController(animes) {
 }
 
 function getCardsFromVideoPage() {
-  return document.querySelectorAll('[data-t="series-card "]');
+  return document.querySelectorAll('[data-t="series-card "]') || document.querySelectorAll(".browse-card--esJdT");
 }
 
 async function fetchAnimeScores(crunchyrollList) {
@@ -342,7 +341,6 @@ async function saveData(animeFetch) {
         }
       });
       chrome.storage.local.set({ datas: animeData }, function () {
-        console.log("Data saved to chrome storage.");
         resolve();
       });
     });
@@ -358,7 +356,6 @@ async function addAnimeToStorage(animes, anime) {
   return new Promise((resolve, reject) => {
     animes.push(anime);
     chrome.storage.local.set({ datas: animes }, () => {
-      console.log("Object pushed to array in storage");
       resolve();
     });
   });
@@ -429,7 +426,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
   setInterval(function () {
     if (check === false) {
-      if (IsVideoPage()) {
+      if (IsVideoPage() && Array.from(getCardsFromVideoPage()).length > 0) {
         updateConfig();
         handleVideoPage();
         check = true;
@@ -440,7 +437,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       handleDetailPage();
       check = true;
     }
-  }, 500);
+  }, 800);
 });
 
 let throttleTimeout = null;
