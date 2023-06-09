@@ -1,4 +1,4 @@
-# CrunchyScore: MyAnimeList Ratings on Crunchyroll
+# CrunchyScore - MyAnimeList Score on Crunchyroll
 CrunchyScore is available on [Chrome Web Store](https://chrome.google.com/webstore/detail/crunchyscore/coiidbjimmeojgdkclafjccnhgenmmbi)
 
 ## Introduction
