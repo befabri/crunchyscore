@@ -1,0 +1,15 @@
+{
+  "name": "crunchyscore-extension",
+  "version": "0.0.3",
+  "description": "CrunchyScore is available on [Chrome Web Store](https://chrome.google.com/webstore/detail/crunchyscore/coiidbjimmeojgdkclafjccnhgenmmbi)",
+  "main": "script/content.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Benjamin Fabri",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.54.0"
+  }
+}

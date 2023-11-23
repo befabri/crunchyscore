@@ -1,34 +1,36 @@
 {
-  "manifest_version": 3,
-  "name": "CrunchyScore - MyAnimeList Score on Crunchyroll",
-  "version": "0.0.2",
-  "description": "__MSG_extensionDescription__",
-  "icons": {
-      "16": "icon16.png",
-      "48": "icon48.png",
-      "128": "icon128.png"
-  },
-  "action": {
-      "default_popup": "./popup/popup.html"
-  },
-  "default_locale": "en",
-  "permissions": [
-      "activeTab",
-      "storage"
-  ],
-  "host_permissions": [
-      "https://www.crunchyroll.com/",
-      "https://api.crunchyscore.app/"
-  ],
-  "background": {
-      "service_worker": "background.js"
-  },
-  "content_scripts": [
-      {
-          "matches": [
-              "https://www.crunchyroll.com/*"
-          ],
-          "js": ["script/content.js"]
-      }
-  ]
+    "manifest_version": 3,
+    "name": "CrunchyScore - MAL Score on Crunchyroll",
+    "version": "0.0.3",
+    "description": "__MSG_extensionDescription__",
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    },
+    "action": {
+        "default_popup": "./popup/popup.html"
+    },
+    "default_locale": "en",
+    "permissions": [
+        "activeTab",
+        "storage"
+    ],
+    "host_permissions": [
+        "https://www.crunchyroll.com/",
+        "https://api.crunchyscore.app/"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.crunchyroll.com/*"
+            ],
+            "js": [
+                "script/content.js"
+            ]
+        }
+    ]
 }
