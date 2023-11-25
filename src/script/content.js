@@ -1,4 +1,4 @@
-const BASE_URL = "https://api.crunchyscore.app/api/anime/scores";
+const BASE_URL = "https://api.crunchyscore.app/api/crunchyroll/score";
 const config = {};
 const NOT_FOUND_CACHE = "notFoundCache";
 const REFRESH_DELAY_CACHE = 60 * 1000 * 2;
@@ -99,10 +99,10 @@ function getDataFromCard(card, animes) {
     return animes.find((obj) => obj.id === id);
 }
 
-function getSearchFromCard(card) {
+function getSearchFromCard(card, season = null) {
     const href = card.querySelector('a[tabindex="0"]');
     const id = extractIdFromUrl(href);
-    return { id: id };
+    return { id: id, seasonTags: season };
 }
 
 function getDataFromHero(card, animes) {
@@ -113,7 +113,7 @@ function getDataFromHero(card, animes) {
 function getSearchFromHero() {
     const href = location.href;
     const id = extractIdFromUrl(href);
-    return { id: id };
+    return { id: id, seasonTags: null };
 }
 
 async function getStorageAnimeData() {
@@ -283,7 +283,7 @@ async function fetchAnimeScores(crunchyrollList) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ crunchyrollList }),
+            body: JSON.stringify(crunchyrollList),
         });
 
         if (!response.ok) {
