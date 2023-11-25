@@ -1,8 +1,42 @@
 const BASE_URL = "https://api.crunchyscore.app/api/anime/scores";
 const config = {};
 const NOT_FOUND_CACHE = "notFoundCache";
-const REFRESH_DELAY_CACHE = 60 * 1000 * 60 * 24;
+const REFRESH_DELAY_CACHE = 60 * 1000 * 2;
 const TIMESTAMP_REFRESH_CACHE = "lastRefreshTime";
+const BLACKLIST_IDS = [
+    "GY1XXXPQY",
+    "G6EXH7VKM",
+    "G6190VXEY",
+    "GR19JEWQ6",
+    "GREX5KEXY",
+    "GR24X90E6",
+    "GR19MD406",
+    "G6NQK7Z36",
+    "G3KHEV0Q1",
+    "G6JQ1Q8WR",
+    "G24H1NWV7",
+    "G6WE4W0N6",
+    "GDKHZENQ0",
+    "GYWE2G8JY",
+    "G6JQ14Q2R",
+    "GR1XP20GR",
+    "G65PV1NE6",
+    "G24H1N898",
+    "G8DHV7D17",
+    "GRVNE7N4Y",
+    "GZJH3DXQD",
+    "GR09G930R",
+    "GRQW4DPPR",
+    "G69PV5EVY",
+    "GRWEQ4ZNR",
+    "G6NQV80X6",
+    "GYP5E27KY",
+    "G6X03JPMY",
+    "GEXH3WGNX",
+    "GY49P88ER",
+    "GYK5X214R",
+    "GYVD2XZXY",
+];
 
 updateConfig();
 
@@ -49,10 +83,12 @@ async function handleDetailPage() {
             insertScoreIntoHero(targetElem, data.score);
         } else {
             data = getSearchFromHero(targetElem);
-            const animeFetch = await fetchAnimeScores([data]);
-            if (animeFetch) {
-                insertScoreIntoHero(targetElem, animeFetch[0].score);
-                await saveData(animeFetch);
+            if (!isBlacklisted(data)) {
+                const animeFetch = await fetchAnimeScores([data]);
+                if (animeFetch) {
+                    insertScoreIntoHero(targetElem, animeFetch[0].score);
+                    await saveData(animeFetch);
+                }
             }
         }
     }
@@ -160,11 +196,15 @@ async function fetchAndSaveAnimeScores(animes) {
 function prepareObjectFetch(animes) {
     const list = [];
     for (const anime of animes) {
-        if (anime.id) {
+        if (anime.id && !isBlacklisted(anime.id)) {
             list.push({ id: anime.id });
         }
     }
     return list;
+}
+
+function isBlacklisted(animeId) {
+    return BLACKLIST_IDS.includes(animeId);
 }
 
 function returnHref(children) {
