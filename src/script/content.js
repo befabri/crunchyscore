@@ -409,8 +409,11 @@ function IsVideoPage() {
 
 let check = false;
 chrome.runtime.onMessage.addListener(function (request) {
-    if (request.type != "popupSaved") {
+    if (request.type != "popupSaved" && request.type != "forceRefreshCache") {
         check = false;
+    }
+    if (request.type === "forceRefreshCache") {
+        refreshNotFoundCache();
     }
     if (request.type === "popupSaved") {
         const cards = document.querySelectorAll('[data-t="series-card "]');

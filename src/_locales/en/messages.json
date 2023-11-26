@@ -6,7 +6,7 @@
         "message": "Settings"
     },
     "customizeCardDisplayDescription": {
-        "message": "Customize the display of anime scores."
+        "message": "Customize the display of anime scores"
     },
     "cardDisplaySettingsButton": {
         "message": "Score settings"
@@ -70,5 +70,11 @@
     },
     "saveChangesButton": {
         "message": "Save changes"
+    },
+    "forceCacheRefresh": {
+        "message": "Manually update previously unavailable data. Use this for immediate refresh, in addition to daily automatic updates"
+    },
+    "cache": {
+        "message": "Update missing data"
     }
 }

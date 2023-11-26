@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     const tabTitle = document.getElementById("tabTitle");
-
     const btnGlobal = document.getElementById("btnGlobal");
     const btnIndividual = document.getElementById("btnIndividual");
     const btnBackFromGlobal = document.getElementById("btnBackFromGlobal");
     const btnBackFromIndividual = document.getElementById("btnBackFromIndividual");
+    const btnForceRefreshCache = document.getElementById("btnCache");
     const home = document.getElementById("home");
     const globalSettings = document.getElementById("globalSettings");
     const individualSettings = document.getElementById("individualSettings");
@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const colorText1 = document.getElementById("colorText1");
     const colorChoice2 = document.getElementById("colorChoice2");
     const colorText2 = document.getElementById("colorText2");
+    const spinner = document.getElementById("spinner");
+    const successIcon = document.getElementById("successIcon");
 
     function showGlobalSettings() {
         home.style.display = "none";
@@ -39,6 +41,26 @@ document.addEventListener("DOMContentLoaded", function () {
         tabTitle.innerText = chrome.i18n.getMessage("title");
     }
 
+    function forceRefreshCache() {
+        btnForceRefreshCache.disabled = true;
+        spinner.style.display = "";
+        successIcon.style.display = "none";
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+                type: "forceRefreshCache",
+            });
+        });
+        setTimeout(function () {
+            spinner.style.display = "none";
+            successIcon.style.display = "";
+            setTimeout(function () {
+                btnForceRefreshCache.disabled = false;
+                successIcon.style.display = "none";
+            }, 2000);
+        }, 1600);
+    }
+
+    btnForceRefreshCache.addEventListener("click", forceRefreshCache);
     btnGlobal.addEventListener("click", showGlobalSettings);
     btnIndividual.addEventListener("click", showIndividualSettings);
     btnBackFromGlobal.addEventListener("click", goBack);
@@ -102,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 800);
         });
     });
+
     ["tab1", "tab2"].forEach((tab, index) => {
         chrome.storage.local.get([tab], function (data) {
             let tabData = data[tab];

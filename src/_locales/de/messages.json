@@ -6,7 +6,7 @@
         "message": "Einstellungen"
     },
     "customizeCardDisplayDescription": {
-        "message": "Passen Sie die Anzeige von Anime-Scores an."
+        "message": "Passen Sie die Anzeige von Anime-Scores an"
     },
     "cardDisplaySettingsButton": {
         "message": "Score-Einstellungen"
@@ -70,5 +70,11 @@
     },
     "saveChangesButton": {
         "message": "Änderungen speichern"
+    },
+    "forceCacheRefresh": {
+        "message": "Manuelles Aktualisieren zuvor nicht verfügbarer Daten. Verwenden Sie diese Funktion für eine sofortige Aktualisierung zusätzlich zu den täglichen automatischen Updates"
+    },
+    "cache": {
+        "message": "Fehlende Daten aktualisieren"
     }
 }
