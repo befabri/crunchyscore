@@ -6,7 +6,7 @@
         "message": "Configuraciones"
     },
     "customizeCardDisplayDescription": {
-        "message": "Personaliza la visualización de las puntuaciones de los animes."
+        "message": "Personaliza la visualización de las puntuaciones de los animes"
     },
     "cardDisplaySettingsButton": {
         "message": "Configuraciones de puntuaciones"
@@ -70,5 +70,11 @@
     },
     "saveChangesButton": {
         "message": "Guardar cambios"
+    },
+    "forceCacheRefresh": {
+        "message": "Actualizar manualmente los datos previamente no disponibles. Utilice esto para una actualización inmediata, además de las actualizaciones automáticas diarias"
+    },
+    "cache": {
+        "message": "Actualizar datos faltantes"
     }
 }

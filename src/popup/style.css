@@ -86,6 +86,10 @@ label {
   transition-timing-function: ease;
 }
 
+.cache {
+  justify-content:start;
+}
+
 .rounded-button.home {
   width: 100%;
 }
@@ -114,4 +118,66 @@ label {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+#buttonLabel {
+  margin-right: 5%;
+}
+
+#checkmark {
+  margin-left: 5%;
+  display: none;
+}
+
+.spinner {
+  display: inline-block;
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  border: .215em solid transparent;
+  vertical-align: middle;
+  font-size: 10px;
+  border-top-color: black;
+  animation: spin 1s cubic-bezier(.55, .15, .45, .85) infinite;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+svg {
+  filter: drop-shadow(2px 3px 6px rgba(0, 0, 0, .4));
+}
+
+@keyframes slide-in-down {
+  0% {
+      transform: translateY(-20px);
+      opacity: 0;
+  }
+  50% {
+      opacity: 0.8;
+  }
+  100% {
+      transform: translateY(0);
+      opacity: 1;
+  }
+}
+
+@keyframes slide-out-down {
+  0% {
+      transform: translateY(0);
+      opacity: 1;
+  }
+  40% {
+      opacity: 0.2;
+  }
+  100% {
+      transform: translateY(20px);
+      opacity: 0;
+  }
 }

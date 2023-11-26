@@ -6,7 +6,7 @@
         "message": "Instellingen"
     },
     "customizeCardDisplayDescription": {
-        "message": "Personaliseer de weergave van anime scores."
+        "message": "Personaliseer de weergave van anime scores"
     },
     "cardDisplaySettingsButton": {
         "message": "Score-instellingen"
@@ -70,5 +70,11 @@
     },
     "saveChangesButton": {
         "message": "Wijzigingen opslaan"
+    },
+    "forceCacheRefresh": {
+        "message": "Handmatig eerder niet beschikbare gegevens bijwerken. Gebruik dit voor een onmiddellijke vernieuwing, naast de dagelijkse automatische updates"
+    },
+    "cache": {
+        "message": "Ontbrekende gegevens bijwerken"
     }
 }

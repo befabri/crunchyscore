@@ -1,8 +1,42 @@
-const BASE_URL = "https://api.crunchyscore.app/api/anime/scores";
+const BASE_URL = "https://api.crunchyscore.app/api/crunchyroll/score";
 const config = {};
 const NOT_FOUND_CACHE = "notFoundCache";
-const REFRESH_DELAY_CACHE = 60 * 1000 * 60 * 24;
+const REFRESH_DELAY_CACHE = 60 * 1000 * 2;
 const TIMESTAMP_REFRESH_CACHE = "lastRefreshTime";
+const BLACKLIST_IDS = [
+    "GY1XXXPQY",
+    "G6EXH7VKM",
+    "G6190VXEY",
+    "GR19JEWQ6",
+    "GREX5KEXY",
+    "GR24X90E6",
+    "GR19MD406",
+    "G6NQK7Z36",
+    "G3KHEV0Q1",
+    "G6JQ1Q8WR",
+    "G24H1NWV7",
+    "G6WE4W0N6",
+    "GDKHZENQ0",
+    "GYWE2G8JY",
+    "G6JQ14Q2R",
+    "GR1XP20GR",
+    "G65PV1NE6",
+    "G24H1N898",
+    "G8DHV7D17",
+    "GRVNE7N4Y",
+    "GZJH3DXQD",
+    "GR09G930R",
+    "GRQW4DPPR",
+    "G69PV5EVY",
+    "GRWEQ4ZNR",
+    "G6NQV80X6",
+    "GYP5E27KY",
+    "G6X03JPMY",
+    "GEXH3WGNX",
+    "GY49P88ER",
+    "GYK5X214R",
+    "GYVD2XZXY",
+];
 
 updateConfig();
 
@@ -42,17 +76,19 @@ function roundScore(score, decimalConfig) {
 
 async function handleDetailPage() {
     const targetElem = document.querySelector("div.hero-heading-line");
-    if (targetElem && !document.getElementById(".score-hero")) {
+    if (targetElem && !document.querySelector(".score-hero")) {
         const animes = await getStorageAnimeData();
         let data = getDataFromHero(targetElem, animes);
         if (data) {
             insertScoreIntoHero(targetElem, data.score);
         } else {
             data = getSearchFromHero(targetElem);
-            const animeFetch = await fetchAnimeScores([data]);
-            if (animeFetch) {
-                insertScoreIntoHero(targetElem, animeFetch[0].score);
-                await saveData(animeFetch);
+            if (!isBlacklisted(data)) {
+                const animeFetch = await fetchAnimeScores([data]);
+                if (animeFetch) {
+                    insertScoreIntoHero(targetElem, animeFetch[0].score);
+                    await saveData(animeFetch);
+                }
             }
         }
     }
@@ -63,10 +99,10 @@ function getDataFromCard(card, animes) {
     return animes.find((obj) => obj.id === id);
 }
 
-function getSearchFromCard(card) {
+function getSearchFromCard(card, season = null) {
     const href = card.querySelector('a[tabindex="0"]');
     const id = extractIdFromUrl(href);
-    return { id: id };
+    return { id: id, seasonTags: season };
 }
 
 function getDataFromHero(card, animes) {
@@ -77,7 +113,7 @@ function getDataFromHero(card, animes) {
 function getSearchFromHero() {
     const href = location.href;
     const id = extractIdFromUrl(href);
-    return { id: id };
+    return { id: id, seasonTags: null };
 }
 
 async function getStorageAnimeData() {
@@ -112,10 +148,10 @@ function setNotFoundCache(cacheData) {
 function updateNotFoundCache(fetchedAnime) {
     let cacheData = getNotFoundCache();
     fetchedAnime.forEach((anime) => {
-        if (anime.score === 0) {
-            cacheData[anime.id] = anime;
-        } else {
+        if (anime.score && anime.score > 0) {
             delete cacheData[anime.id];
+        } else {
+            cacheData[anime.id] = anime;
         }
     });
     setNotFoundCache(cacheData);
@@ -160,11 +196,15 @@ async function fetchAndSaveAnimeScores(animes) {
 function prepareObjectFetch(animes) {
     const list = [];
     for (const anime of animes) {
-        if (anime.id) {
-            list.push({ id: anime.id });
+        if (anime.id && !isBlacklisted(anime.id)) {
+            list.push({ id: anime.id, seasonTags: null });
         }
     }
     return list;
+}
+
+function isBlacklisted(animeId) {
+    return BLACKLIST_IDS.includes(animeId);
 }
 
 function returnHref(children) {
@@ -243,7 +283,7 @@ async function fetchAnimeScores(crunchyrollList) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ crunchyrollList }),
+            body: JSON.stringify(crunchyrollList),
         });
 
         if (!response.ok) {
@@ -252,7 +292,6 @@ async function fetchAnimeScores(crunchyrollList) {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.log(error);
         return null;
     }
 }
@@ -316,7 +355,7 @@ function insertToLayout(score, card, layout) {
 }
 
 function insertScoreIntoHero(card, score) {
-    if (card.querySelector(".score-hero")) {
+    if (document.querySelector(".score-hero")) {
         return;
     }
     const scoreElement = document.createElement("span");
@@ -330,7 +369,6 @@ function insertScoreIntoHero(card, score) {
 
 function insertToLayoutHero(score, card, layout) {
     const h1Element = card.querySelector("h1");
-
     const tag = document.querySelector("div.erc-series-tags.tags");
     if (layout == "layout1") {
         h1Element.appendChild(score);
@@ -369,8 +407,11 @@ function IsVideoPage() {
 
 let check = false;
 chrome.runtime.onMessage.addListener(function (request) {
-    if (request.type != "popupSaved") {
+    if (request.type != "popupSaved" && request.type != "forceRefreshCache") {
         check = false;
+    }
+    if (request.type === "forceRefreshCache") {
+        refreshNotFoundCache();
     }
     if (request.type === "popupSaved") {
         const cards = document.querySelectorAll('[data-t="series-card "]');
