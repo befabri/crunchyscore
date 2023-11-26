@@ -76,7 +76,7 @@ function roundScore(score, decimalConfig) {
 
 async function handleDetailPage() {
     const targetElem = document.querySelector("div.hero-heading-line");
-    if (targetElem && !document.getElementById(".score-hero")) {
+    if (targetElem && !document.querySelector(".score-hero")) {
         const animes = await getStorageAnimeData();
         let data = getDataFromHero(targetElem, animes);
         if (data) {
@@ -148,10 +148,10 @@ function setNotFoundCache(cacheData) {
 function updateNotFoundCache(fetchedAnime) {
     let cacheData = getNotFoundCache();
     fetchedAnime.forEach((anime) => {
-        if (anime.score === 0) {
-            cacheData[anime.id] = anime;
-        } else {
+        if (anime.score && anime.score > 0) {
             delete cacheData[anime.id];
+        } else {
+            cacheData[anime.id] = anime;
         }
     });
     setNotFoundCache(cacheData);
@@ -197,7 +197,7 @@ function prepareObjectFetch(animes) {
     const list = [];
     for (const anime of animes) {
         if (anime.id && !isBlacklisted(anime.id)) {
-            list.push({ id: anime.id });
+            list.push({ id: anime.id, seasonTags: null });
         }
     }
     return list;
@@ -292,7 +292,6 @@ async function fetchAnimeScores(crunchyrollList) {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.log(error);
         return null;
     }
 }
@@ -356,7 +355,7 @@ function insertToLayout(score, card, layout) {
 }
 
 function insertScoreIntoHero(card, score) {
-    if (card.querySelector(".score-hero")) {
+    if (document.querySelector(".score-hero")) {
         return;
     }
     const scoreElement = document.createElement("span");
@@ -370,7 +369,6 @@ function insertScoreIntoHero(card, score) {
 
 function insertToLayoutHero(score, card, layout) {
     const h1Element = card.querySelector("h1");
-
     const tag = document.querySelector("div.erc-series-tags.tags");
     if (layout == "layout1") {
         h1Element.appendChild(score);
