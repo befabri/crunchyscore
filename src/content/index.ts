@@ -1,15 +1,15 @@
-import { insertToLayoutHero, insertToLayoutCard } from "../helpers/dom";
-import { config, updateConfig } from "../services/configService";
+import { updateScore, ScoreType } from "../helpers/dom";
+import { RequestType, config, reloadPageAndUpdateConfig, updateConfig } from "../services/configService";
 import { getStorageAnimeData } from "../services/dataService";
 import { refreshNotFoundCache } from "../services/notFoundCacheService";
-import { roundScore, isVideoPage, isSimulcastPage, isHTMLElement } from "../utils/utils";
+import { isVideoPage, isSimulcastPage, isHTMLElement } from "../utils/utils";
 import { getCardsFromVideoPage, handleCardPage, insertScoreController } from "./pages/card";
 import { handleDetailPage } from "./pages/detail";
 
 updateConfig();
 
 let check = false;
-chrome.runtime.onMessage.addListener(function (request) {
+chrome.runtime.onMessage.addListener(function (request: RequestType) {
     if (request.type != "popupSaved" && request.type != "forceRefreshCache") {
         check = false;
     }
@@ -19,18 +19,8 @@ chrome.runtime.onMessage.addListener(function (request) {
     if (request.type === "popupSaved") {
         const cards = document.querySelectorAll('[data-t="series-card "]');
         cards.forEach((card) => {
-            let scoreCard = card.querySelector(".score-card");
-            if (isHTMLElement(scoreCard)) {
-                scoreCard.style.color = request.tab1.color;
-                let numberScoreAttr = scoreCard.getAttribute("data-numberscore");
-                if (numberScoreAttr !== null) {
-                    const numberScore = parseFloat(numberScoreAttr);
-                    let roundedScore = roundScore(numberScore, request.tab1.decimal);
-                    scoreCard.setAttribute("data-textscore", request.tab1.text);
-                    scoreCard.setAttribute("data-numberscore", roundedScore.toString());
-                    scoreCard.textContent = ` ${request.tab1.text} ${roundedScore}`;
-                    insertToLayoutCard(scoreCard, card, request.tab1.layout);
-                }
+            if (isHTMLElement(card)) {
+                updateScore(card, request, ScoreType.CARD);
             }
         });
         let elements = document.getElementsByClassName("score-hero");
@@ -38,34 +28,21 @@ chrome.runtime.onMessage.addListener(function (request) {
         for (let i = 0; i < elements.length; i++) {
             let element = elements[i];
             if (isHTMLElement(element)) {
-                element.style.color = request.tab2.color;
-                let numberScoreAttr = element.getAttribute("data-numberscore");
-                if (numberScoreAttr !== null) {
-                    let numberScore = parseFloat(numberScoreAttr);
-                    let roundedScore = roundScore(numberScore, request.tab2.decimal);
-                    element.setAttribute("data-textscore", request.tab2.text);
-                    element.setAttribute("data-numberscore", `${roundedScore}`);
-                    element.textContent = ` ${request.tab2.text} ${roundedScore}`;
-                    if (parentElem !== null) {
-                        insertToLayoutHero(element, parentElem, request.tab2.layout);
-                    }
-                }
+                updateScore(element, request, ScoreType.DETAIL, parentElem);
             }
         }
         if (request.tab1.order != config.tab1.order) {
-            updateConfig();
             if (request.tab1.order === "order1") {
-                location.reload();
+                reloadPageAndUpdateConfig();
             } else {
                 (async () => {
-                    let data = await getStorageAnimeData();
+                    const data = await getStorageAnimeData();
                     await insertScoreController(data);
                 })();
             }
         }
         if (request.tab1.decimal != config.tab1.decimal || request.tab2.decimal != config.tab2.decimal) {
-            updateConfig();
-            location.reload();
+            reloadPageAndUpdateConfig();
         }
         updateConfig();
     }
