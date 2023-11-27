@@ -20,9 +20,7 @@ chrome.runtime.onMessage.addListener(function (request) {
         const cards = document.querySelectorAll('[data-t="series-card "]');
         cards.forEach((card) => {
             let scoreCard = card.querySelector(".score-card");
-            console.log("ca work ou pas ? Y");
             if (isHTMLElement(scoreCard)) {
-                console.log("YYYYYYYYYYYYYYYYYYYY");
                 scoreCard.style.color = request.tab1.color;
                 let numberScoreAttr = scoreCard.getAttribute("data-numberscore");
                 if (numberScoreAttr !== null) {

@@ -31,7 +31,6 @@ export async function handleCardPage() {
     let animesStorage = await getStorageAnimeData();
     const animeNotFound = await insertScoreController(animesStorage);
     if (!animeNotFound) {
-        console.log("Nothing found return");
         return;
     }
     const notFoundCache = getNotFoundCache();
