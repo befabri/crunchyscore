@@ -16,6 +16,18 @@ type StorageData = {
     tab2?: TabConfig;
 };
 
+export interface PopupSavedMessage {
+    type: "popupSaved";
+    tab1: TabConfig;
+    tab2: TabConfig;
+}
+
+interface ForceRefreshCacheMessage {
+    type: "forceRefreshCache";
+}
+
+export type RequestType = PopupSavedMessage | ForceRefreshCacheMessage;
+
 export const defaultConfig: Config = {
     tab1: {
         color: "#f47521",
@@ -54,4 +66,8 @@ export async function updateConfig(): Promise<void> {
     } catch (error) {
         console.error(error);
     }
+}
+export function reloadPageAndUpdateConfig(): void {
+    updateConfig();
+    location.reload();
 }

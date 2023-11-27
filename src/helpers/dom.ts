@@ -1,5 +1,5 @@
-import { TabConfig, config } from "../services/configService";
-import { roundScore } from "../utils/utils";
+import { PopupSavedMessage, RequestType, TabConfig, config } from "../services/configService";
+import { isHTMLElement, roundScore } from "../utils/utils";
 
 export enum ScoreType {
     CARD = "card",
@@ -29,6 +29,45 @@ export function insertScore(spanElement: HTMLElement, score: number, type: Score
         insertToLayoutCard(scoreElement, spanElement, tabConfig.layout);
     } else if (type === ScoreType.DETAIL) {
         insertToLayoutHero(scoreElement, spanElement, tabConfig.layout);
+    }
+}
+
+export function updateScore(
+    element: HTMLElement,
+    request: PopupSavedMessage,
+    type: ScoreType,
+    parentElem?: Element | null
+) {
+    if (type !== ScoreType.CARD && type !== ScoreType.DETAIL) {
+        return;
+    }
+    let tab;
+    switch (type) {
+        case ScoreType.CARD:
+            tab = request.tab1;
+            break;
+
+        case ScoreType.DETAIL:
+            tab = request.tab2;
+            break;
+    }
+    let scoreCard = element.querySelector(".score-card");
+    if (isHTMLElement(scoreCard)) {
+        scoreCard.style.color = tab.color;
+        let numberScoreAttr = scoreCard.getAttribute("data-numberscore");
+        if (numberScoreAttr !== null) {
+            const numberScore = parseFloat(numberScoreAttr);
+            const roundedScore = roundScore(numberScore, tab.decimal);
+            scoreCard.setAttribute("data-textscore", tab.text);
+            scoreCard.setAttribute("data-numberscore", roundedScore.toString());
+            scoreCard.textContent = ` ${tab.text} ${roundedScore}`;
+            if (type === ScoreType.CARD) {
+                insertToLayoutCard(scoreCard, element, tab.layout);
+            }
+            if (type === ScoreType.DETAIL && parentElem) {
+                insertToLayoutHero(element, parentElem, tab.layout);
+            }
+        }
     }
 }
 
