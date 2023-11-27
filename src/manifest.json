@@ -4,12 +4,12 @@
     "version": "0.0.4",
     "description": "__MSG_extensionDescription__",
     "icons": {
-        "16": "icon16.png",
-        "48": "icon48.png",
-        "128": "icon128.png"
+        "16": "assets/icon16.png",
+        "48": "assets/icon48.png",
+        "128": "assets/icon128.png"
     },
     "action": {
-        "default_popup": "./popup/popup.html"
+        "default_popup": "popup/popup.html"
     },
     "default_locale": "en",
     "permissions": [
@@ -29,7 +29,7 @@
                 "https://www.crunchyroll.com/*"
             ],
             "js": [
-                "script/content.js"
+                "content.js"
             ]
         }
     ]
