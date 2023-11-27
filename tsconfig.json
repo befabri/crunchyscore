@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+      "target": "ES2021",              // Set the JavaScript language version for emitted JavaScript and include compatible library declarations
+      "module": "ES2020",              // Use ES2020 module syntax (aligns with your ESLint settings)
+      "lib": ["ES2021", "DOM", "WebWorker"], // Include standard library files for ES2021, browser DOM, and WebWorkers
+      "strict": true,                  // Enable all strict type-checking options
+      "esModuleInterop": true,         // Enables compatibility with CommonJS-like module systems
+      "moduleResolution": "node",      // Use Node.js-style module resolution
+      "resolveJsonModule": true,       // Allow importing of .json files
+      "outDir": "./distTS",              // Output directory for compiled files
+      "sourceMap": true,               // Enable source map support for debugging
+      "skipLibCheck": true,            // Skip type checking for all declaration files (*.d.ts)
+      "noImplicitAny": true,           // Raise error on expressions and declarations with an implied 'any' type
+      "strictNullChecks": true,        // Enable strict null checking
+      "strictFunctionTypes": true,     // Ensure functions' parameter types don't allow any arguments not specified
+      "strictPropertyInitialization": true, // Ensure non-undefined class properties are initialized in the constructor
+      "isolatedModules": true,         // Ensure each file can be safely transpiled without relying on other imports
+      "removeComments": true,          // Remove comments from the compiled output
+      "declaration": true,             // Generate corresponding '.d.ts' file
+      "noUnusedLocals": true,          // Report errors on unused locals
+      "noUnusedParameters": true       // Report errors on unused parameters
+    },
+    "include": [
+      "src/**/*"                        // Include all files in the src directory
+    ],
+    "exclude": [
+      "node_modules",                  // Exclude the node_modules directory
+      "**/*.spec.ts"                   // Exclude test files
+    ]
+  }
+  
