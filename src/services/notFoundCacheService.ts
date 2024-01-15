@@ -20,7 +20,7 @@ export function getNotFoundCache(): Record<string, AnimeScore> {
     }
 }
 
-export function getTimestampFromLocalStorage(): number {
+export function getTimestampNotFoundCache(): number {
     const storedValue = localStorage.getItem(TIMESTAMP_REFRESH_CACHE) ?? "";
     return parseInt(storedValue, 10) || 0;
 }

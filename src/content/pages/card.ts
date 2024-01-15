@@ -2,10 +2,10 @@ import { ScoreType, insertScore } from "../../helpers/dom";
 import { Anime, AnimeScore } from "../../models/model";
 import { fetchAndSaveAnimeScores } from "../../services/apiService";
 import { config } from "../../services/configService";
-import { getStorageAnimeData, saveData } from "../../services/dataService";
+import { getStorageAnimeData, getTimestampAnimeRefresh, refreshAnime, saveData } from "../../services/dataService";
 import {
     getNotFoundCache,
-    getTimestampFromLocalStorage,
+    getTimestampNotFoundCache,
     refreshNotFoundCache,
 } from "../../services/notFoundCacheService";
 import { extractIdFromUrl, findAnimeById, isDetailPage, isSimulcastPage, returnHref } from "../../utils/utils";
@@ -15,7 +15,8 @@ type SortableCard = {
     score: number;
 };
 
-const REFRESH_DELAY_CACHE = 60 * 1000 * 2;
+const REFRESH_DELAY = 60 * 1000 * 24 * 3;
+const REFRESH_DELAY_CACHE_NOT_FOUND = 60 * 1000 * 2;
 let pastURL = location.href;
 let parentContainer: Element | null;
 let parentClonedContainer: Element | null;
@@ -24,9 +25,13 @@ export async function handleCardPage() {
     if (isDetailPage(location.href)) {
         return;
     }
-    const lastRefreshTime = getTimestampFromLocalStorage();
-    if (Date.now() - lastRefreshTime >= REFRESH_DELAY_CACHE) {
+    const lastRefreshTimeNotFound = getTimestampNotFoundCache();
+    if (Date.now() - lastRefreshTimeNotFound >= REFRESH_DELAY_CACHE_NOT_FOUND) {
         await refreshNotFoundCache();
+    }
+    const lastRefreshTime = getTimestampAnimeRefresh();
+    if (Date.now() - lastRefreshTime >= REFRESH_DELAY) {
+        await refreshAnime();
     }
     let animesStorage = await getStorageAnimeData();
     const animeNotFound = await insertScoreController(animesStorage);

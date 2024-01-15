@@ -61,16 +61,16 @@ export async function fetchAnimeScores(crunchyrollList: Anime[]): Promise<AnimeS
     }
 }
 
-export async function fetchAndSaveAnimeScores(animes: Anime[]): Promise<AnimeScore[] | void> {
+export async function fetchAndSaveAnimeScores(animes: Anime[]): Promise<AnimeScore[] | null> {
     if (Object.keys(animes).length === 0) {
-        return;
+        return null;
     }
     const crunchyrollList = prepareObjectFetch(animes);
     const animeFetch = await fetchAnimeScores(crunchyrollList);
     if (animeFetch) {
         updateNotFoundCache(animeFetch);
-        return animeFetch;
     }
+    return animeFetch;
 }
 
 export function prepareObjectFetch(animes: Anime[]): any[] {
