@@ -1,4 +1,4 @@
-import { PopupSavedMessage, RequestType, TabConfig, config } from "../services/configService";
+import { PopupSavedMessage, TabConfig, config } from "../services/configService";
 import { isHTMLElement, roundScore } from "../utils/utils";
 
 export enum ScoreType {

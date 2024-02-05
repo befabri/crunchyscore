@@ -67,6 +67,7 @@ export async function updateConfig(): Promise<void> {
         console.error(error);
     }
 }
+
 export function reloadPageAndUpdateConfig(): void {
     updateConfig();
     location.reload();
