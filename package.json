@@ -1,21 +1,24 @@
 {
-  "name": "crunchyscore-extension",
-  "version": "0.0.4",
-  "description": "CrunchyScore is available on [Chrome Web Store](https://chrome.google.com/webstore/detail/crunchyscore/coiidbjimmeojgdkclafjccnhgenmmbi)",
-  "main": "script/content.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "ts:build": "tsc -p tsconfig.json && vite build && node tools/copy-assets.js",
-    "build": "vite build && node tools/copy-assets.js"
-  },
-  "type": "module",
-  "author": "Benjamin Fabri",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/chrome": "^0.0.253",
-    "eslint": "^8.54.0",
-    "ncp": "^2.0.0",
-    "typescript": "^5.3.2",
-    "vite": "^5.0.2"
-  }
+    "name": "crunchyscore-extension",
+    "version": "0.0.7",
+    "description": "CrunchyScore is available on [Chrome Web Store](https://chrome.google.com/webstore/detail/crunchyscore/coiidbjimmeojgdkclafjccnhgenmmbi)",
+    "main": "script/content.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "ts:build": "tsc -p tsconfig.json && vite build && node tools/copy-assets.js",
+        "build": "vite build && node tools/copy-assets.js"
+    },
+    "type": "module",
+    "author": "Benjamin Fabri",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/chrome": "^0.0.253",
+        "autoprefixer": "^10.4.17",
+        "eslint": "^8.54.0",
+        "ncp": "^2.0.0",
+        "postcss": "^8.4.35",
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5.3.2",
+        "vite": "^5.0.2"
+    }
 }

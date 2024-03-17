@@ -20,9 +20,7 @@
       "noUnusedLocals": true,          // Report errors on unused locals
       "noUnusedParameters": true       // Report errors on unused parameters
     },
-    "include": [
-      "src/**/*"                        // Include all files in the src directory
-    ],
+    "include": ["src/**/*.ts"],
     "exclude": [
       "node_modules",                  // Exclude the node_modules directory
       "**/*.spec.ts"                   // Exclude test files

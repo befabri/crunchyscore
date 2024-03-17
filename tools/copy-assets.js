@@ -5,6 +5,7 @@ const copyOperations = [
     { src: "./src/assets", dest: "./dist/assets" },
     { src: "./src/_locales", dest: "./dist/_locales" },
     { src: "./src/manifest.json", dest: "./dist/manifest.json" },
+    { src: "./src/popup/popup.html", dest: "./dist/popup/popup.html" },
 ];
 
 // Copy each directory

@@ -11,18 +11,18 @@ export default defineConfig({
                 background: "src/background/background.js",
                 content: "src/content/index.ts",
                 popup: "src/popup/popup.ts",
-                popupHtml: "src/popup/popup.html",
+                // popupHtml: "popup/popup.html", // Consider handling HTML differently if needed
             },
             output: {
                 entryFileNames: (chunkInfo) => {
-                    if (chunkInfo.name === "popup" || chunkInfo.name === "popupHtml") {
+                    if (chunkInfo.name === "popup") { // Adjusted based on actual needs
                         return "popup/[name].js";
                     }
                     return "[name].js";
                 },
-                chunkFileNames: "popup/[name].js",
+                chunkFileNames: "chunks/[name].[hash].js", // Adjusted for clarity and to avoid conflict
                 assetFileNames: (assetInfo) => {
-                    if (assetInfo.name.endsWith(".css")) {
+                    if (assetInfo.name && assetInfo.name.endsWith(".css")) {
                         return "popup/[name].[ext]";
                     }
                     return "[name].[ext]";
