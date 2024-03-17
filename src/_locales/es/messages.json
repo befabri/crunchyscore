@@ -76,5 +76,8 @@
     },
     "cache": {
         "message": "Actualizar datos faltantes"
+    },
+    "provider": {
+        "message": "Seleccione el proveedor de puntuaciones"
     }
 }

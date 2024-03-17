@@ -76,5 +76,8 @@
     },
     "cache": {
         "message": "Fehlende Daten aktualisieren"
+    },
+    "provider": {
+        "message": "Wählen Sie den Bewertungsanbieter"
     }
 }
