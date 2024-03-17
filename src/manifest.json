@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "CrunchyScore - MAL Score on Crunchyroll",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "__MSG_extensionDescription__",
     "icons": {
         "16": "assets/icon16.png",
@@ -12,25 +12,15 @@
         "default_popup": "popup/popup.html"
     },
     "default_locale": "en",
-    "permissions": [
-        "activeTab",
-        "storage"
-    ],
-    "host_permissions": [
-        "https://www.crunchyroll.com/",
-        "https://api.crunchyscore.app/"
-    ],
+    "permissions": ["activeTab", "storage"],
+    "host_permissions": ["https://www.crunchyroll.com/", "https://api.crunchyscore.app/"],
     "background": {
         "service_worker": "background.js"
     },
     "content_scripts": [
         {
-            "matches": [
-                "https://www.crunchyroll.com/*"
-            ],
-            "js": [
-                "content.js"
-            ]
+            "matches": ["https://www.crunchyroll.com/*"],
+            "js": ["content.js"]
         }
     ]
 }
