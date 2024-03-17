@@ -6,4 +6,5 @@ export interface Anime {
 export interface AnimeScore {
     id: string;
     score: number;
+    anilist_score: number;
 }

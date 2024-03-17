@@ -1,4 +1,4 @@
-import { PopupSavedMessage, TabConfig, config } from "../services/configService";
+import { PopupSavedMessage, Provider, TabConfig, config } from "../services/configService";
 import { isHTMLElement, roundScore } from "../utils/utils";
 
 export enum ScoreType {
@@ -24,7 +24,7 @@ export function insertScore(spanElement: HTMLElement, score: number, type: Score
     if (spanElement.querySelector(classSelector)) {
         return;
     }
-    const scoreElement = createScoreElement(score, type, tabConfig);
+    const scoreElement = createScoreElement(score, type, tabConfig, config.provider === Provider.AniList);
     if (type === ScoreType.CARD) {
         insertToLayoutCard(scoreElement, spanElement, tabConfig.layout);
     } else if (type === ScoreType.DETAIL) {
@@ -38,43 +38,50 @@ export function updateScore(
     type: ScoreType,
     parentElem?: Element | null
 ) {
-    if (type !== ScoreType.CARD && type !== ScoreType.DETAIL) {
-        return;
-    }
-    let tab;
-    switch (type) {
-        case ScoreType.CARD:
-            tab = request.tab1;
-            break;
+    if (type !== ScoreType.CARD && type !== ScoreType.DETAIL) return;
 
-        case ScoreType.DETAIL:
-            tab = request.tab2;
-            break;
-    }
-    let scoreCard = element.querySelector(".score-card");
-    if (isHTMLElement(scoreCard)) {
-        scoreCard.style.color = tab.color;
-        let numberScoreAttr = scoreCard.getAttribute("data-numberscore");
-        if (numberScoreAttr !== null) {
-            const numberScore = parseFloat(numberScoreAttr);
-            const roundedScore = roundScore(numberScore, tab.decimal);
-            scoreCard.setAttribute("data-textscore", tab.text);
-            scoreCard.setAttribute("data-numberscore", roundedScore.toString());
-            scoreCard.textContent = ` ${tab.text} ${roundedScore}`;
-            if (type === ScoreType.CARD) {
-                insertToLayoutCard(scoreCard, element, tab.layout);
-            }
-            if (type === ScoreType.DETAIL && parentElem) {
-                insertToLayoutHero(element, parentElem, tab.layout);
-            }
-        }
+    const tab = type === ScoreType.CARD ? request.tab1 : request.tab2;
+    updateElementScore(".score-card", element, tab, type);
+    if (parentElem) updateElementScore(".score-hero", parentElem, tab, type, parentElem);
+}
+
+function updateElementScore(
+    selector: string,
+    context: HTMLElement | Element,
+    tab: TabConfig,
+    type: ScoreType,
+    parentElem?: Element
+) {
+    const scoreElement = context.querySelector(selector);
+    if (!isHTMLElement(scoreElement)) return;
+
+    scoreElement.style.color = tab.color;
+    const numberScoreAttr = scoreElement.getAttribute("data-numberscore");
+    if (numberScoreAttr === null) return;
+
+    const numberScore = parseFloat(numberScoreAttr);
+    const roundedScore = roundScore(numberScore, tab.decimal);
+    scoreElement.setAttribute("data-textscore", tab.text);
+    scoreElement.setAttribute("data-numberscore", roundedScore.toString());
+    const isAnilist = config.provider === Provider.AniList;
+    scoreElement.textContent = ` ${tab.text} ${roundedScore}${isAnilist ? "%" : ""}`;
+
+    if (type === ScoreType.CARD) {
+        insertToLayoutCard(scoreElement, context, tab.layout);
+    } else if (type === ScoreType.DETAIL && parentElem) {
+        insertToLayoutHero(scoreElement, parentElem, tab.layout);
     }
 }
 
-function createScoreElement(score: number, type: ScoreType, tabConfig: TabConfig): HTMLElement {
+function createScoreElement(
+    score: number,
+    type: ScoreType,
+    tabConfig: TabConfig,
+    isAnilist: boolean
+): HTMLElement {
     const scoreElement = document.createElement("span");
     const scoreNumber = roundScore(score, tabConfig.decimal);
-    scoreElement.textContent = ` ${tabConfig.text} ${scoreNumber}`;
+    scoreElement.textContent = ` ${tabConfig.text} ${scoreNumber}${isAnilist ? "%" : ""}`;
     scoreElement.style.color = tabConfig.color;
     scoreElement.classList.add(type === ScoreType.CARD ? "score-card" : "score-hero");
     scoreElement.setAttribute("data-textscore", tabConfig.text);

@@ -6,12 +6,19 @@ export type TabConfig = {
     order?: string;
 };
 
+export enum Provider {
+    MyAnimeList = 1,
+    AniList = 2,
+}
+
 type Config = {
+    provider: Provider;
     tab1: TabConfig;
     tab2: TabConfig;
 };
 
 type StorageData = {
+    provider?: Provider;
     tab1?: TabConfig;
     tab2?: TabConfig;
 };
@@ -26,9 +33,14 @@ interface ForceRefreshCacheMessage {
     type: "forceRefreshCache";
 }
 
-export type RequestType = PopupSavedMessage | ForceRefreshCacheMessage;
+interface ChangeProvider {
+    type: "changeProvider";
+}
+
+export type RequestType = PopupSavedMessage | ForceRefreshCacheMessage | ChangeProvider;
 
 export const defaultConfig: Config = {
+    provider: Provider.MyAnimeList,
     tab1: {
         color: "#f47521",
         layout: "layout4",
@@ -48,7 +60,7 @@ export let config: Config = defaultConfig;
 
 export function restore(): Promise<StorageData> {
     return new Promise((resolve, reject) => {
-        chrome.storage.local.get(["tab1", "tab2"], function (data: StorageData) {
+        chrome.storage.local.get(["provider", "tab1", "tab2"], function (data: StorageData) {
             if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError);
             } else {
@@ -61,14 +73,10 @@ export function restore(): Promise<StorageData> {
 export async function updateConfig(): Promise<void> {
     try {
         const data = await restore();
+        config.provider = data.provider !== undefined ? data.provider : defaultConfig.provider;
         config.tab1 = data.tab1 !== undefined ? data.tab1 : defaultConfig.tab1;
         config.tab2 = data.tab2 !== undefined ? data.tab2 : defaultConfig.tab2;
     } catch (error) {
         console.error(error);
     }
-}
-
-export function reloadPageAndUpdateConfig(): void {
-    updateConfig();
-    location.reload();
 }

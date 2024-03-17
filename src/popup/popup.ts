@@ -1,3 +1,15 @@
+import "./popup.css";
+
+enum Provider {
+    MyAnimeList = 1,
+    AniList = 2,
+}
+
+const PROVIDER_IDS = {
+    MYANIMELIST: "provider-myanimelist",
+    ANILIST: "provider-anilist",
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     const elements = document.querySelectorAll("[data-i18n]");
 
@@ -25,23 +37,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const colorText2 = document.getElementById("colorText2") as HTMLInputElement;
     const spinner = document.getElementById("spinner") as HTMLElement;
     const successIcon = document.getElementById("successIcon") as HTMLElement;
+    const buttonTabProviderMal = document.getElementById("provider-myanimelist") as HTMLElement;
+    const buttonTabProviderAni = document.getElementById("provider-anilist") as HTMLElement;
+    const buttonTabsProvider = [buttonTabProviderMal, buttonTabProviderAni];
 
     function showGlobalSettings(): void {
-        home.style.display = "none";
-        globalSettings.style.display = "block";
+        home.classList.add("hidden");
+        home.classList.remove("flex");
+        globalSettings.classList.remove("hidden");
+        globalSettings.classList.add("flex");
         tabTitle.innerText = chrome.i18n.getMessage("cardDisplaySettingsButton");
     }
 
     function showIndividualSettings(): void {
-        home.style.display = "none";
-        individualSettings.style.display = "block";
+        home.classList.add("hidden");
+        home.classList.remove("flex");
+        individualSettings.classList.remove("hidden");
+        individualSettings.classList.add("flex");
         tabTitle.innerText = chrome.i18n.getMessage("individualPageSettingsButton");
     }
 
     function goBack(): void {
-        home.style.display = "block";
-        globalSettings.style.display = "none";
-        individualSettings.style.display = "none";
+        home.classList.remove("hidden");
+        home.classList.add("flex");
+        globalSettings.classList.add("hidden");
+        globalSettings.classList.remove("flex");
+        individualSettings.classList.add("hidden");
+        individualSettings.classList.remove("flex");
         tabTitle.innerText = chrome.i18n.getMessage("title");
     }
 
@@ -71,6 +93,42 @@ document.addEventListener("DOMContentLoaded", () => {
     btnIndividual.addEventListener("click", showIndividualSettings);
     btnBackFromGlobal.addEventListener("click", goBack);
     btnBackFromIndividual.addEventListener("click", goBack);
+
+    buttonTabsProvider.forEach((providerButton) => {
+        providerButton.addEventListener("click", () => {
+            const providerId =
+                providerButton.id === PROVIDER_IDS.MYANIMELIST ? Provider.MyAnimeList : Provider.AniList;
+            setProviderVisualState(providerButton.id);
+            changeProvider(providerId);
+        });
+    });
+
+    function changeProvider(providerId: Provider): void {
+        console.log("Provider changed:", providerId);
+        chrome.storage.local.set({ provider: providerId }, () => {
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
+                const tabId = tabs[0]?.id;
+                if (tabId !== undefined) {
+                    chrome.tabs.sendMessage(tabId, { type: "changeProvider" });
+                }
+            });
+        });
+    }
+
+    chrome.storage.local.get(["provider"], (result) => {
+        const initialProviderId =
+            result.provider === Provider.AniList ? PROVIDER_IDS.ANILIST : PROVIDER_IDS.MYANIMELIST;
+        setProviderVisualState(initialProviderId);
+    });
+
+    function setProviderVisualState(activeProviderId: string) {
+        buttonTabsProvider.forEach((button) => {
+            const isSelected = button.id === activeProviderId;
+            button.setAttribute("aria-selected", String(isSelected));
+            button.classList.toggle("bg-white", isSelected);
+            button.classList.toggle("bg-gray-200", !isSelected);
+        });
+    }
 
     [colorChoice1, colorChoice2].forEach((colorChoice: HTMLInputElement, index: number) => {
         colorChoice.addEventListener("input", function () {

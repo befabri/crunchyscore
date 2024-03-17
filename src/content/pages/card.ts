@@ -1,7 +1,7 @@
 import { ScoreType, insertScore } from "../../helpers/dom";
 import { Anime, AnimeScore } from "../../models/model";
 import { fetchAndSaveAnimeScores } from "../../services/apiService";
-import { config } from "../../services/configService";
+import { Provider, config } from "../../services/configService";
 import { getStorageAnimeData, getTimestampAnimeRefresh, refreshAnime, saveData } from "../../services/dataService";
 import {
     getNotFoundCache,
@@ -67,7 +67,11 @@ export async function insertScoreController(animes: AnimeScore[]): Promise<Anime
         const cardElement = card as HTMLElement;
         const data = getDataFromCard(cardElement, animes);
         if (data) {
-            insertScore(cardElement, data.score, ScoreType.CARD);
+            if (config.provider === Provider.AniList) {
+                insertScore(cardElement, data.anilist_score, ScoreType.CARD);
+            } else {
+                insertScore(cardElement, data.score, ScoreType.CARD);
+            }
         } else {
             const notFoundAnime = getSearchFromCard(cardElement);
             if (notFoundAnime && notFoundAnime.id) {

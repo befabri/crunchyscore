@@ -8,7 +8,7 @@ export async function saveData(animeFetch: AnimeScore[]): Promise<void> {
         chrome.storage.local.get(["datas"], function (result) {
             let animeData: AnimeScore[] = result.datas || [];
             animeFetch.forEach((anime) => {
-                if (anime) {
+                if (anime && typeof anime.score === "number" && typeof anime.anilist_score === "number") {
                     const existingAnimeIndex = animeData.findIndex((a) => a && a.id === anime.id);
                     if (existingAnimeIndex !== -1) {
                         if (anime.score !== 0) {
