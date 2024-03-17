@@ -5,8 +5,8 @@
     "main": "script/content.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "ts:build": "tsc -p tsconfig.json && vite build && node tools/copy-assets.js",
-        "build": "vite build && node tools/copy-assets.js"
+        "ts:build": "tsc -p tsconfig.json && vite build",
+        "build": "vite build"
     },
     "type": "module",
     "author": "Benjamin Fabri",
