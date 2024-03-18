@@ -11,10 +11,10 @@
     "cardDisplaySettingsButton": {
         "message": "Configuraciones de puntuaciones"
     },
-    "customizeIndividualPageDescription": {
+    "customizeDetailPageDescription": {
         "message": "Personaliza la visualización de la puntuación en la página del anime donde se encuentra el reproductor de vídeo"
     },
-    "individualPageSettingsButton": {
+    "detailPageSettingsButton": {
         "message": "Configuraciones de puntuación"
     },
     "goBackButton": {

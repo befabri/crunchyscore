@@ -23,14 +23,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const tabTitle = document.getElementById("tabTitle") as HTMLElement;
-    const btnGlobal = document.getElementById("btnGlobal") as HTMLButtonElement;
-    const btnIndividual = document.getElementById("btnIndividual") as HTMLButtonElement;
-    const btnBackFromGlobal = document.getElementById("btnBackFromGlobal") as HTMLButtonElement;
-    const btnBackFromIndividual = document.getElementById("btnBackFromIndividual") as HTMLButtonElement;
+    const btnCards = document.getElementById("btnCards") as HTMLButtonElement;
+    const btnDetail = document.getElementById("btnDetail") as HTMLButtonElement;
+    const btnBackFromCards = document.getElementById("btnBackFromCards") as HTMLButtonElement;
+    const btnBackFromDetail = document.getElementById("btnBackFromDetail") as HTMLButtonElement;
     const btnForceRefreshCache = document.getElementById("btnCache") as HTMLButtonElement;
-    const home = document.getElementById("home") as HTMLElement;
-    const globalSettings = document.getElementById("globalSettings") as HTMLElement;
-    const individualSettings = document.getElementById("individualSettings") as HTMLElement;
+    const main = document.getElementById("main") as HTMLElement;
+    const cardsSettings = document.getElementById("cardsSettings") as HTMLElement;
+    const detailSettings = document.getElementById("detailSettings") as HTMLElement;
     const colorChoice1 = document.getElementById("colorChoice1") as HTMLInputElement;
     const colorText1 = document.getElementById("colorText1") as HTMLInputElement;
     const colorChoice2 = document.getElementById("colorChoice2") as HTMLInputElement;
@@ -41,29 +41,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttonTabProviderAni = document.getElementById("provider-anilist") as HTMLElement;
     const buttonTabsProvider = [buttonTabProviderMal, buttonTabProviderAni];
 
-    function showGlobalSettings(): void {
-        home.classList.add("hidden");
-        home.classList.remove("flex");
-        globalSettings.classList.remove("hidden");
-        globalSettings.classList.add("flex");
+    function toggleVisibility(showElement: HTMLElement) {
+        const elements = [main, cardsSettings, detailSettings];
+        elements.forEach((el) => {
+            el.classList.add("hidden");
+            el.classList.remove("flex");
+        });
+        if (showElement) {
+            showElement.classList.remove("hidden");
+            showElement.classList.add("flex");
+        }
+    }
+
+    function showCardsSettings() {
+        toggleVisibility(cardsSettings);
         tabTitle.innerText = chrome.i18n.getMessage("cardDisplaySettingsButton");
     }
 
-    function showIndividualSettings(): void {
-        home.classList.add("hidden");
-        home.classList.remove("flex");
-        individualSettings.classList.remove("hidden");
-        individualSettings.classList.add("flex");
-        tabTitle.innerText = chrome.i18n.getMessage("individualPageSettingsButton");
+    function showDetailSettings() {
+        toggleVisibility(detailSettings);
+        tabTitle.innerText = chrome.i18n.getMessage("detailPageSettingsButton");
     }
-
-    function goBack(): void {
-        home.classList.remove("hidden");
-        home.classList.add("flex");
-        globalSettings.classList.add("hidden");
-        globalSettings.classList.remove("flex");
-        individualSettings.classList.add("hidden");
-        individualSettings.classList.remove("flex");
+    function goBack() {
+        toggleVisibility(main);
         tabTitle.innerText = chrome.i18n.getMessage("title");
     }
 
@@ -89,10 +89,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     btnForceRefreshCache.addEventListener("click", forceRefreshCache);
-    btnGlobal.addEventListener("click", showGlobalSettings);
-    btnIndividual.addEventListener("click", showIndividualSettings);
-    btnBackFromGlobal.addEventListener("click", goBack);
-    btnBackFromIndividual.addEventListener("click", goBack);
+    btnCards.addEventListener("click", showCardsSettings);
+    btnDetail.addEventListener("click", showDetailSettings);
+    btnBackFromCards.addEventListener("click", goBack);
+    btnBackFromDetail.addEventListener("click", goBack);
 
     buttonTabsProvider.forEach((providerButton) => {
         providerButton.addEventListener("click", () => {
@@ -104,7 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function changeProvider(providerId: Provider): void {
-        console.log("Provider changed:", providerId);
         chrome.storage.local.set({ provider: providerId }, () => {
             chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
                 const tabId = tabs[0]?.id;

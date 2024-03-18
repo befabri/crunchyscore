@@ -11,10 +11,10 @@
     "cardDisplaySettingsButton": {
         "message": "Score settings"
     },
-    "customizeIndividualPageDescription": {
+    "customizeDetailPageDescription": {
         "message": "Customize the score display on the anime page where the video player is located"
     },
-    "individualPageSettingsButton": {
+    "detailPageSettingsButton": {
         "message": "Score settings"
     },
     "goBackButton": {

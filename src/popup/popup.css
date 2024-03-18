@@ -4,12 +4,7 @@
 @tailwind utilities;
 
 
-#color-container {
-  display: flex;
-  align-items: center;
-}
-
-.spinner {
+#spinner {
   display: inline-block;
   border-radius: 50%;
   width: 1em;
