@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "CrunchyScore - MAL Score on Crunchyroll",
+    "name": "CrunchyScore - MAL & Ani Score on Crunchyroll",
     "version": "0.0.7",
     "description": "__MSG_extensionDescription__",
     "icons": {
