@@ -22,6 +22,10 @@ function roundScore(score: number, decimalConfig: string): number {
     }
 }
 
+export const delay = (ms: number): Promise<void> => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 function extractIdFromUrl(url: string): string | null {
     if (!url) {
         return null;

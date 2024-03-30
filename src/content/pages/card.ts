@@ -112,6 +112,12 @@ export async function insertScoreController(animes: AnimeScore[]): Promise<Anime
             parentContainer.parentNode?.replaceChild(parentClonedContainer, parentContainer);
         }
     }
+    const elements = document.querySelectorAll(".progressive-image-loading__preview--eYvnH");
+    elements.forEach(function (element) {
+        if (element instanceof HTMLElement) {
+            element.style.opacity = "0";
+        }
+    });
     pastURL = location.href;
     return notFound;
 }
