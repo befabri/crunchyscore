@@ -32,7 +32,7 @@ export function setNotFoundCache(cacheData: Record<string, AnimeScore>): void {
 export function updateNotFoundCache(fetchedAnime: AnimeScore[]): void {
     let cacheData: Record<string, AnimeScore> = getNotFoundCache();
     fetchedAnime.forEach((anime) => {
-        if (anime.id && anime.score && anime.score > 0) {
+        if (anime.id && anime.score && anime.score > 0 && anime.anilist_score && anime.anilist_score > 0) {
             delete cacheData[anime.id];
         } else {
             cacheData[anime.id] = anime;

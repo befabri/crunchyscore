@@ -10,6 +10,9 @@ export function insertScore(spanElement: HTMLElement, score: number, type: Score
     if (type !== ScoreType.CARD && type !== ScoreType.DETAIL) {
         return;
     }
+    if (score <= 0) {
+        return;
+    }
     const classSelector = type === ScoreType.CARD ? ".score-card" : ".score-hero";
     let tabConfig: TabConfig;
     switch (type) {

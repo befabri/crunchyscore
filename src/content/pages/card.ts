@@ -68,9 +68,13 @@ export async function insertScoreController(animes: AnimeScore[]): Promise<Anime
         const data = getDataFromCard(cardElement, animes);
         if (data) {
             if (config.provider === Provider.AniList) {
-                insertScore(cardElement, data.anilist_score, ScoreType.CARD);
+                if (data.anilist_score > 0) {
+                    insertScore(cardElement, data.anilist_score, ScoreType.CARD);
+                }
             } else {
-                insertScore(cardElement, data.score, ScoreType.CARD);
+                if (data.score > 0) {
+                    insertScore(cardElement, data.score, ScoreType.CARD);
+                }
             }
         } else {
             const notFoundAnime = getSearchFromCard(cardElement);
