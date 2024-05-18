@@ -116,12 +116,20 @@ export async function insertScoreController(animes: AnimeScore[]): Promise<Anime
             parentContainer.parentNode?.replaceChild(parentClonedContainer, parentContainer);
         }
     }
-    const elements = document.querySelectorAll(".progressive-image-loading__preview--eYvnH");
-    elements.forEach(function (element) {
-        if (element instanceof HTMLElement) {
-            element.style.opacity = "0";
+    const originalImages = document.querySelectorAll('img[data-t="original-image"]');
+    originalImages.forEach(function (originalImage) {
+        if (originalImage instanceof HTMLImageElement) {
+            originalImage.style.opacity = "1";
         }
     });
+
+    const previewImages = document.querySelectorAll('img[data-t="preview-image"]');
+    previewImages.forEach(function (previewImage) {
+        if (previewImage instanceof HTMLImageElement) {
+            previewImage.style.opacity = "0";
+        }
+    });
+
     pastURL = location.href;
     return notFound;
 }
