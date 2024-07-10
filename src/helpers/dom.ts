@@ -69,6 +69,11 @@ function updateElementScore(
     const isAnilist = config.provider === Provider.AniList;
     scoreElement.textContent = ` ${tab.text} ${roundedScore}${isAnilist ? "%" : ""}`;
 
+    const existingSeparator = (parentElem || context).querySelector(".score-hero-separator");
+    if (existingSeparator && existingSeparator.parentNode) {
+        existingSeparator.parentNode.removeChild(existingSeparator);
+    }
+
     if (type === ScoreType.CARD) {
         insertToLayoutCard(scoreElement, context, tab.layout);
     } else if (type === ScoreType.DETAIL && parentElem) {
@@ -110,18 +115,62 @@ function insertToLayoutCard(score: Node, targetElement: Element, layout: string)
     }
 }
 
-function insertToLayoutHero(score: Node, targetElement: Element, layout: string): void {
+function insertToLayoutHero(score: HTMLElement, targetElement: Element, layout: string): void {
     const h1Element = targetElement.querySelector("h1");
-    const tag = document.querySelector("div.erc-series-tags.tags");
+    const addTextStyleClasses = (element: HTMLElement, target: HTMLElement) => {
+        element.classList.forEach((className) => {
+            if (className.startsWith("text--")) {
+                target.classList.add(className);
+            }
+        });
+    };
+    const appendStyledElement = (
+        parent: HTMLElement,
+        elementType: string,
+        classNames: string[] = [],
+        styles: Record<string, string> = {}
+    ) => {
+        const element = document.createElement(elementType) as HTMLElement;
+        classNames.forEach((className) => element.classList.add(className));
+        Object.keys(styles).forEach((key) => (element.style[key as any] = styles[key]));
+        parent.appendChild(element);
+        return element;
+    };
+    let parent;
     switch (layout) {
         case "layout1":
-            h1Element?.appendChild(score);
+            parent = targetElement.querySelector(".current-media-parent-ref");
+            const elementStyleToCopy = parent?.querySelector("p");
+            if (parent && parent instanceof HTMLElement && elementStyleToCopy) {
+                const container = appendStyledElement(elementStyleToCopy, "span", ["score-hero-separator"], {
+                    marginBottom: ".25rem",
+                    alignSelf: "center",
+                });
+                if (elementStyleToCopy instanceof HTMLElement) {
+                    addTextStyleClasses(elementStyleToCopy, container);
+                }
+                container.appendChild(score);
+                parent.appendChild(container);
+            }
             break;
         case "layout2":
-            h1Element?.parentNode?.insertBefore(score, h1Element.nextElementSibling);
+            h1Element?.appendChild(score);
             break;
         case "layout3":
-            tag?.querySelector('div[data-t="meta-tags"]')?.appendChild(score);
+            h1Element?.parentNode?.insertBefore(score, h1Element.nextElementSibling);
+            break;
+        case "layout4":
+            parent = targetElement.querySelector('div[data-t="meta-tags"]');
+            if (parent && parent instanceof HTMLElement) {
+                const container = appendStyledElement(parent, "span", ["score-hero-separator"], {});
+                container.textContent = " |";
+                Array.from(parent.children).forEach((child) => {
+                    if (child instanceof HTMLElement) {
+                        addTextStyleClasses(child, container);
+                    }
+                });
+                container.appendChild(score);
+            }
             break;
     }
 }

@@ -2,13 +2,13 @@ import { ScoreType, insertScore } from "../../helpers/dom";
 import { fetchAnimeScores, isBlacklisted } from "../../services/apiService";
 import { Provider, config } from "../../services/configService";
 import { getStorageAnimeData, saveData } from "../../services/dataService";
-import { findAnimeById, getAnimeFromCurrentUrl } from "../../utils/utils";
+import { findAnimeById, getAnimeFromMetaProperty } from "../../utils/utils";
 
 export async function handleDetailPage(): Promise<void> {
-    const targetElem = document.querySelector("div.hero-heading-line") as HTMLElement;
+    const targetElem = document.querySelector("div.erc-current-media-info") as HTMLElement;
     if (targetElem && !document.querySelector(".score-hero")) {
         const animesStorage = await getStorageAnimeData();
-        const anime = getAnimeFromCurrentUrl();
+        const anime = getAnimeFromMetaProperty();
         if (anime !== null) {
             const animeScore = findAnimeById(anime, animesStorage);
             if (animeScore) {

@@ -49,13 +49,26 @@ function getAnimeFromCurrentUrl(): Anime | null {
     return { id: id, seasonTags: null };
 }
 
+function getAnimeFromMetaProperty(): Anime | null {
+    const metaElement = document.querySelector('meta[property="video:series"]');
+    if (!metaElement) return null;
+    const ogUrlContent = metaElement.getAttribute("content");
+    if (!ogUrlContent) return null;
+    const match = ogUrlContent.match(/\/series\/([^\/]+)/);
+    const id = match ? match[1] : null;
+    if (!id) {
+        return null;
+    }
+    return { id: id, seasonTags: null };
+}
+
 function isDetailPage(url: string): boolean {
     if (!url) {
         return false;
     }
     const urlObj = new URL(url);
     const pathParts = urlObj.pathname.split("/");
-    return pathParts[1] === "series" || pathParts[2] === "series";
+    return pathParts[pathParts.length - 3] === "watch";
 }
 
 function isSimulcastPage(url: string): boolean {
@@ -63,7 +76,7 @@ function isSimulcastPage(url: string): boolean {
     return segments[segments.length - 2] === "seasons";
 }
 
-function isVideoPage(): boolean {
+function isCardsPage(): boolean {
     if (!document.querySelector(".erc-browse-collection.state-loading")) {
         return (
             !!document.querySelector(".browse-card:not(.browse-card-placeholder--6UpIg)") ||
@@ -90,10 +103,11 @@ export {
     extractIdFromUrl,
     isDetailPage,
     isSimulcastPage,
-    isVideoPage,
+    isCardsPage,
     returnHref,
     getLastPartUrl,
     formatScore,
     isHTMLElement,
     getAnimeFromCurrentUrl,
+    getAnimeFromMetaProperty,
 };

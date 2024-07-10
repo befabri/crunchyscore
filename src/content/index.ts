@@ -2,7 +2,7 @@ import { updateScore, ScoreType } from "../helpers/dom";
 import { RequestType, config, updateConfig } from "../services/configService";
 import { getStorageAnimeData } from "../services/dataService";
 import { refreshNotFoundCache } from "../services/notFoundCacheService";
-import { isVideoPage, isSimulcastPage, isHTMLElement } from "../utils/utils";
+import { isSimulcastPage, isHTMLElement, isCardsPage, isDetailPage } from "../utils/utils";
 import { getCardsFromVideoPage, handleCardPage, insertScoreController } from "./pages/card";
 import { handleDetailPage } from "./pages/detail";
 
@@ -37,7 +37,7 @@ chrome.runtime.onMessage.addListener(function (request: RequestType) {
                 }
             });
             let elements = document.getElementsByClassName("score-hero");
-            const parentElem = document.querySelector(".erc-series-hero");
+            const parentElem = document.querySelector("div.erc-current-media-info");
             for (let i = 0; i < elements.length; i++) {
                 let element = elements[i];
                 if (isHTMLElement(element)) {
@@ -64,16 +64,18 @@ chrome.runtime.onMessage.addListener(function (request: RequestType) {
 
         setInterval(function () {
             if (check === false) {
-                if (isVideoPage() && Array.from(getCardsFromVideoPage()).length > 0) {
+                if (isCardsPage() && Array.from(getCardsFromVideoPage()).length > 0) {
                     updateConfig();
                     handleCardPage();
                     check = true;
                 }
             }
-            if (check === false && document.querySelector(".star-rating__reviews-link--lkG9- span")) {
-                updateConfig();
-                handleDetailPage();
-                check = true;
+            if (check === false) {
+                if (isDetailPage(location.href) && document.querySelector("div.erc-current-media-info")) {
+                    updateConfig();
+                    handleDetailPage();
+                    check = true;
+                }
             }
         }, 800);
     } catch (error) {
@@ -86,7 +88,7 @@ let throttleTimeout: number | null = null;
 window.addEventListener("scroll", () => {
     if (throttleTimeout === null) {
         throttleTimeout = setTimeout(() => {
-            if (isVideoPage() && !isSimulcastPage(location.href)) {
+            if (isCardsPage() && !isSimulcastPage(location.href)) {
                 updateConfig();
                 handleCardPage();
             }
