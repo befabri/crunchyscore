@@ -62,18 +62,30 @@ function getAnimeFromMetaProperty(): Anime | null {
     return { id: id, seasonTags: null };
 }
 
+function isWatchPage(url: string): boolean {
+    return isPageTypeByUrl(url, "watch", 3);
+}
+
 function isDetailPage(url: string): boolean {
-    if (!url) {
-        return false;
-    }
-    const urlObj = new URL(url);
-    const pathParts = urlObj.pathname.split("/");
-    return pathParts[pathParts.length - 3] === "watch";
+    return isPageTypeByUrl(url, "series", 3);
 }
 
 function isSimulcastPage(url: string): boolean {
-    const segments = url.split("/");
-    return segments[segments.length - 2] === "seasons";
+    return isPageTypeByUrl(url, "seasons", 2);
+}
+
+function isPageTypeByUrl(url: string, targetType: string, targetPosition: number): boolean {
+    if (!url) {
+        return false;
+    }
+    try {
+        const urlObj = new URL(url);
+        const pathParts = urlObj.pathname.split("/");
+        return pathParts[pathParts.length - targetPosition] === targetType;
+    } catch (error) {
+        console.error("Invalid URL:", url);
+        return false;
+    }
 }
 
 function isCardsPage(): boolean {
@@ -110,4 +122,5 @@ export {
     isHTMLElement,
     getAnimeFromCurrentUrl,
     getAnimeFromMetaProperty,
+    isWatchPage,
 };
