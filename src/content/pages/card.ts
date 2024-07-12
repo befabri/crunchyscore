@@ -1,4 +1,5 @@
-import { ScoreType, insertScore } from "../../helpers/dom";
+import { insertScore } from "../../helpers/score";
+import { ScoreType } from "../../helpers/types";
 import { Anime, AnimeScore } from "../../models/model";
 import { fetchAndSaveAnimeScores } from "../../services/apiService";
 import { Provider, config } from "../../services/configService";
