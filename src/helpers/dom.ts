@@ -20,7 +20,7 @@ export const addTextStyleClasses = (element: HTMLElement, target: HTMLElement) =
 };
 
 export function removeExistingSeparator(context: HTMLElement | Element) {
-    const existingSeparator = context.querySelector(".score-watch-separator");
+    const existingSeparator = context.querySelector(".score-separator");
     if (existingSeparator && existingSeparator.parentNode) {
         existingSeparator.parentNode.removeChild(existingSeparator);
     }

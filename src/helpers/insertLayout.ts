@@ -43,30 +43,16 @@ function insertToLayoutDetail(score: HTMLElement, targetElement: Element, layout
     let parent;
     switch (layout) {
         case "layout1":
-            parent = targetElement.querySelector(".current-media-parent-ref");
-            const elementStyleToCopy = parent?.querySelector("p");
-            if (parent && parent instanceof HTMLElement && elementStyleToCopy) {
-                const container = appendStyledElement(elementStyleToCopy, "span", ["score-detail-separator"], {
-                    marginBottom: ".25rem",
-                    alignSelf: "center",
-                });
-                if (elementStyleToCopy instanceof HTMLElement) {
-                    addTextStyleClasses(elementStyleToCopy, container);
-                }
-                container.appendChild(score);
-                parent.appendChild(container);
-            }
-            break;
-        case "layout2":
             h1Element?.appendChild(score);
             break;
-        case "layout3":
-            h1Element?.parentNode?.insertBefore(score, h1Element.nextElementSibling);
+        case "layout2":
+            const target = targetElement.querySelector("div.hero-heading-line");
+            target?.insertAdjacentElement("afterend", score);
             break;
-        case "layout4":
+        case "layout3":
             parent = targetElement.querySelector('div[data-t="meta-tags"]');
             if (parent && parent instanceof HTMLElement) {
-                const container = appendStyledElement(parent, "span", ["score-detail-separator"], {});
+                const container = appendStyledElement(parent, "span", ["score-separator"], {});
                 container.textContent = " |";
                 Array.from(parent.children).forEach((child) => {
                     if (child instanceof HTMLElement) {
@@ -74,6 +60,20 @@ function insertToLayoutDetail(score: HTMLElement, targetElement: Element, layout
                     }
                 });
                 container.appendChild(score);
+            }
+            break;
+        case "layout4":
+            parent = targetElement.querySelector("div.star-rating--Hwjdl");
+            const elementStyleToCopy = parent?.querySelector("span");
+            if (parent && parent instanceof HTMLElement && elementStyleToCopy) {
+                const container = appendStyledElement(elementStyleToCopy, "span", ["score-separator"], {
+                    marginTop: ".75rem",
+                });
+                if (elementStyleToCopy instanceof HTMLElement) {
+                    addTextStyleClasses(elementStyleToCopy, container);
+                }
+                container.appendChild(score);
+                parent.appendChild(container);
             }
             break;
     }
@@ -84,10 +84,10 @@ function insertToLayoutWatch(score: HTMLElement, targetElement: Element, layout:
     let parent;
     switch (layout) {
         case "layout1":
-            parent = targetElement.querySelector(".current-media-parent-ref");
+            parent = targetElement.querySelector("div.current-media-parent-ref");
             const elementStyleToCopy = parent?.querySelector("p");
             if (parent && parent instanceof HTMLElement && elementStyleToCopy) {
-                const container = appendStyledElement(elementStyleToCopy, "span", ["score-watch-separator"], {
+                const container = appendStyledElement(elementStyleToCopy, "span", ["score-separator"], {
                     marginBottom: ".25rem",
                     alignSelf: "center",
                 });
@@ -102,12 +102,12 @@ function insertToLayoutWatch(score: HTMLElement, targetElement: Element, layout:
             h1Element?.appendChild(score);
             break;
         case "layout3":
-            h1Element?.parentNode?.insertBefore(score, h1Element.nextElementSibling);
+            h1Element?.insertAdjacentElement("afterend", score);
             break;
         case "layout4":
             parent = targetElement.querySelector('div[data-t="meta-tags"]');
             if (parent && parent instanceof HTMLElement) {
-                const container = appendStyledElement(parent, "span", ["score-watch-separator"], {});
+                const container = appendStyledElement(parent, "span", ["score-separator"], {});
                 container.textContent = " |";
                 Array.from(parent.children).forEach((child) => {
                     if (child instanceof HTMLElement) {
