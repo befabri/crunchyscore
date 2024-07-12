@@ -25,16 +25,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabTitle = document.getElementById("tabTitle") as HTMLElement;
     const btnCards = document.getElementById("btnCards") as HTMLButtonElement;
     const btnDetail = document.getElementById("btnDetail") as HTMLButtonElement;
+    const btnWatch = document.getElementById("btnWatch") as HTMLButtonElement;
     const btnBackFromCards = document.getElementById("btnBackFromCards") as HTMLButtonElement;
     const btnBackFromDetail = document.getElementById("btnBackFromDetail") as HTMLButtonElement;
+    const btnBackFromWatch = document.getElementById("btnBackFromWatch") as HTMLButtonElement;
     const btnForceRefreshCache = document.getElementById("btnCache") as HTMLButtonElement;
     const main = document.getElementById("main") as HTMLElement;
     const cardsSettings = document.getElementById("cardsSettings") as HTMLElement;
     const detailSettings = document.getElementById("detailSettings") as HTMLElement;
+    const watchSettings = document.getElementById("watchSettings") as HTMLElement;
     const colorChoice1 = document.getElementById("colorChoice1") as HTMLInputElement;
-    const colorText1 = document.getElementById("colorText1") as HTMLInputElement;
     const colorChoice2 = document.getElementById("colorChoice2") as HTMLInputElement;
+    const colorChoice3 = document.getElementById("colorChoice3") as HTMLInputElement;
+    const colorText1 = document.getElementById("colorText1") as HTMLInputElement;
     const colorText2 = document.getElementById("colorText2") as HTMLInputElement;
+    const colorText3 = document.getElementById("colorText3") as HTMLInputElement;
     const spinner = document.getElementById("spinner") as HTMLElement;
     const successIcon = document.getElementById("successIcon") as HTMLElement;
     const buttonTabProviderMal = document.getElementById("provider-myanimelist") as HTMLElement;
@@ -42,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttonTabsProvider = [buttonTabProviderMal, buttonTabProviderAni];
 
     function toggleVisibility(showElement: HTMLElement) {
-        const elements = [main, cardsSettings, detailSettings];
+        const elements = [main, cardsSettings, detailSettings, watchSettings];
         elements.forEach((el) => {
             el.classList.add("hidden");
             el.classList.remove("flex");
@@ -55,13 +60,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showCardsSettings() {
         toggleVisibility(cardsSettings);
-        tabTitle.innerText = chrome.i18n.getMessage("cardDisplaySettingsButton");
+        tabTitle.innerText = chrome.i18n.getMessage("cardsPageButtonText");
     }
 
     function showDetailSettings() {
         toggleVisibility(detailSettings);
-        tabTitle.innerText = chrome.i18n.getMessage("detailPageSettingsButton");
+        tabTitle.innerText = chrome.i18n.getMessage("detailPageButtonText");
     }
+
+    function showWatchSettings() {
+        toggleVisibility(watchSettings);
+        tabTitle.innerText = chrome.i18n.getMessage("watchPageButtonText");
+    }
+
     function goBack() {
         toggleVisibility(main);
         tabTitle.innerText = chrome.i18n.getMessage("title");
@@ -91,8 +102,10 @@ document.addEventListener("DOMContentLoaded", () => {
     btnForceRefreshCache.addEventListener("click", forceRefreshCache);
     btnCards.addEventListener("click", showCardsSettings);
     btnDetail.addEventListener("click", showDetailSettings);
+    btnWatch.addEventListener("click", showWatchSettings);
     btnBackFromCards.addEventListener("click", goBack);
     btnBackFromDetail.addEventListener("click", goBack);
+    btnBackFromWatch.addEventListener("click", goBack);
 
     buttonTabsProvider.forEach((providerButton) => {
         providerButton.addEventListener("click", () => {
@@ -129,13 +142,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    [colorChoice1, colorChoice2].forEach((colorChoice: HTMLInputElement, index: number) => {
+    [colorChoice1, colorChoice2, colorChoice3].forEach((colorChoice: HTMLInputElement, index: number) => {
         colorChoice.addEventListener("input", function () {
             (document.getElementById(`colorText${index + 1}`) as HTMLInputElement).value = this.value;
         });
     });
 
-    [colorText1, colorText2].forEach((colorText: HTMLInputElement, index: number) => {
+    [colorText1, colorText2, colorText3].forEach((colorText: HTMLInputElement, index: number) => {
         colorText.addEventListener("input", function () {
             const colorCode = this.value;
             if (/^#[0-9A-F]{6}$/i.test(colorCode)) {
@@ -159,6 +172,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const textChoiceTab2 = (document.getElementById("textChoice2") as HTMLInputElement).value;
             const decimalChoiceTab2 = (document.getElementById("decimalChoice2") as HTMLInputElement).value;
 
+            const colorChoiceTab3 = (document.getElementById("colorChoice3") as HTMLInputElement).value;
+            const layoutChoiceTab3 = (document.getElementById("layoutChoice3") as HTMLInputElement).value;
+            const textChoiceTab3 = (document.getElementById("textChoice3") as HTMLInputElement).value;
+            const decimalChoiceTab3 = (document.getElementById("decimalChoice3") as HTMLInputElement).value;
+
             const tab1 = {
                 color: colorChoice,
                 layout: layoutChoice,
@@ -174,13 +192,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 decimal: decimalChoiceTab2,
             };
 
-            chrome.storage.local.set({ tab1, tab2 }, () => {
+            const tab3 = {
+                color: colorChoiceTab3,
+                layout: layoutChoiceTab3,
+                text: textChoiceTab3,
+                decimal: decimalChoiceTab3,
+            };
+
+            chrome.storage.local.set({ tab1, tab2, tab3 }, () => {
                 chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
                     if (tabs[0].id !== undefined) {
                         chrome.tabs.sendMessage(tabs[0].id, {
                             type: "popupSaved",
                             tab1,
                             tab2,
+                            tab3,
                         });
                     }
                 });
@@ -191,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    ["tab1", "tab2"].forEach((tab: string, index: number) => {
+    ["tab1", "tab2", "tab3"].forEach((tab: string, index: number) => {
         chrome.storage.local.get([tab], (data: { [key: string]: any }) => {
             let tabData = data[tab];
             if (tabData) {
