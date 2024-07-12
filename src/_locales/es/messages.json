@@ -1,33 +1,39 @@
 {
     "extensionDescription": {
-        "message": "Añade la clasificación de MyAnimeList en la página de Crunchyroll"
+        "message": "Añade las puntuaciones de MyAnimeList y AniList a los animes de Crunchyroll"
     },
     "title": {
-        "message": "Configuraciones"
+        "message": "Ajustes"
     },
-    "customizeCardDisplayDescription": {
-        "message": "Personaliza la visualización de las puntuaciones de los animes"
+    "cardsPageLabel": {
+        "message": "Personalizar la visualización de las puntuaciones en la cuadrícula de animes"
     },
-    "cardDisplaySettingsButton": {
-        "message": "Configuraciones de puntuaciones"
+    "cardsPageButtonText": {
+        "message": "Ajustes de puntuaciones para la cuadrícula"
     },
-    "customizeDetailPageDescription": {
-        "message": "Personaliza la visualización de la puntuación en la página del anime donde se encuentra el reproductor de vídeo"
+    "detailPageLabel": {
+        "message": "Personalizar la puntuación en la página de detalle del anime"
     },
-    "detailPageSettingsButton": {
-        "message": "Configuraciones de puntuación"
+    "detailPageButtonText": {
+        "message": "Ajustes de puntuación para el anime"
     },
-    "goBackButton": {
-        "message": "Regreso"
+    "watchPageLabel": {
+        "message": "Personalizar la puntuación en la página del reproductor de vídeo"
+    },
+    "watchPageButtonText": {
+        "message": "Ajustes de puntuación para el reproductor de vídeo"
+    },
+    "goBackButtonText": {
+        "message": "Regresar"
     },
     "textColorLabel": {
         "message": "Color del texto"
     },
     "sortItemsLabel": {
-        "message": "Ordena las puntuaciones por (solo para simulcast)"
+        "message": "Ordenar las puntuaciones por (solo para simulcast)"
     },
     "sortOptionDefault": {
-        "message": "Por defecto"
+        "message": "Predeterminado"
     },
     "sortOptionAsc": {
         "message": "Ascendente"
@@ -36,7 +42,7 @@
         "message": "Descendente"
     },
     "scoreLayoutLabel": {
-        "message": "Selecciona la visualización"
+        "message": "Seleccione la visualización"
     },
     "layoutOption1": {
         "message": "Visualización 1"
@@ -51,10 +57,10 @@
         "message": "Visualización 4"
     },
     "displayTextLabel": {
-        "message": "Ingresa el texto a mostrar"
+        "message": "Introduzca el texto a mostrar"
     },
     "decimalPrecisionLabel": {
-        "message": "Selecciona la precisión decimal"
+        "message": "Seleccione la precisión decimal"
     },
     "decimalOption1": {
         "message": "5,43"
@@ -68,14 +74,14 @@
     "helperText": {
         "message": "(*) La página se recargará si se modifica la precisión decimal"
     },
-    "saveChangesButton": {
+    "saveChangesButtonText": {
         "message": "Guardar cambios"
     },
     "forceCacheRefresh": {
-        "message": "Actualizar manualmente los datos previamente no disponibles. Utilice esto para una actualización inmediata, además de las actualizaciones automáticas diarias"
+        "message": "Actualización manual de datos previamente no disponibles. Usar para hacer una actualización manual, además de las actualizaciones automáticas diarias"
     },
     "cache": {
-        "message": "Actualizar datos faltantes"
+        "message": "Verificar datos faltantes"
     },
     "provider": {
         "message": "Seleccione el proveedor de puntuaciones"

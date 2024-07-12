@@ -1,30 +1,36 @@
 {
     "extensionDescription": {
-        "message": "Fügen Sie das MyAnimeList-Ranking auf der Crunchyroll-Seite hinzu"
+        "message": "Fügt MyAnimeList und AniList Bewertungen zu Crunchyroll-Anime hinzu"
     },
     "title": {
         "message": "Einstellungen"
     },
-    "customizeCardDisplayDescription": {
-        "message": "Passen Sie die Anzeige von Anime-Scores an"
+    "cardsPageLabel": {
+        "message": "Anpassen der Bewertungsanzeige auf der Anime-Übersichtsseite"
     },
-    "cardDisplaySettingsButton": {
-        "message": "Score-Einstellungen"
+    "cardsPageButtonText": {
+        "message": "Einstellungen der Bewertungen für die Übersichtsseite"
     },
-    "customizeDetailPageDescription": {
-        "message": "Passen Sie die Score-Anzeige auf der Anime-Seite an, auf der sich der Videoplayer befindet"
+    "detailPageLabel": {
+        "message": "Anpassen der Bewertung auf der Anime-Detailseite"
     },
-    "detailPageSettingsButton": {
-        "message": "Score-Einstellungen"
+    "detailPageButtonText": {
+        "message": "Einstellungen der Bewertung für die Detailseite"
     },
-    "goBackButton": {
+    "watchPageLabel": {
+        "message": "Anpassen der Bewertung auf der Videoplayer-Seite"
+    },
+    "watchPageButtonText": {
+        "message": "Einstellungen der Bewertung für den Videoplayer"
+    },
+    "goBackButtonText": {
         "message": "Zurück"
     },
     "textColorLabel": {
         "message": "Textfarbe"
     },
     "sortItemsLabel": {
-        "message": "Sortieren Sie die Scores nach (nur für Simulcast)"
+        "message": "Sortieren der Bewertungen nach (nur für Simulcasts)"
     },
     "sortOptionDefault": {
         "message": "Standard"
@@ -36,7 +42,7 @@
         "message": "Absteigend"
     },
     "scoreLayoutLabel": {
-        "message": "Wählen Sie die Anzeige aus"
+        "message": "Wählen Sie die Anzeige"
     },
     "layoutOption1": {
         "message": "Anzeige 1"
@@ -54,7 +60,7 @@
         "message": "Geben Sie den anzuzeigenden Text ein"
     },
     "decimalPrecisionLabel": {
-        "message": "Wählen Sie die Dezimalgenauigkeit aus"
+        "message": "Wählen Sie die Dezimalgenauigkeit"
     },
     "decimalOption1": {
         "message": "5,43"
@@ -68,14 +74,14 @@
     "helperText": {
         "message": "(*) Die Seite wird neu geladen, wenn die Dezimalgenauigkeit geändert wird"
     },
-    "saveChangesButton": {
+    "saveChangesButtonText": {
         "message": "Änderungen speichern"
     },
     "forceCacheRefresh": {
-        "message": "Manuelles Aktualisieren zuvor nicht verfügbarer Daten. Verwenden Sie diese Funktion für eine sofortige Aktualisierung zusätzlich zu den täglichen automatischen Updates"
+        "message": "Manuelles Aktualisieren zuvor nicht verfügbarer Daten. Verwenden Sie dies für ein manuelles Update zusätzlich zu den täglichen automatischen Updates"
     },
     "cache": {
-        "message": "Fehlende Daten aktualisieren"
+        "message": "Überprüfen Sie fehlende Daten"
     },
     "provider": {
         "message": "Wählen Sie den Bewertungsanbieter"

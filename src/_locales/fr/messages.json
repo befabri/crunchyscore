@@ -1,23 +1,29 @@
 {
     "extensionDescription": {
-        "message": "Ajoute les scores de MyAnimeList sur les animes de Crunchyroll"
+        "message": "Ajoute les scores de MyAnimeList et AniList sur les animes de Crunchyroll"
     },
     "title": {
         "message": "Paramètres"
     },
-    "customizeCardDisplayDescription": {
-        "message": "Personnalisez l'affichage des scores des animes"
+    "cardsPageLabel": {
+        "message": "Personnaliser l'affichage des scores sur la grille d'animes"
     },
-    "cardDisplaySettingsButton": {
-        "message": "Paramètres des scores"
+    "cardsPageButtonText": {
+        "message": "Réglages des scores pour la grille"
     },
-    "customizeDetailPageDescription": {
-        "message": "Personnalisez l'affichage de score sur la page d'anime où se trouve le lecteur vidéo"
+    "detailPageLabel": {
+        "message": "Personnaliser le score sur la page de détail de l'anime"
     },
-    "detailPageSettingsButton": {
-        "message": "Paramètres du score"
+    "detailPageButtonText": {
+        "message": "Réglages du score pour l'anime"
     },
-    "goBackButton": {
+    "watchPageLabel": {
+        "message": "Personnaliser le score sur la page du lecteur vidéo"
+    },
+    "watchPageButtonText": {
+        "message": "Réglages du score pour le lecteur vidéo"
+    },
+    "goBackButtonText": {
         "message": "Retour"
     },
     "textColorLabel": {
@@ -68,7 +74,7 @@
     "helperText": {
         "message": "(*) La page se rechargera si la précision décimale est modifiée"
     },
-    "saveChangesButton": {
+    "saveChangesButtonText": {
         "message": "Enregistrer les modifications"
     },
     "forceCacheRefresh": {

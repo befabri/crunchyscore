@@ -1,30 +1,36 @@
 {
     "extensionDescription": {
-        "message": "Voeg MyAnimeList ranking toe op Crunchyroll pagina"
+        "message": "Voegt MyAnimeList en AniList scores toe aan Crunchyroll anime"
     },
     "title": {
         "message": "Instellingen"
     },
-    "customizeCardDisplayDescription": {
-        "message": "Personaliseer de weergave van anime scores"
+    "cardsPageLabel": {
+        "message": "Pas de scoreweergave aan op de anime raster"
     },
-    "cardDisplaySettingsButton": {
-        "message": "Score-instellingen"
+    "cardsPageButtonText": {
+        "message": "Score instellingen voor het raster"
     },
-    "customizeDetailPageDescription": {
-        "message": "Personaliseer de scoreweergave op de animepagina waar de videospeler zich bevindt"
+    "detailPageLabel": {
+        "message": "Pas de score aan op de detailpagina van de anime"
     },
-    "detailPageSettingsButton": {
-        "message": "Score-instellingen"
+    "detailPageButtonText": {
+        "message": "Score instellingen voor de anime"
     },
-    "goBackButton": {
+    "watchPageLabel": {
+        "message": "Pas de score aan op de videospeler pagina"
+    },
+    "watchPageButtonText": {
+        "message": "Score instellingen voor de videospeler"
+    },
+    "goBackButtonText": {
         "message": "Terug"
     },
     "textColorLabel": {
         "message": "Tekstkleur"
     },
     "sortItemsLabel": {
-        "message": "Sorteer scores op (alleen voor simulcast)"
+        "message": "Sorteer scores op (alleen voor simulcasts)"
     },
     "sortOptionDefault": {
         "message": "Standaard"
@@ -51,7 +57,7 @@
         "message": "Weergave 4"
     },
     "displayTextLabel": {
-        "message": "Voer de tekst in om te tonen"
+        "message": "Voer de weer te geven tekst in"
     },
     "decimalPrecisionLabel": {
         "message": "Selecteer de decimale precisie"
@@ -66,18 +72,18 @@
         "message": "5"
     },
     "helperText": {
-        "message": "(*) De pagina wordt opnieuw geladen als de decimale precisie wordt gewijzigd"
+        "message": "(*) De pagina zal herladen worden als de decimale precisie is gewijzigd"
     },
-    "saveChangesButton": {
+    "saveChangesButtonText": {
         "message": "Wijzigingen opslaan"
     },
     "forceCacheRefresh": {
-        "message": "Handmatig eerder niet beschikbare gegevens bijwerken. Gebruik dit voor een onmiddellijke vernieuwing, naast de dagelijkse automatische updates"
+        "message": "Handmatige update van eerder onbeschikbare gegevens. Gebruik dit voor een handmatige update, naast de dagelijkse automatische updates"
     },
     "cache": {
-        "message": "Ontbrekende gegevens bijwerken"
+        "message": "Controleer ontbrekende gegevens"
     },
     "provider": {
-        "message": "Selecteer de scoreprovider"
+        "message": "Selecteer de score provider"
     }
 }
