@@ -52,15 +52,15 @@ export const defaultConfig: Config = {
         decimal: "decimal1",
     },
     tab2: {
-        color: "#a0a0a0",
-        layout: "layout3",
-        text: "| Score",
-        decimal: "decimal2",
+        color: "#ffffff",
+        layout: "layout4",
+        text: "✯",
+        decimal: "decimal1",
     },
     tab3: {
-        color: "#a0a0a0",
-        layout: "layout2",
-        text: "-",
+        color: "#608cf0",
+        layout: "layout1",
+        text: "✯",
         decimal: "decimal1",
     },
 };
