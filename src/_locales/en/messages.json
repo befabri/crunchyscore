@@ -1,30 +1,36 @@
 {
     "extensionDescription": {
-        "message": "Add MyAnimeList Ranking on Crunchyroll page"
+        "message": "Adds MyAnimeList and AniList scores to Crunchyroll anime"
     },
     "title": {
         "message": "Settings"
     },
-    "customizeCardDisplayDescription": {
-        "message": "Customize the display of anime scores"
+    "cardsPageLabel": {
+        "message": "Customize score display on the anime grid"
     },
-    "cardDisplaySettingsButton": {
-        "message": "Score settings"
+    "cardsPageButtonText": {
+        "message": "Grid score settings"
     },
-    "customizeDetailPageDescription": {
-        "message": "Customize the score display on the anime page where the video player is located"
+    "detailPageLabel": {
+        "message": "Customize the score on the anime detail page"
     },
-    "detailPageSettingsButton": {
-        "message": "Score settings"
+    "detailPageButtonText": {
+        "message": "Anime score settings"
     },
-    "goBackButton": {
+    "watchPageLabel": {
+        "message": "Customize the score on the video player page"
+    },
+    "watchPageButtonText": {
+        "message": "Video player score settings"
+    },
+    "goBackButtonText": {
         "message": "Back"
     },
     "textColorLabel": {
         "message": "Text color"
     },
     "sortItemsLabel": {
-        "message": "Sort scores by (simulcast only)"
+        "message": "Sort scores by (for simulcasts only)"
     },
     "sortOptionDefault": {
         "message": "Default"
@@ -51,7 +57,7 @@
         "message": "Display 4"
     },
     "displayTextLabel": {
-        "message": "Enter the text to display"
+        "message": "Enter text to display"
     },
     "decimalPrecisionLabel": {
         "message": "Select decimal precision"
@@ -68,16 +74,16 @@
     "helperText": {
         "message": "(*) The page will reload if decimal precision is changed"
     },
-    "saveChangesButton": {
-        "message": "Save changes"
+    "saveChangesButtonText": {
+        "message": "Save Changes"
     },
     "forceCacheRefresh": {
-        "message": "Manually update previously unavailable data. Use this for immediate refresh, in addition to daily automatic updates"
+        "message": "Manual data update for previously unavailable data. Use for a manual update in addition to automatic daily updates"
     },
     "cache": {
-        "message": "Update missing data"
+        "message": "Check missing data"
     },
     "provider": {
-        "message": "Select score provider"
+        "message": "Select the score provider"
     }
 }

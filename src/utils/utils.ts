@@ -62,28 +62,18 @@ function getAnimeFromMetaProperty(): Anime | null {
     return { id: id, seasonTags: null };
 }
 
-function isDetailPage(url: string): boolean {
+function isPageTypeByUrl(url: string, targetType: string, targetPosition: number): boolean {
     if (!url) {
         return false;
     }
-    const urlObj = new URL(url);
-    const pathParts = urlObj.pathname.split("/");
-    return pathParts[pathParts.length - 3] === "watch";
-}
-
-function isSimulcastPage(url: string): boolean {
-    const segments = url.split("/");
-    return segments[segments.length - 2] === "seasons";
-}
-
-function isCardsPage(): boolean {
-    if (!document.querySelector(".erc-browse-collection.state-loading")) {
-        return (
-            !!document.querySelector(".browse-card:not(.browse-card-placeholder--6UpIg)") ||
-            !!document.querySelector("#content > div > div.app-body-wrapper > div > div > div.erc-genres-header")
-        );
+    try {
+        const urlObj = new URL(url);
+        const pathParts = urlObj.pathname.split("/");
+        return pathParts[pathParts.length - targetPosition] === targetType;
+    } catch (error) {
+        console.error("Invalid URL:", url);
+        return false;
     }
-    return false;
 }
 
 function returnHref(children: HTMLCollection): string {
@@ -101,13 +91,11 @@ function getLastPartUrl(url: string): string {
 export {
     roundScore,
     extractIdFromUrl,
-    isDetailPage,
-    isSimulcastPage,
-    isCardsPage,
     returnHref,
     getLastPartUrl,
     formatScore,
     isHTMLElement,
     getAnimeFromCurrentUrl,
     getAnimeFromMetaProperty,
+    isPageTypeByUrl,
 };

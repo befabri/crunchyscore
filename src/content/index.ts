@@ -1,10 +1,18 @@
-import { updateScore, ScoreType } from "../helpers/dom";
+import { handleScoreUpdate, updateScoreByClassName } from "../helpers/score";
+import { ScoreType } from "../helpers/types";
 import { RequestType, config, updateConfig } from "../services/configService";
 import { getStorageAnimeData } from "../services/dataService";
 import { refreshNotFoundCache } from "../services/notFoundCacheService";
-import { isSimulcastPage, isHTMLElement, isCardsPage, isDetailPage } from "../utils/utils";
-import { getCardsFromVideoPage, handleCardPage, insertScoreController } from "./pages/card";
-import { handleDetailPage } from "./pages/detail";
+import { isHTMLElement } from "../utils/utils";
+import {
+    getCardsFromGridPage,
+    handleCardPage,
+    insertScoreController,
+    isCardsPage,
+    isSimulcastPage,
+} from "./pages/card";
+import { getDetailContainer, handleDetailPage, isDetailPage } from "./pages/detail";
+import { getWatchContainer, handleWatchPage, isWatchPage } from "./pages/watch";
 
 updateConfig();
 
@@ -33,17 +41,11 @@ chrome.runtime.onMessage.addListener(function (request: RequestType) {
             const cards = document.querySelectorAll('[data-t="series-card "]');
             cards.forEach((card) => {
                 if (isHTMLElement(card)) {
-                    updateScore(card, request, ScoreType.CARD);
+                    handleScoreUpdate(card, request, ScoreType.CARD);
                 }
             });
-            let elements = document.getElementsByClassName("score-hero");
-            const parentElem = document.querySelector("div.erc-current-media-info");
-            for (let i = 0; i < elements.length; i++) {
-                let element = elements[i];
-                if (isHTMLElement(element)) {
-                    updateScore(element, request, ScoreType.DETAIL, parentElem);
-                }
-            }
+            updateScoreByClassName("score-detail", request, "div.erc-series-hero", ScoreType.DETAIL);
+            updateScoreByClassName("score-watch", request, "div.erc-current-media-info", ScoreType.WATCH);
             (async () => {
                 await updateConfig();
             })();
@@ -57,29 +59,40 @@ chrome.runtime.onMessage.addListener(function (request: RequestType) {
                     })();
                 }
             }
-            if (request.tab1.decimal != config.tab1.decimal || request.tab2.decimal != config.tab2.decimal) {
+            if (
+                request.tab1.decimal != config.tab1.decimal ||
+                request.tab2.decimal != config.tab2.decimal ||
+                request.tab3.decimal != config.tab3.decimal
+            ) {
                 location.reload();
             }
         }
 
         setInterval(function () {
             if (check === false) {
-                if (isCardsPage() && Array.from(getCardsFromVideoPage()).length > 0) {
+                if (isCardsPage() && Array.from(getCardsFromGridPage()).length > 0) {
                     updateConfig();
                     handleCardPage();
                     check = true;
                 }
             }
             if (check === false) {
-                if (isDetailPage(location.href) && document.querySelector("div.erc-current-media-info")) {
+                if (isDetailPage(location.href) && getDetailContainer()) {
                     updateConfig();
                     handleDetailPage();
                     check = true;
                 }
             }
+            if (check === false) {
+                if (isWatchPage(location.href) && getWatchContainer()) {
+                    updateConfig();
+                    handleWatchPage();
+                    check = true;
+                }
+            }
         }, 800);
     } catch (error) {
-        console.error("Error ");
+        console.error("Error");
     }
 });
 

@@ -41,28 +41,61 @@
                 </div>
             </div>
             <div class="setting-option flex flex-col gap-2">
-                <p data-i18n="customizeCardDisplayDescription"></p>
+                <p data-i18n="cardsPageLabel"></p>
                 <button
                     id="btnCards"
-                    class="flex justify-between p-1 border-2 border-black bg-white text-black cursor-pointer items-center transition-all duration-300 ease-in-out rounded-md w-full hover:bg-gray-100 active:scale-95 disabled:border-gray-400">
-                    <span data-i18n="cardDisplaySettingsButton"></span>
-                    <span class="font-bold">></span>
+                    class="flex justify-between p-1 border-2 border-black bg-white text-black cursor-pointer select-none items-center transition-all duration-300 ease-in-out rounded-md w-full hover:bg-gray-100 active:scale-95 disabled:border-gray-400">
+                    <span data-i18n="cardsPageButtonText"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
+                        <path
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m9 18l6-6l-6-6" />
+                    </svg>
                 </button>
             </div>
             <div class="setting-option flex flex-col gap-2">
-                <p data-i18n="customizeDetailPageDescription"></p>
+                <p data-i18n="detailPageLabel"></p>
                 <button
                     id="btnDetail"
-                    class="flex justify-between p-1 border-2 border-black bg-white text-black cursor-pointer items-center transition-all duration-300 ease-in-out rounded-md w-full hover:bg-gray-100 active:scale-95 disabled:border-gray-400">
-                    <span data-i18n="detailPageSettingsButton"></span>
-                    <span class="font-bold">></span>
+                    class="flex justify-between p-1 border-2 border-black bg-white text-black cursor-pointer select-none items-center transition-all duration-300 ease-in-out rounded-md w-full hover:bg-gray-100 active:scale-95 disabled:border-gray-400">
+                    <span data-i18n="detailPageButtonText"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
+                        <path
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m9 18l6-6l-6-6" />
+                    </svg>
+                </button>
+            </div>
+            <div class="setting-option flex flex-col gap-2">
+                <p data-i18n="watchPageLabel"></p>
+                <button
+                    id="btnWatch"
+                    class="flex justify-between p-1 border-2 border-black bg-white text-black cursor-pointer select-none items-center transition-all duration-300 ease-in-out rounded-md w-full hover:bg-gray-100 active:scale-95 disabled:border-gray-400">
+                    <span data-i18n="watchPageButtonText"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
+                        <path
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m9 18l6-6l-6-6" />
+                    </svg>
                 </button>
             </div>
             <div class="setting-option-button flex flex-col gap-2">
                 <p data-i18n="forceCacheRefresh"></p>
                 <button
                     id="btnCache"
-                    class="flex p-1 border-2 border-black bg-white text-black cursor-pointer self-end transition-all items-center duration-300 ease-in-out rounded-md w-full hover:bg-gray-100 active:scale-95 disabled:border-gray-400 justify-start gap-4">
+                    class="flex p-1 border-2 border-black bg-white text-black cursor-pointer self-end transition-all select-none items-center duration-300 ease-in-out rounded-md w-full hover:bg-gray-100 active:scale-95 disabled:border-gray-400 justify-start gap-4">
                     <span id="buttonLabel" data-i18n="cache" class="mr-1/20"></span>
                     <div>
                         <div id="spinner" style="display: none"></div>
@@ -136,11 +169,11 @@
             <div class="flex justify-between w-full flex-row mt-2">
                 <button
                     id="btnBackFromCards"
-                    class="p-1 border-2 border-black bg-white text-black cursor-pointer transition-all items-center duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400"
-                    data-i18n="goBackButton"></button>
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer select-none transition-all items-center duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400"
+                    data-i18n="goBackButtonText"></button>
                 <button
-                    class="p-1 border-2 border-black bg-white text-black cursor-pointer transition-all items-center duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400 saveButton"
-                    data-i18n="saveChangesButton"></button>
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer select-none transition-all items-center duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400 saveButton"
+                    data-i18n="saveChangesButtonText"></button>
             </div>
         </div>
 
@@ -196,11 +229,71 @@
             <div class="flex justify-between w-full flex-row mt-2">
                 <button
                     id="btnBackFromDetail"
-                    class="p-1 border-2 border-black bg-white text-black cursor-pointer transition-all items-center duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400"
-                    data-i18n="goBackButton"></button>
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer select-none transition-all items-center duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400"
+                    data-i18n="goBackButtonText"></button>
                 <button
-                    class="p-1 border-2 border-black bg-white text-black cursor-pointeritems-center transition-all duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400 saveButton"
-                    data-i18n="saveChangesButton"></button>
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer items-center select-none transition-all duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400 saveButton"
+                    data-i18n="saveChangesButtonText"></button>
+            </div>
+        </div>
+
+        <!-- Watch Settings -->
+        <div id="watchSettings" class="flex-col gap-3 hidden">
+            <div class="flex flex-col gap-3 px-2">
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="colorChoice3" data-i18n="textColorLabel"></label>
+                    <div class="flex w-full">
+                        <div
+                            id="color-container"
+                            class="w-full border border-black rounded-md p-1 box-content flex items-center gap-2">
+                            <input
+                                type="color"
+                                id="colorChoice3"
+                                class="w-7 h-5 p-0 border-0 rounded-full cursor-pointer" />
+                            <input type="text" id="colorText3" class="border-0" />
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="textChoice3" data-i18n="displayTextLabel"></label>
+                    <div class="flex w-full">
+                        <input
+                            type="text"
+                            id="textChoice3"
+                            class="w-full border border-black rounded-md p-1 box-content" />
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="layoutChoice3" data-i18n="scoreLayoutLabel"></label>
+                    <div class="flex w-full">
+                        <select id="layoutChoice3" class="w-full border border-black rounded-md p-1 box-content">
+                            <option value="layout1" data-i18n="layoutOption1"></option>
+                            <option value="layout2" data-i18n="layoutOption2"></option>
+                            <option value="layout3" data-i18n="layoutOption3"></option>
+                            <option value="layout4" data-i18n="layoutOption4"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="decimalChoice3" data-i18n="decimalPrecisionLabel"></label>
+                    <div class="flex w-full">
+                        <select id="decimalChoice3" class="w-full border border-black rounded-md p-1 box-content">
+                            <option value="decimal1" data-i18n="decimalOption1"></option>
+                            <option value="decimal2" data-i18n="decimalOption2"></option>
+                            <option value="decimal3" data-i18n="decimalOption3"></option>
+                        </select>
+                    </div>
+                    <p id="helperText" class="italic text-gray-400 ml-2" data-i18n="helperText"></p>
+                </div>
+            </div>
+            <div class="flex justify-between w-full flex-row mt-2">
+                <button
+                    id="btnBackFromWatch"
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer select-none transition-all items-center duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400"
+                    data-i18n="goBackButtonText"></button>
+                <button
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer items-center select-none transition-all duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400 saveButton"
+                    data-i18n="saveChangesButtonText"></button>
             </div>
         </div>
         <script src="./popup.js"></script>
