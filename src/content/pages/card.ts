@@ -9,7 +9,7 @@ import {
     getTimestampNotFoundCache,
     refreshNotFoundCache,
 } from "../../services/notFoundCacheService";
-import { extractIdFromUrl, findAnimeById, isDetailPage, isSimulcastPage, returnHref } from "../../utils/utils";
+import { extractIdFromUrl, findAnimeById, isPageTypeByUrl, returnHref } from "../../utils/utils";
 
 type SortableCard = {
     node: Element;
@@ -23,9 +23,6 @@ let parentContainer: Element | null;
 let parentClonedContainer: Element | null;
 
 export async function handleCardPage() {
-    if (isDetailPage(location.href)) {
-        return;
-    }
     const lastRefreshTimeNotFound = getTimestampNotFoundCache();
     if (Date.now() - lastRefreshTimeNotFound >= REFRESH_DELAY_CACHE_NOT_FOUND) {
         await refreshNotFoundCache();
@@ -63,7 +60,7 @@ export async function insertScoreController(animes: AnimeScore[]): Promise<Anime
         }
     }
 
-    const cards = Array.from(getCardsFromVideoPage());
+    const cards = Array.from(getCardsFromGridPage());
     const notFound: Anime[] = cards.reduce<Anime[]>((acc, card) => {
         const cardElement = card as HTMLElement;
         const data = getDataFromCard(cardElement, animes);
@@ -159,8 +156,22 @@ export function getSearchFromCard(card: HTMLElement): Anime | undefined {
     return { id: id, seasonTags: null };
 }
 
-export function getCardsFromVideoPage() {
+export function getCardsFromGridPage() {
     return (
         document.querySelectorAll('[data-t="series-card "]') || document.querySelectorAll(".browse-card--esJdT")
     );
+}
+
+export function isCardsPage(): boolean {
+    if (!document.querySelector(".erc-browse-collection.state-loading")) {
+        return (
+            !!document.querySelector(".browse-card:not(.browse-card-placeholder--6UpIg)") ||
+            !!document.querySelector("#content > div > div.app-body-wrapper > div > div > div.erc-genres-header")
+        );
+    }
+    return false;
+}
+
+export function isSimulcastPage(url: string): boolean {
+    return isPageTypeByUrl(url, "seasons", 2);
 }

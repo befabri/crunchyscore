@@ -3,9 +3,10 @@ import { ScoreType } from "../../helpers/types";
 import { fetchAnimeScores, isBlacklisted } from "../../services/apiService";
 import { Provider, config } from "../../services/configService";
 import { getStorageAnimeData, saveData } from "../../services/dataService";
-import { findAnimeById, getAnimeFromCurrentUrl } from "../../utils/utils";
+import { findAnimeById, getAnimeFromCurrentUrl, isPageTypeByUrl } from "../../utils/utils";
 
 export async function handleDetailPage(): Promise<void> {
+    console.log("Detail");
     const targetElem = document.querySelector("div.erc-series-hero") as HTMLElement;
     if (targetElem && !document.querySelector(".score-detail")) {
         const animesStorage = await getStorageAnimeData();
@@ -29,4 +30,17 @@ export async function handleDetailPage(): Promise<void> {
             }
         }
     }
+}
+
+export function getDetailContainer() {
+    return (
+        document.querySelector("div.erc-series-hero") &&
+        document.querySelector("div.hero-heading-line") &&
+        !document.querySelector("div.erc-series-hero-placeholder") &&
+        !document.querySelector("div.loading--9nt-6")
+    );
+}
+
+export function isDetailPage(url: string): boolean {
+    return isPageTypeByUrl(url, "series", 3);
 }

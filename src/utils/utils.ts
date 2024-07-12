@@ -62,18 +62,6 @@ function getAnimeFromMetaProperty(): Anime | null {
     return { id: id, seasonTags: null };
 }
 
-function isWatchPage(url: string): boolean {
-    return isPageTypeByUrl(url, "watch", 3);
-}
-
-function isDetailPage(url: string): boolean {
-    return isPageTypeByUrl(url, "series", 3);
-}
-
-function isSimulcastPage(url: string): boolean {
-    return isPageTypeByUrl(url, "seasons", 2);
-}
-
 function isPageTypeByUrl(url: string, targetType: string, targetPosition: number): boolean {
     if (!url) {
         return false;
@@ -86,16 +74,6 @@ function isPageTypeByUrl(url: string, targetType: string, targetPosition: number
         console.error("Invalid URL:", url);
         return false;
     }
-}
-
-function isCardsPage(): boolean {
-    if (!document.querySelector(".erc-browse-collection.state-loading")) {
-        return (
-            !!document.querySelector(".browse-card:not(.browse-card-placeholder--6UpIg)") ||
-            !!document.querySelector("#content > div > div.app-body-wrapper > div > div > div.erc-genres-header")
-        );
-    }
-    return false;
 }
 
 function returnHref(children: HTMLCollection): string {
@@ -113,14 +91,11 @@ function getLastPartUrl(url: string): string {
 export {
     roundScore,
     extractIdFromUrl,
-    isDetailPage,
-    isSimulcastPage,
-    isCardsPage,
     returnHref,
     getLastPartUrl,
     formatScore,
     isHTMLElement,
     getAnimeFromCurrentUrl,
     getAnimeFromMetaProperty,
-    isWatchPage,
+    isPageTypeByUrl,
 };

@@ -3,9 +3,10 @@ import { ScoreType } from "../../helpers/types";
 import { fetchAnimeScores, isBlacklisted } from "../../services/apiService";
 import { Provider, config } from "../../services/configService";
 import { getStorageAnimeData, saveData } from "../../services/dataService";
-import { findAnimeById, getAnimeFromMetaProperty } from "../../utils/utils";
+import { findAnimeById, getAnimeFromMetaProperty, isPageTypeByUrl } from "../../utils/utils";
 
 export async function handleWatchPage(): Promise<void> {
+    console.log("watch page");
     const targetElem = document.querySelector("div.erc-current-media-info") as HTMLElement;
     if (targetElem && !document.querySelector(".score-watch")) {
         const animesStorage = await getStorageAnimeData();
@@ -29,4 +30,15 @@ export async function handleWatchPage(): Promise<void> {
             }
         }
     }
+}
+
+export function getWatchContainer() {
+    return (
+        document.querySelector("div.erc-current-media-info") &&
+        !document.querySelector("div.erc-watch-hero-placeholder")
+    );
+}
+
+export function isWatchPage(url: string): boolean {
+    return isPageTypeByUrl(url, "watch", 3);
 }
