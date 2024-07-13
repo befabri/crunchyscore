@@ -1,7 +1,6 @@
 import { insertScore } from "../../helpers/score";
 import { ScoreType } from "../../helpers/types";
 import { fetchAnimeScores, isBlacklisted } from "../../services/apiService";
-import { Provider, config } from "../../services/configService";
 import { getStorageAnimeData, saveData } from "../../services/dataService";
 import { findAnimeById, getAnimeFromMetaProperty, isPageTypeByUrl } from "../../utils/utils";
 
@@ -14,16 +13,12 @@ export async function handleWatchPage(): Promise<void> {
         if (anime !== null) {
             const animeScore = findAnimeById(anime, animesStorage);
             if (animeScore) {
-                if (config.provider === Provider.AniList) {
-                    insertScore(targetElem, animeScore.anilist_score, ScoreType.WATCH);
-                } else {
-                    insertScore(targetElem, animeScore.score, ScoreType.WATCH);
-                }
+                insertScore(targetElem, animeScore, ScoreType.WATCH);
             } else {
                 if (!isBlacklisted(anime.id)) {
                     const animeFetch = await fetchAnimeScores([anime]);
                     if (animeFetch && animeFetch.length > 0) {
-                        insertScore(targetElem, animeFetch[0].score, ScoreType.WATCH);
+                        insertScore(targetElem, animeFetch[0], ScoreType.WATCH);
                         await saveData(animeFetch);
                     }
                 }

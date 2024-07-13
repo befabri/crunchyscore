@@ -1,7 +1,6 @@
 import { insertScore } from "../../helpers/score";
 import { ScoreType } from "../../helpers/types";
 import { fetchAnimeScores, isBlacklisted } from "../../services/apiService";
-import { Provider, config } from "../../services/configService";
 import { getStorageAnimeData, saveData } from "../../services/dataService";
 import { findAnimeById, getAnimeFromCurrentUrl, isPageTypeByUrl } from "../../utils/utils";
 
@@ -14,16 +13,12 @@ export async function handleDetailPage(): Promise<void> {
         if (anime !== null) {
             const animeScore = findAnimeById(anime, animesStorage);
             if (animeScore) {
-                if (config.provider === Provider.AniList) {
-                    insertScore(targetElem, animeScore.anilist_score, ScoreType.DETAIL);
-                } else {
-                    insertScore(targetElem, animeScore.score, ScoreType.DETAIL);
-                }
+                insertScore(targetElem, animeScore, ScoreType.DETAIL);
             } else {
                 if (!isBlacklisted(anime.id)) {
                     const animeFetch = await fetchAnimeScores([anime]);
                     if (animeFetch && animeFetch.length > 0) {
-                        insertScore(targetElem, animeFetch[0].score, ScoreType.DETAIL);
+                        insertScore(targetElem, animeFetch[0], ScoreType.DETAIL);
                         await saveData(animeFetch);
                     }
                 }

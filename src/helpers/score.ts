@@ -1,17 +1,18 @@
+import { AnimeScore } from "../models/model";
 import { PopupSavedMessage, Provider, TabConfig, config } from "../services/configService";
 import { isHTMLElement, roundScore } from "../utils/utils";
 import { removeExistingSeparator } from "./dom";
 import { insertToLayout } from "./insertLayout";
 import { ScoreSelector, ScoreType } from "./types";
 
-export function insertScore(spanElement: HTMLElement, score: number, scoreType: ScoreType) {
+export function insertScore(spanElement: HTMLElement, animeScore: AnimeScore, scoreType: ScoreType) {
     if (scoreType !== ScoreType.CARD && scoreType !== ScoreType.DETAIL && scoreType !== ScoreType.WATCH) {
         return;
     }
+    const score = config.provider === Provider.AniList ? animeScore.anilist_score : animeScore.score;
     if (score <= 0) {
         return;
     }
-
     const classSelector = ScoreSelector[scoreType.toUpperCase() as keyof typeof ScoreSelector];
     if (spanElement.querySelector(classSelector)) {
         return;
