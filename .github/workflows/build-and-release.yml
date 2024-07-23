@@ -13,10 +13,10 @@ jobs:
             firefox_zip_path: ${{ steps.zip_firefox.outputs.zip_path }}
         steps:
             - name: Checkout code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Set up Node.js
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
               with:
                   node-version: "20"
 
@@ -33,7 +33,7 @@ jobs:
                   echo "::set-output name=zip_path::$(pwd)/chrome.zip"
 
             - name: Upload Chrome ZIP
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: chrome.zip
                   path: $(pwd)/chrome.zip
@@ -45,7 +45,7 @@ jobs:
                   echo "::set-output name=zip_path::$(pwd)/firefox.zip"
 
             - name: Upload Firefox ZIP
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: firefox.zip
                   path: $(pwd)/firefox.zip
@@ -55,22 +55,22 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Download Chrome ZIP
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v4
               with:
                   name: chrome.zip
                   path: .
 
             - name: Download Firefox ZIP
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v4
               with:
                   name: firefox.zip
                   path: .
 
             - name: Create Release
-              uses: softprops/action-gh-release@v1
+              uses: softprops/action-gh-release@v2
               with:
                   files: |
                       chrome.zip
