@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title data-i18n="title"></title>
+        <link rel="icon" type="image/png" sizes="16x16" href="icon16.png" />
+        <link rel="stylesheet" href="./popup.css" />
+    </head>
+    <body class="p-2 bg-white rounded-md flex flex-col w-72 gap-3 text-sm">
+        <h2 id="tabTitle" data-i18n="title" class="text-lg font-bold"></h2>
+
+        <!-- Main Settings -->
+        <div id="main" class="flex flex-col gap-3">
+            <div class="w-full flex flex-col gap-2">
+                <span data-i18n="provider"></span>
+                <div class="relative right-0">
+                    <ul
+                        class="relative flex flex-wrap p-1 list-none rounded-lg bg-gray-200"
+                        data-tabs="tabs"
+                        role="list">
+                        <li class="z-30 flex-auto text-center">
+                            <a
+                                id="provider-myanimelist"
+                                class="z-30 flex items-center justify-center w-full px-0 py-1 mb-0 transition-all ease-in-out border-0 rounded-lg cursor-pointer bg-gray-200"
+                                data-tab-target=""
+                                role="tab"
+                                aria-selected="false">
+                                <span class="ml-1">MyAnimeList</span>
+                            </a>
+                        </li>
+                        <li class="z-30 flex-auto text-center">
+                            <a
+                                id="provider-anilist"
+                                class="z-30 flex items-center justify-center w-full px-0 py-1 mb-0 transition-all ease-in-out border-0 rounded-lg cursor-pointer bg-gray-200"
+                                data-tab-target=""
+                                role="tab"
+                                aria-selected="false">
+                                <span class="ml-1">AniList</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="setting-option flex flex-col gap-2">
+                <p data-i18n="cardsPageLabel"></p>
+                <button
+                    id="btnCards"
+                    class="flex justify-between p-1 border-2 border-black bg-white text-black cursor-pointer select-none items-center transition-all duration-300 ease-in-out rounded-md w-full hover:bg-gray-100 active:scale-95 disabled:border-gray-400">
+                    <span data-i18n="cardsPageButtonText"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
+                        <path
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m9 18l6-6l-6-6" />
+                    </svg>
+                </button>
+            </div>
+            <div class="setting-option flex flex-col gap-2">
+                <p data-i18n="detailPageLabel"></p>
+                <button
+                    id="btnDetail"
+                    class="flex justify-between p-1 border-2 border-black bg-white text-black cursor-pointer select-none items-center transition-all duration-300 ease-in-out rounded-md w-full hover:bg-gray-100 active:scale-95 disabled:border-gray-400">
+                    <span data-i18n="detailPageButtonText"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
+                        <path
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m9 18l6-6l-6-6" />
+                    </svg>
+                </button>
+            </div>
+            <div class="setting-option flex flex-col gap-2">
+                <p data-i18n="watchPageLabel"></p>
+                <button
+                    id="btnWatch"
+                    class="flex justify-between p-1 border-2 border-black bg-white text-black cursor-pointer select-none items-center transition-all duration-300 ease-in-out rounded-md w-full hover:bg-gray-100 active:scale-95 disabled:border-gray-400">
+                    <span data-i18n="watchPageButtonText"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
+                        <path
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m9 18l6-6l-6-6" />
+                    </svg>
+                </button>
+            </div>
+            <div class="setting-option-button flex flex-col gap-2">
+                <p data-i18n="forceCacheRefresh"></p>
+                <button
+                    id="btnCache"
+                    class="flex p-1 border-2 border-black bg-white text-black cursor-pointer self-end transition-all select-none items-center duration-300 ease-in-out rounded-md w-full hover:bg-gray-100 active:scale-95 disabled:border-gray-400 justify-start gap-4">
+                    <span id="buttonLabel" data-i18n="cache" class="mr-1/20"></span>
+                    <div>
+                        <div id="spinner" style="display: none"></div>
+                        <svg id="successIcon" width="15" height="15" viewBox="0 0 36 36" style="display: none">
+                            <path fill="#000000" d="M13.5 24.26L7.24 18l-2.12 2.12 8.38 8.38 18-18-2.12-2.12z" />
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Cards Settings -->
+        <div id="cardsSettings" class="flex-col gap-3 hidden">
+            <div class="flex flex-col gap-3 px-2">
+                <div class="w-full flex flex-col gap-2 relative">
+                    <label class="ml-2" for="colorChoice1" data-i18n="textColorLabel"></label>
+                    <div class="flex w-full">
+                        <div
+                            id="color-container"
+                            class="w-full border border-black rounded-md p-1 box-content flex items-center gap-2">
+                            <span
+                                id="colorPreview1"
+                                class="w-7 h-5 p-0 border-0 rounded-full cursor-pointer"></span>
+                            <input type="text" id="colorText1" class="border-0" />
+                        </div>
+                    </div>
+                    <div
+                        id="colorModal1"
+                        class="hidden absolute bg-white z-12 left-0 top-16 rounded-md shadow-2xl drop-shadow-md">
+                        <hex-color-picker id="colorChoice1" color="#1e88e5"></hex-color-picker>
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="textChoice1" data-i18n="displayTextLabel"></label>
+                    <div class="flex w-full">
+                        <input
+                            type="text"
+                            id="textChoice1"
+                            class="w-full border border-black rounded-md p-1 box-content" />
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="orderChoice1" data-i18n="sortItemsLabel"></label>
+                    <div class="flex w-full">
+                        <select
+                            id="orderChoice1"
+                            class="w-full border border-black rounded-md p-1 box-content bg-white disabled:bg-gray-200 disabled:opacity-45">
+                            <option value="order1" data-i18n="sortOptionDefault"></option>
+                            <option value="order2" data-i18n="sortOptionAsc"></option>
+                            <option value="order3" data-i18n="sortOptionDesc"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="layoutChoice1" data-i18n="scoreLayoutLabel"></label>
+                    <div class="flex w-full">
+                        <select
+                            id="layoutChoice1"
+                            class="w-full border border-black rounded-md p-1 box-content bg-white disabled:bg-gray-200 disabled:opacity-45">
+                            <option value="layout1" data-i18n="layoutOption1"></option>
+                            <option value="layout2" data-i18n="layoutOption2"></option>
+                            <option value="layout3" data-i18n="layoutOption3"></option>
+                            <option value="layout4" data-i18n="layoutOption4"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="decimalChoice1" data-i18n="decimalPrecisionLabel"></label>
+                    <div class="flex w-full">
+                        <select
+                            id="decimalChoice1"
+                            class="w-full border border-black rounded-md p-1 box-content bg-white disabled:bg-gray-200 disabled:opacity-45">
+                            <option value="decimal1" data-i18n="decimalOption1"></option>
+                            <option value="decimal2" data-i18n="decimalOption2"></option>
+                            <option value="decimal3" data-i18n="decimalOption3"></option>
+                        </select>
+                    </div>
+                    <p id="helperText" class="text-xs italic text-gray-500 ml-2" data-i18n="helperText"></p>
+                </div>
+            </div>
+            <div class="flex justify-between w-full flex-row mt-2">
+                <button
+                    id="btnBackFromCards"
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer select-none transition-all items-center duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400"
+                    data-i18n="goBackButtonText"></button>
+                <button
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer select-none transition-all items-center duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400 saveButton"
+                    data-i18n="saveChangesButtonText"></button>
+            </div>
+        </div>
+
+        <!-- Detail Settings -->
+        <div id="detailSettings" class="flex-col gap-3 hidden">
+            <div class="flex flex-col gap-3 px-2">
+                <div class="w-full flex flex-col gap-2 relative">
+                    <label class="ml-2" for="colorChoice2" data-i18n="textColorLabel"></label>
+                    <div class="flex w-full">
+                        <div
+                            id="color-container"
+                            class="w-full border border-black rounded-md p-1 box-content flex items-center gap-2">
+                            <span
+                                id="colorPreview2"
+                                class="w-7 h-5 p-0 border-0 rounded-full cursor-pointer"></span>
+                            <input type="text" id="colorText2" class="border-0" />
+                        </div>
+                    </div>
+                    <div
+                        id="colorModal2"
+                        class="hidden absolute bg-white z-12 left-0 top-16 rounded-md shadow-2xl drop-shadow-md">
+                        <hex-color-picker id="colorChoice2" color="#1e88e5"></hex-color-picker>
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="textChoice2" data-i18n="displayTextLabel"></label>
+                    <div class="flex w-full">
+                        <input
+                            type="text"
+                            id="textChoice2"
+                            class="w-full border border-black rounded-md p-1 box-content" />
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="layoutChoice2" data-i18n="scoreLayoutLabel"></label>
+                    <div class="flex w-full">
+                        <select
+                            id="layoutChoice2"
+                            class="w-full border border-black rounded-md p-1 box-content bg-white disabled:bg-gray-200 disabled:opacity-45">
+                            <option value="layout1" data-i18n="layoutOption1"></option>
+                            <option value="layout2" data-i18n="layoutOption2"></option>
+                            <option value="layout3" data-i18n="layoutOption3"></option>
+                            <option value="layout4" data-i18n="layoutOption4"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="decimalChoice2" data-i18n="decimalPrecisionLabel"></label>
+                    <div class="flex w-full">
+                        <select
+                            id="decimalChoice2"
+                            class="w-full border border-black rounded-md p-1 box-content bg-white disabled:bg-gray-200 disabled:opacity-45">
+                            <option value="decimal1" data-i18n="decimalOption1"></option>
+                            <option value="decimal2" data-i18n="decimalOption2"></option>
+                            <option value="decimal3" data-i18n="decimalOption3"></option>
+                        </select>
+                    </div>
+                    <p id="helperText" class="italic text-gray-400 ml-2" data-i18n="helperText"></p>
+                </div>
+            </div>
+            <div class="flex justify-between w-full flex-row mt-2">
+                <button
+                    id="btnBackFromDetail"
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer select-none transition-all items-center duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400"
+                    data-i18n="goBackButtonText"></button>
+                <button
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer items-center select-none transition-all duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400 saveButton"
+                    data-i18n="saveChangesButtonText"></button>
+            </div>
+        </div>
+
+        <!-- Watch Settings -->
+        <div id="watchSettings" class="flex-col gap-3 hidden">
+            <div class="flex flex-col gap-3 px-2">
+                <div class="w-full flex flex-col gap-2 relative">
+                    <label class="ml-2" for="colorChoice3" data-i18n="textColorLabel"></label>
+                    <div class="flex w-full">
+                        <div
+                            id="color-container"
+                            class="w-full border border-black rounded-md p-1 box-content flex items-center gap-2">
+                            <span
+                                id="colorPreview3"
+                                class="w-7 h-5 p-0 border-0 rounded-full cursor-pointer"></span>
+                            <input type="text" id="colorText3" class="border-0" />
+                        </div>
+                    </div>
+                    <div
+                        id="colorModal3"
+                        class="hidden absolute bg-white z-12 left-0 top-16 rounded-md shadow-2xl drop-shadow-md">
+                        <hex-color-picker id="colorChoice3" color="#1e88e5"></hex-color-picker>
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="textChoice3" data-i18n="displayTextLabel"></label>
+                    <div class="flex w-full">
+                        <input
+                            type="text"
+                            id="textChoice3"
+                            class="w-full border border-black rounded-md p-1 box-content" />
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="layoutChoice3" data-i18n="scoreLayoutLabel"></label>
+                    <div class="flex w-full">
+                        <select
+                            id="layoutChoice3"
+                            class="w-full border border-black rounded-md p-1 box-content bg-white disabled:bg-gray-200 disabled:opacity-45">
+                            <option value="layout1" data-i18n="layoutOption1"></option>
+                            <option value="layout2" data-i18n="layoutOption2"></option>
+                            <option value="layout3" data-i18n="layoutOption3"></option>
+                            <option value="layout4" data-i18n="layoutOption4"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-2">
+                    <label class="ml-2" for="decimalChoice3" data-i18n="decimalPrecisionLabel"></label>
+                    <div class="flex w-full">
+                        <select
+                            id="decimalChoice3"
+                            class="w-full border border-black rounded-md p-1 box-content bg-white disabled:bg-gray-200 disabled:opacity-45">
+                            <option value="decimal1" data-i18n="decimalOption1"></option>
+                            <option value="decimal2" data-i18n="decimalOption2"></option>
+                            <option value="decimal3" data-i18n="decimalOption3"></option>
+                        </select>
+                    </div>
+                    <p id="helperText" class="italic text-gray-400 ml-2" data-i18n="helperText"></p>
+                </div>
+            </div>
+            <div class="flex justify-between w-full flex-row mt-2">
+                <button
+                    id="btnBackFromWatch"
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer select-none transition-all items-center duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400"
+                    data-i18n="goBackButtonText"></button>
+                <button
+                    class="p-1 border-2 border-black bg-white text-black cursor-pointer items-center select-none transition-all duration-300 ease-in-out rounded-md hover:bg-gray-100 active:scale-95 disabled:border-gray-400 saveButton"
+                    data-i18n="saveChangesButtonText"></button>
+            </div>
+        </div>
+        <script src="./popup.js"></script>
+    </body>
+</html>
