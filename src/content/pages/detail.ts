@@ -5,7 +5,6 @@ import { getStorageAnimeData, saveData } from "../../services/dataService";
 import { findAnimeById, getAnimeFromCurrentUrl, isPageTypeByUrl } from "../../utils/utils";
 
 export async function handleDetailPage(): Promise<void> {
-    console.log("Detail");
     const targetElem = document.querySelector("div.erc-series-hero") as HTMLElement;
     if (targetElem && !document.querySelector(".score-detail")) {
         const animesStorage = await getStorageAnimeData();

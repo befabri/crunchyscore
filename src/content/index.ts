@@ -55,7 +55,7 @@ chrome.runtime.onMessage.addListener(function (request: RequestType) {
                 } else {
                     (async () => {
                         const data = await getStorageAnimeData();
-                        await insertScoreController(data);
+                        await insertScoreController(data, request.tab1.order);
                     })();
                 }
             }

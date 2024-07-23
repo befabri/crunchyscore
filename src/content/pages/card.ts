@@ -1,5 +1,5 @@
 import { insertScore } from "../../helpers/score";
-import { ScoreType } from "../../helpers/types";
+import { ScoreSelector, ScoreType } from "../../helpers/types";
 import { Anime, AnimeScore } from "../../models/model";
 import { fetchAndSaveAnimeScores } from "../../services/apiService";
 import { config } from "../../services/configService";
@@ -48,7 +48,10 @@ export async function handleCardPage() {
     }
 }
 
-export async function insertScoreController(animes: AnimeScore[]): Promise<Anime[] | null> {
+export async function insertScoreController(animes: AnimeScore[], order?: string): Promise<Anime[] | null> {
+    if (!order) {
+        order = config.tab1.order;
+    }
     if (isSimulcastPage(location.href) && pastURL !== location.href && parentContainer && parentClonedContainer) {
         const parentHref = returnHref(parentContainer.children);
         if (!parentHref || parentHref === returnHref(parentClonedContainer.children)) {
@@ -74,22 +77,21 @@ export async function insertScoreController(animes: AnimeScore[]): Promise<Anime
         }
         return acc;
     }, []);
-    if (!isSimulcastPage(location.href) || config.tab1.order === "order1") {
+    if (!isSimulcastPage(location.href) || order === "order1") {
         pastURL = location.href;
         return notFound;
     }
-
     const sortChildren = (node: Element) => {
         const sorted = Array.from(node.children)
             .map((card: Element): SortableCard => {
-                const scoreElement = card.querySelector(".score-card");
+                const scoreElement = card.querySelector(ScoreSelector.CARD);
                 return {
                     node: card,
                     score: scoreElement ? parseFloat(scoreElement.getAttribute("data-numberscore") || "0") : 0,
                 };
             })
             .sort((a: SortableCard, b: SortableCard) =>
-                config.tab1.order === "order2" ? a.score - b.score : b.score - a.score
+                order === "order2" ? a.score - b.score : b.score - a.score
             );
 
         sorted.forEach(({ node: childNode }) => node.appendChild(childNode));
