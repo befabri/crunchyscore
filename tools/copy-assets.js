@@ -1,14 +1,17 @@
 import fs from "fs-extra";
+import process from "process";
 
-// Define source and destination directories
+const mode = process.argv[2];
+
+// Define source and destination directories with dynamic paths
 const copyOperations = [
-    { src: "./src/assets", dest: "./dist/tmp/assets" },
-    { src: "./src/_locales", dest: "./dist/tmp/_locales" },
-    { src: "./src/popup/popup.html", dest: "./dist/tmp/popup/popup.html" },
-    { src: "./dist/tmp", dest: "./dist/chrome" },
-    { src: "./dist/tmp", dest: "./dist/firefox" },
-    { src: "./src/manifest.chrome.json", dest: "./dist/chrome/manifest.json" },
-    { src: "./src/manifest.firefox.json", dest: "./dist/firefox/manifest.json" },
+    { src: "./src/assets", dest: `./dist/${mode}/assets` },
+    { src: "./src/_locales", dest: `./dist/${mode}/_locales` },
+    {
+        src: `./src/popup${mode.charAt(0).toUpperCase() + mode.slice(1)}/popup.html`,
+        dest: `./dist/${mode}/popup/popup.html`,
+    },
+    { src: `./src/manifest.${mode}.json`, dest: `./dist/${mode}/manifest.json` },
 ];
 
 async function executeCopyOperations() {
@@ -17,9 +20,6 @@ async function executeCopyOperations() {
             await fs.copy(operation.src, operation.dest);
             console.log(`Copied from ${operation.src} to ${operation.dest}`);
         }
-
-        await fs.remove("./dist/tmp");
-        console.log("Temporary folder ./dist/tmp removed successfully.");
     } catch (error) {
         console.error("An error occurred:", error);
     }
