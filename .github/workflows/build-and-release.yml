@@ -32,8 +32,8 @@ jobs:
                   zip -r chrome.zip ./dist/chrome
                   echo "::set-output name=zip_path::$(pwd)/chrome.zip"
 
-            - name: List files in directory
-              run: ls -l $(pwd)
+            - name: List files in dist
+              run: ls -l $(pwd)/dist
 
             - name: Upload Chrome ZIP
               uses: actions/upload-artifact@v4
@@ -74,6 +74,7 @@ jobs:
 
             - name: Create Release
               uses: softprops/action-gh-release@v2
+              if: startsWith(github.ref, 'refs/tags/')
               with:
                   files: |
                       chrome.zip
