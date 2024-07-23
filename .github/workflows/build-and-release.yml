@@ -1,0 +1,67 @@
+name: Build and Release Workflow
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        outputs:
+            chrome_zip_path: ${{ steps.zip_chrome.outputs.zip_path }}
+            firefox_zip_path: ${{ steps.zip_firefox.outputs.zip_path }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "16"
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run build
+              run: npm run build
+
+            - name: Zip Chrome extension
+              id: zip_chrome
+              run: |
+                  zip -r chrome.zip ./dist/chrome
+                  echo "::set-output name=zip_path::$(pwd)/chrome.zip"
+
+            - name: Zip Firefox extension
+              id: zip_firefox
+              run: |
+                  zip -r firefox.zip ./dist/firefox
+                  echo "::set-output name=zip_path::$(pwd)/firefox.zip"
+
+    release:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Download Chrome ZIP
+              uses: actions/download-artifact@v3
+              with:
+                  name: chrome.zip
+                  path: .
+
+            - name: Download Firefox ZIP
+              uses: actions/download-artifact@v3
+              with:
+                  name: firefox.zip
+                  path: .
+
+            - name: Create Release
+              uses: softprops/action-gh-release@v1
+              with:
+                  files: |
+                      chrome.zip
+                      firefox.zip
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
