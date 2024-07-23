@@ -32,11 +32,14 @@ jobs:
                   zip -r chrome.zip ./dist/chrome
                   echo "::set-output name=zip_path::$(pwd)/chrome.zip"
 
+            - name: List files in directory
+              run: ls -l $(pwd)
+
             - name: Upload Chrome ZIP
               uses: actions/upload-artifact@v4
               with:
                   name: chrome.zip
-                  path: $(pwd)/chrome.zip
+                  path: ${{ github.workspace }}/chrome.zip
 
             - name: Zip Firefox extension
               id: zip_firefox
@@ -48,7 +51,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: firefox.zip
-                  path: $(pwd)/firefox.zip
+                  path: ${{ github.workspace }}/firefox.zip
 
     release:
         needs: build
