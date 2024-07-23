@@ -29,8 +29,9 @@ jobs:
             - name: Zip Chrome extension
               id: zip_chrome
               run: |
-                  zip -r chrome.zip ./dist/chrome
-                  echo "::set-output name=zip_path::$(pwd)/chrome.zip"
+                  cd ./dist/chrome
+                  zip -r ../../chrome.zip ./*
+                  echo "::set-output name=zip_path::$(pwd)/../../chrome.zip"
 
             - name: List files in dist
               run: ls -l $(pwd)/dist
@@ -44,8 +45,9 @@ jobs:
             - name: Zip Firefox extension
               id: zip_firefox
               run: |
-                  zip -r firefox.zip ./dist/firefox
-                  echo "::set-output name=zip_path::$(pwd)/firefox.zip"
+                  cd ./dist/firefox
+                  zip -r ../../firefox.zip ./*
+                  echo "::set-output name=zip_path::$(pwd)/../../firefox.zip"
 
             - name: Upload Firefox ZIP
               uses: actions/upload-artifact@v4
