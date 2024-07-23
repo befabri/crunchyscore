@@ -1,19 +1,28 @@
-import ncp from "ncp";
+import fs from "fs-extra";
+import process from "process";
 
-// Define source and destination directories
+const mode = process.argv[2];
+
+// Define source and destination directories with dynamic paths
 const copyOperations = [
-    { src: "./src/assets", dest: "./dist/assets" },
-    { src: "./src/_locales", dest: "./dist/_locales" },
-    { src: "./src/manifest.json", dest: "./dist/manifest.json" },
-    { src: "./src/popup/popup.html", dest: "./dist/popup/popup.html" },
+    { src: "./src/assets", dest: `./dist/${mode}/assets` },
+    { src: "./src/_locales", dest: `./dist/${mode}/_locales` },
+    {
+        src: `./src/popup${mode.charAt(0).toUpperCase() + mode.slice(1)}/popup.html`,
+        dest: `./dist/${mode}/popup/popup.html`,
+    },
+    { src: `./src/manifest.${mode}.json`, dest: `./dist/${mode}/manifest.json` },
 ];
 
-// Copy each directory
-copyOperations.forEach(({ src, dest }) => {
-    ncp(src, dest, function (err) {
-        if (err) {
-            return console.error(err);
+async function executeCopyOperations() {
+    try {
+        for (const operation of copyOperations) {
+            await fs.copy(operation.src, operation.dest);
+            console.log(`Copied from ${operation.src} to ${operation.dest}`);
         }
-        console.log(`Copied ${src} to ${dest}`);
-    });
-});
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
+}
+
+executeCopyOperations();

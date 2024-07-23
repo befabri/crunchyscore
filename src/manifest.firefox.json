@@ -1,0 +1,31 @@
+{
+    "manifest_version": 3,
+    "name": "CrunchyScore - MAL & Ani Score on Crunchyroll",
+    "version": "0.1.4",
+    "description": "__MSG_extensionDescription__",
+    "icons": {
+        "16": "assets/icon16.png",
+        "48": "assets/icon48.png",
+        "128": "assets/icon128.png"
+    },
+    "action": {
+        "default_popup": "popup/popup.html"
+    },
+    "default_locale": "en",
+    "permissions": ["activeTab", "storage"],
+    "host_permissions": ["https://www.crunchyroll.com/", "https://api.crunchyscore.app/"],
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://www.crunchyroll.com/*"],
+            "js": ["content.js"]
+        }
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "strict_min_version": "109.0"
+        }
+    }
+}
