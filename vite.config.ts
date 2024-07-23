@@ -5,7 +5,7 @@ export default defineConfig({
     root: "src",
     plugins: [runScriptAfterBuild()],
     build: {
-        outDir: "../dist",
+        outDir: "../dist/tmp",
         emptyOutDir: true,
         minify: false,
         rollupOptions: {
