@@ -25,6 +25,7 @@
     ],
     "browser_specific_settings": {
         "gecko": {
+            "id": "contact@bfabri.me",
             "strict_min_version": "109.0"
         }
     }
