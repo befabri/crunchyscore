@@ -26,11 +26,11 @@ jobs:
             - name: Upload Chrome ZIP
               uses: actions/upload-artifact@v4
               with:
-                  name: chrome.zip
+                  name: chrome
                   path: ./dist/chrome/**/*
 
             - name: Upload Firefox ZIP
               uses: actions/upload-artifact@v4
               with:
-                  name: firefox.zip
+                  name: firefox
                   path: ./dist/firefox/**/*
