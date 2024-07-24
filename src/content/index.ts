@@ -1,31 +1,25 @@
 import { handleScoreUpdate, updateScoreByClassName } from "../helpers/score";
 import { ScoreType } from "../helpers/types";
-import { RequestType, config, updateConfig } from "../services/configService";
+import { config, RequestType, updateConfig } from "../services/configService";
 import { getStorageAnimeData } from "../services/dataService";
 import { refreshNotFoundCache } from "../services/notFoundCacheService";
 import { isHTMLElement } from "../utils/utils";
 import {
+    isCardsPage,
     getCardsFromGridPage,
     handleCardPage,
-    insertScoreController,
-    isCardsPage,
     isSimulcastPage,
+    insertScoreController,
 } from "./pages/card";
-import { getDetailContainer, handleDetailPage, isDetailPage } from "./pages/detail";
-import { getWatchContainer, handleWatchPage, isWatchPage } from "./pages/watch";
+import { isDetailPage, getDetailContainer, handleDetailPage } from "./pages/detail";
+import { isWatchPage, getWatchContainer, handleWatchPage } from "./pages/watch";
 
 updateConfig();
 
-let check = false;
+let globalObserver: MutationObserver | null = null;
+
 chrome.runtime.onMessage.addListener(function (request: RequestType) {
     try {
-        if (
-            request.type != "popupSaved" &&
-            request.type != "forceRefreshCache" &&
-            request.type != "changeProvider"
-        ) {
-            check = false;
-        }
         if (request.type === "forceRefreshCache") {
             (async () => {
                 await refreshNotFoundCache();
@@ -68,44 +62,64 @@ chrome.runtime.onMessage.addListener(function (request: RequestType) {
             }
         }
 
-        setInterval(function () {
-            if (check === false) {
-                if (isCardsPage() && Array.from(getCardsFromGridPage()).length > 0) {
+        if (request.type == "changeUrl") {
+            let intervalId = setInterval(function () {
+                if (
+                    isCardsPage() &&
+                    Array.from(getCardsFromGridPage()).length > 0 &&
+                    isSimulcastPage(location.href)
+                ) {
                     updateConfig();
                     handleCardPage();
-                    check = true;
+                    clearInterval(intervalId);
                 }
-            }
-            if (check === false) {
-                if (isDetailPage(location.href) && getDetailContainer()) {
-                    updateConfig();
-                    handleDetailPage();
-                    check = true;
-                }
-            }
-            if (check === false) {
-                if (isWatchPage(location.href) && getWatchContainer()) {
-                    updateConfig();
-                    handleWatchPage();
-                    check = true;
-                }
-            }
-        }, 800);
+            }, 600);
+        }
     } catch (error) {
-        console.error("Error");
+        console.error("Error SendOnMessage");
     }
 });
 
-let throttleTimeout: number | null = null;
+const targetNode = document.body;
+if (!targetNode) {
+    console.error("Target node (document.body) not found");
+}
 
-window.addEventListener("scroll", () => {
-    if (throttleTimeout === null) {
-        throttleTimeout = setTimeout(() => {
-            if (isCardsPage() && !isSimulcastPage(location.href)) {
-                updateConfig();
-                handleCardPage();
+const configObserver = { attributes: true, childList: true, subtree: true };
+
+globalObserver = new MutationObserver(async (mutationsList, _) => {
+    for (const mutation of mutationsList) {
+        if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+            const node = mutation.addedNodes[0];
+            if (
+                node instanceof Element &&
+                node.tagName.toLowerCase() === "div" &&
+                node.className &&
+                !["tooltip-content"].includes(node.getAttribute("data-t") || "")
+            ) {
+                if (
+                    !isSimulcastPage(location.href) &&
+                    isCardsPage() &&
+                    Array.from(getCardsFromGridPage()).length > 0
+                ) {
+                    await updateConfig();
+                    await handleCardPage();
+                    return;
+                }
+                if (isWatchPage(location.href) && getWatchContainer()) {
+                    await updateConfig();
+                    await handleWatchPage();
+                    return;
+                }
+
+                if (isDetailPage(location.href) && getDetailContainer()) {
+                    await updateConfig();
+                    await handleDetailPage();
+                    return;
+                }
             }
-            throttleTimeout = null;
-        }, 800) as unknown as number;
+        }
     }
 });
+
+globalObserver.observe(targetNode, configObserver);

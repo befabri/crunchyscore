@@ -16,7 +16,7 @@ chrome.runtime.onInstalled.addListener(function () {
                     decimal: "decimal1",
                 },
                 tab3: {
-                    color: "#608cf0",
+                    color: "#ffffff",
                     layout: "layout1",
                     text: "✯",
                     decimal: "decimal1",
@@ -29,7 +29,7 @@ chrome.runtime.onInstalled.addListener(function () {
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
     if (changeInfo.status === "complete") {
-        chrome.tabs.sendMessage(tabId, { url: changeInfo.url }, function () {
+        chrome.tabs.sendMessage(tabId, { type: "changeUrl", url: changeInfo.url }, function () {
             if (chrome.runtime.lastError) {
                 return;
             }

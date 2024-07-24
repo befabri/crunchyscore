@@ -11,6 +11,11 @@ export enum Provider {
     AniList = 2,
 }
 
+export const PROVIDER_IDS = {
+    MYANIMELIST: "provider-myanimelist",
+    ANILIST: "provider-anilist",
+};
+
 type Config = {
     provider: Provider;
     tab1: TabConfig;
@@ -40,7 +45,12 @@ interface ChangeProvider {
     type: "changeProvider";
 }
 
-export type RequestType = PopupSavedMessage | ForceRefreshCacheMessage | ChangeProvider;
+interface ChangeUrl {
+    type: "changeUrl";
+    url: string;
+}
+
+export type RequestType = PopupSavedMessage | ForceRefreshCacheMessage | ChangeProvider | ChangeUrl;
 
 export const defaultConfig: Config = {
     provider: Provider.MyAnimeList,
@@ -58,7 +68,7 @@ export const defaultConfig: Config = {
         decimal: "decimal1",
     },
     tab3: {
-        color: "#608cf0",
+        color: "#ffffff",
         layout: "layout1",
         text: "✯",
         decimal: "decimal1",
