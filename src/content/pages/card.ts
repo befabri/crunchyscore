@@ -160,7 +160,12 @@ export function isCardsPage(): boolean {
     if (!document.querySelector(".erc-browse-collection.state-loading")) {
         return (
             !!document.querySelector(".browse-card:not(.browse-card-placeholder--6UpIg)") ||
-            !!document.querySelector("#content > div > div.app-body-wrapper > div > div > div.erc-genres-header")
+            !!document.querySelector(
+                "#content > div > div.app-body-wrapper > div > div > div.erc-genres-header"
+            ) ||
+            !!document.querySelector(
+                ".carousel-scroller__card--4Lrk-:not(.vertical-cards-carousel-placeholder__card--vAZNO)"
+            )
         );
     }
     return false;
