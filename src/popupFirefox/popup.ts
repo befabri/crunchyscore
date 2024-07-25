@@ -208,7 +208,9 @@ document.addEventListener("DOMContentLoaded", () => {
         colorText.addEventListener("input", function () {
             const colorCode = this.value;
             if (/^#[0-9A-F]{6}$/i.test(colorCode)) {
-                (document.getElementById(`colorChoice${index + 1}`) as HTMLInputElement).value = colorCode;
+                (document.getElementById(`colorChoice${index + 1}`) as HexColorPicker).color = colorCode;
+                (document.getElementById(`colorPreview${index + 1}`) as HTMLElement).style.backgroundColor =
+                    colorCode;
             }
         });
     });
