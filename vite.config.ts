@@ -12,7 +12,7 @@ export default ({ mode }) => {
                     input: {
                         background: "src/background/background.js",
                         content: "src/content/index.ts",
-                        popup: "src/popupChrome/popup.ts",
+                        popup: "src/popup/chrome/popup.ts",
                     },
                     output: {
                         entryFileNames: (chunkInfo) => {
@@ -47,7 +47,7 @@ export default ({ mode }) => {
                     input: {
                         background: "src/background/background.js",
                         content: "src/content/index.ts",
-                        popup: "src/popupFirefox/popup.ts",
+                        popup: "src/popup/firefox/popup.ts",
                     },
                     output: {
                         entryFileNames: (chunkInfo) => {

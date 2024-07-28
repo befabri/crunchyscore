@@ -8,7 +8,7 @@ const copyOperations = [
     { src: "./src/assets", dest: `./dist/${mode}/assets` },
     { src: "./src/_locales", dest: `./dist/${mode}/_locales` },
     {
-        src: `./src/popup${mode.charAt(0).toUpperCase() + mode.slice(1)}/popup.html`,
+        src: `./src/popup/${mode}/popup.html`,
         dest: `./dist/${mode}/popup/popup.html`,
     },
     { src: `./src/manifest.${mode}.json`, dest: `./dist/${mode}/manifest.json` },
