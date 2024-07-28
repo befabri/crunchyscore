@@ -5,7 +5,6 @@ import { getStorageAnimeData, saveData } from "../../services/dataService";
 import { findAnimeById, getAnimeFromMetaProperty, isPageTypeByUrl } from "../../utils/utils";
 
 export async function handleWatchPage(): Promise<void> {
-    console.log("watch page");
     const targetElem = document.querySelector("div.erc-current-media-info") as HTMLElement;
     if (targetElem && !document.querySelector(".score-watch")) {
         const animesStorage = await getStorageAnimeData();
