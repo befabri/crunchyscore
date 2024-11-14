@@ -1,10 +1,10 @@
 # CrunchyScore - MyAnimeList & AniList Score on Crunchyroll
 
-**CrunchyScore** is available on [Chrome Web Store](https://chrome.google.com/webstore/detail/crunchyscore/coiidbjimmeojgdkclafjccnhgenmmbi)
+**CrunchyScore** is available on [Chrome Web Store](https://chrome.google.com/webstore/detail/crunchyscore/coiidbjimmeojgdkclafjccnhgenmmbi) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/crunchyscore/)
 
 ## Introduction
 
-**CrunchyScore** is a Chrome extension that introduces a new way to explore Crunchyroll.
+**CrunchyScore** is a Chrome and Firefox extension that introduces a new way to explore Crunchyroll.
 With CrunchyScore, you can access MyAnimeList and AniList anime ratings directly within Crunchyroll, eliminating the need for extra tabs.
 
 ## Features
