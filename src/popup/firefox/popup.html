@@ -5,7 +5,7 @@
         <link rel="icon" type="image/png" sizes="16x16" href="icon16.png" />
         <link rel="stylesheet" href="./popup.css" />
     </head>
-    <body class="p-2 bg-white rounded-md flex flex-col w-72 gap-3 text-sm">
+    <body class="p-2 bg-white rounded-md flex flex-col w-80 gap-3 text-sm">
         <h2 id="tabTitle" data-i18n="title" class="text-lg font-bold"></h2>
 
         <!-- Main Settings -->
@@ -17,24 +17,24 @@
                         class="relative flex flex-wrap p-1 list-none rounded-lg bg-gray-200"
                         data-tabs="tabs"
                         role="list">
-                        <li class="z-30 flex-auto text-center">
+                        <li class="z-30 flex-1 text-center">
                             <a
                                 id="provider-myanimelist"
                                 class="z-30 flex items-center justify-center w-full px-0 py-1 mb-0 transition-all ease-in-out border-0 rounded-lg cursor-pointer bg-gray-200"
                                 data-tab-target=""
                                 role="tab"
                                 aria-selected="false">
-                                <span class="ml-1">MyAnimeList</span>
+                                <span>MyAnimeList</span>
                             </a>
                         </li>
-                        <li class="z-30 flex-auto text-center">
+                        <li class="z-30 flex-1 text-center">
                             <a
                                 id="provider-anilist"
                                 class="z-30 flex items-center justify-center w-full px-0 py-1 mb-0 transition-all ease-in-out border-0 rounded-lg cursor-pointer bg-gray-200"
                                 data-tab-target=""
                                 role="tab"
                                 aria-selected="false">
-                                <span class="ml-1">AniList</span>
+                                <span>AniList</span>
                             </a>
                         </li>
                     </ul>
@@ -110,6 +110,14 @@
         <!-- Cards Settings -->
         <div id="cardsSettings" class="flex-col gap-3 hidden">
             <div class="flex flex-col gap-3 px-2">
+                <div class="w-full flex flex-col gap-2">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input id="showIconCheckbox1" type="checkbox" value="" class="sr-only peer" />
+                        <div
+                            class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-gray-300 rounded-lg peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-lg after:h-4 after:w-4 after:transition-all peer-checked:bg-black/80"></div>
+                        <span class="ms-3" data-i18n="showIconProvider"></span>
+                    </label>
+                </div>
                 <div class="w-full flex flex-col gap-2 relative">
                     <label class="ml-2" for="colorChoice1" data-i18n="textColorLabel"></label>
                     <div class="flex w-full">
@@ -190,6 +198,14 @@
         <!-- Detail Settings -->
         <div id="detailSettings" class="flex-col gap-3 hidden">
             <div class="flex flex-col gap-3 px-2">
+                <div class="w-full flex flex-col gap-2">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input id="showIconCheckbox2" type="checkbox" value="" class="sr-only peer" />
+                        <div
+                            class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-gray-300 rounded-lg peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-lg after:h-4 after:w-4 after:transition-all peer-checked:bg-black/80"></div>
+                        <span class="ms-3" data-i18n="showIconProvider"></span>
+                    </label>
+                </div>
                 <div class="w-full flex flex-col gap-2 relative">
                     <label class="ml-2" for="colorChoice2" data-i18n="textColorLabel"></label>
                     <div class="flex w-full">
@@ -258,6 +274,14 @@
         <!-- Watch Settings -->
         <div id="watchSettings" class="flex-col gap-3 hidden">
             <div class="flex flex-col gap-3 px-2">
+                <div class="w-full flex flex-col gap-2">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input id="showIconCheckbox3" type="checkbox" value="" class="sr-only peer" />
+                        <div
+                            class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-gray-300 rounded-lg peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-lg after:h-4 after:w-4 after:transition-all peer-checked:bg-black/80"></div>
+                        <span class="ms-3" data-i18n="showIconProvider"></span>
+                    </label>
+                </div>
                 <div class="w-full flex flex-col gap-2 relative">
                     <label class="ml-2" for="colorChoice3" data-i18n="textColorLabel"></label>
                     <div class="flex w-full">

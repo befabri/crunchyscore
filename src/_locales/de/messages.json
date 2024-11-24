@@ -85,5 +85,8 @@
     },
     "provider": {
         "message": "Wählen Sie den Bewertungsanbieter"
+    },
+    "showIconProvider": {
+        "message": "AniList/MyAnimeList-Logo anzeigen"
     }
 }

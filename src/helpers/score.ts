@@ -1,15 +1,49 @@
+import { DataAttributes } from "../constants/constants";
 import { AnimeScore } from "../models/model";
-import { PopupSavedMessage, Provider, TabConfig, config } from "../services/configService";
+import { PopupSavedMessage, Provider, TabConfig, config, decimalType } from "../services/configService";
 import { isHTMLElement, roundScore } from "../utils/utils";
 import { removeExistingSeparator } from "./dom";
 import { insertToLayout } from "./insertLayout";
 import { ScoreSelector, ScoreType } from "./types";
+
+interface ProviderObj {
+    name: string;
+    baseUrl: string;
+    icon: string;
+    formatScore: (score: number, text: string, decimal: decimalType) => string;
+    getUrl: (id: number) => string;
+}
+
+const providers: Record<Provider, ProviderObj> = {
+    [Provider.MyAnimeList]: {
+        name: "MyAnimeList",
+        baseUrl: "https://myanimelist.net/anime/",
+        icon: "myanimelist",
+        formatScore: (score, text, decimal) => `${text} ${roundScore(score, decimal)}`,
+        getUrl: function (id: number) {
+            return `${this.baseUrl}${id}`;
+        },
+    },
+    [Provider.AniList]: {
+        name: "Anilist",
+        baseUrl: "https://anilist.co/anime/",
+        icon: "anilist",
+        formatScore: (score, text, decimal) => `${text} ${roundScore(score, decimal)}%`,
+        getUrl: function (id: number) {
+            return `${this.baseUrl}${id}`;
+        },
+    },
+};
 
 export function insertScore(spanElement: HTMLElement, animeScore: AnimeScore, scoreType: ScoreType) {
     if (scoreType !== ScoreType.CARD && scoreType !== ScoreType.DETAIL && scoreType !== ScoreType.WATCH) {
         return;
     }
     const score = config.provider === Provider.AniList ? animeScore.anilist_score : animeScore.score;
+    let id = config.provider === Provider.AniList ? animeScore.anilist_id : animeScore.myanimelist_id;
+    if (!id) {
+        id = 0;
+    }
     if (score <= 0) {
         return;
     }
@@ -24,12 +58,7 @@ export function insertScore(spanElement: HTMLElement, animeScore: AnimeScore, sc
         [ScoreType.WATCH]: config.tab3,
     };
 
-    const scoreElement = createScoreElement(
-        score,
-        tabMap[scoreType],
-        config.provider === Provider.AniList,
-        classSelector
-    );
+    const scoreElement = createHrefScoreElement(score, tabMap[scoreType], config.provider, classSelector, id);
     insertToLayout(scoreElement, spanElement, tabMap[scoreType].layout, scoreType);
 }
 
@@ -43,16 +72,15 @@ export function updateScoreByClassName(
     if (!parentElem) return;
 
     const elements = document.getElementsByClassName(className);
-    const elementsArray = Array.from(elements);
-    for (let element of elementsArray) {
+    Array.from(elements).forEach((element) => {
         if (isHTMLElement(element)) {
             handleScoreUpdate(parentElem, request, scoreType);
         }
-    }
+    });
 }
 
 export function handleScoreUpdate(
-    element: HTMLElement | Element,
+    context: HTMLElement | Element,
     request: PopupSavedMessage,
     scoreType: ScoreType
 ) {
@@ -66,43 +94,139 @@ export function handleScoreUpdate(
         [ScoreType.WATCH]: request.tab3,
     };
     const classSelector = ScoreSelector[scoreType.toUpperCase() as keyof typeof ScoreSelector];
-    const scoreElement = updateScoreElement(classSelector, element, tabMap[scoreType]);
-    if (!scoreElement) {
-        return;
-    }
-    removeExistingSeparator(element);
-    insertToLayout(scoreElement, element, tabMap[scoreType].layout, scoreType);
-}
+    const scoreElement = context.querySelector(classSelector);
 
-function updateScoreElement(selector: string, context: HTMLElement | Element, tab: TabConfig) {
-    const scoreElement = context.querySelector(selector);
     if (!isHTMLElement(scoreElement)) return;
-
-    scoreElement.style.color = tab.color;
-    const numberScoreAttr = scoreElement.getAttribute("data-numberscore");
-    if (numberScoreAttr === null) return;
-
-    const numberScore = parseFloat(numberScoreAttr);
-    const roundedScore = roundScore(numberScore, tab.decimal);
-    scoreElement.setAttribute("data-textscore", tab.text);
-    scoreElement.setAttribute("data-numberscore", roundedScore.toString());
-    const isAnilist = config.provider === Provider.AniList;
-    scoreElement.textContent = ` ${tab.text} ${roundedScore}${isAnilist ? "%" : ""}`;
-    return scoreElement;
+    updateHrefScoreElement(scoreElement as HTMLAnchorElement, tabMap[scoreType]);
+    removeExistingSeparator(context);
+    insertToLayout(scoreElement, context, tabMap[scoreType].layout, scoreType);
 }
 
-function createScoreElement(
+function createImgIcon(icon: string): HTMLImageElement {
+    const imgIcon = document.createElement("img");
+    imgIcon.src = chrome.runtime.getURL(`assets/${icon}.svg`);
+    imgIcon.alt = icon.toString();
+    imgIcon.style.width = "20px";
+    imgIcon.style.height = "20px";
+    imgIcon.style.display = "inline-block";
+    imgIcon.style.verticalAlign = "middle";
+    return imgIcon;
+}
+
+function createTextSpan(content: string): HTMLSpanElement {
+    const span = document.createElement("span");
+    span.textContent = content;
+    return span;
+}
+
+function getProviderUrl(provider: ProviderObj, id: number): string {
+    return `${provider.baseUrl}${id}`;
+}
+
+function applyCommonStyles(element: HTMLAnchorElement, color: string): void {
+    element.style.display = "flex";
+    element.style.alignItems = "center";
+    element.style.gap = "4px";
+    element.style.color = color;
+}
+
+function setAnchorAttributes(
+    element: HTMLAnchorElement,
+    provider: ProviderObj,
+    id: number,
+    selector: ScoreSelector
+): void {
+    if (id != 0) {
+        element.href = getProviderUrl(provider, id);
+        element.target = "_blank";
+        element.rel = "noopener noreferrer";
+    } else {
+        element.removeAttribute("href");
+        element.style.cursor = "default";
+        element.style.pointerEvents = "none";
+    }
+    element.classList.add(selector.substring(1));
+}
+
+function setDataAttributes(
+    element: HTMLAnchorElement,
+    providerKey: Provider,
+    id: number,
+    score: number,
+    tabConfig: TabConfig
+): void {
+    element.setAttribute(DataAttributes.ProviderKey, providerKey.toString());
+    element.setAttribute(DataAttributes.Id, id.toString());
+    element.setAttribute(DataAttributes.ScoreNumber, score.toString());
+    element.setAttribute(DataAttributes.ScoreText, tabConfig.text);
+}
+
+function createHrefScoreElement(
     score: number,
     tabConfig: TabConfig,
-    isAnilist: boolean,
-    selector: ScoreSelector
-): HTMLElement {
-    const scoreElement = document.createElement("span");
-    const scoreNumber = roundScore(score, tabConfig.decimal);
-    scoreElement.textContent = ` ${tabConfig.text} ${scoreNumber}${isAnilist ? "%" : ""}`;
-    scoreElement.style.color = tabConfig.color;
-    scoreElement.classList.add(selector.substring(1));
-    scoreElement.setAttribute("data-textscore", tabConfig.text);
-    scoreElement.setAttribute("data-numberscore", scoreNumber.toString());
+    providerKey: Provider,
+    selector: ScoreSelector,
+    id: number
+): HTMLAnchorElement {
+    const provider = providers[providerKey];
+    if (!provider) {
+        throw new Error(`Unsupported provider: ${providerKey}`);
+    }
+
+    const scoreElement = document.createElement("a");
+    applyCommonStyles(scoreElement, tabConfig.color);
+
+    if (tabConfig.iconProvider) {
+        const iconElement = createImgIcon(provider.icon);
+        scoreElement.appendChild(iconElement);
+    }
+
+    const textNode = createTextSpan(` ${provider.formatScore(score, tabConfig.text, tabConfig.decimal)}`);
+    scoreElement.appendChild(textNode);
+
+    setAnchorAttributes(scoreElement, provider, id, selector);
+    setDataAttributes(scoreElement, providerKey, id, score, tabConfig);
+
     return scoreElement;
+}
+
+function updateHrefScoreElement(scoreElement: HTMLAnchorElement, tabConfig: TabConfig): void {
+    const providerStr = scoreElement.getAttribute(DataAttributes.ProviderKey);
+    const idStr = scoreElement.getAttribute(DataAttributes.Id);
+    const decimalStr = scoreElement.getAttribute(DataAttributes.ScoreNumber);
+
+    if (!providerStr || !idStr || !decimalStr) {
+        return;
+    }
+
+    const id = parseInt(idStr, 10);
+    const score = parseFloat(decimalStr);
+    const providerKey = parseInt(providerStr, 10) as Provider;
+
+    const provider = providers[providerKey];
+    if (!provider) {
+        return;
+    }
+
+    const newUrl = provider.getUrl(id);
+    if (scoreElement.getAttribute(DataAttributes.Id) !== id.toString()) {
+        scoreElement.href = newUrl;
+        scoreElement.setAttribute(DataAttributes.Id, id.toString());
+    }
+
+    const imageElement = scoreElement.querySelector("img");
+    if (imageElement) {
+        imageElement.style.display = tabConfig.iconProvider ? "inline-block" : "none";
+    } else if (tabConfig.iconProvider) {
+        const iconElement = createImgIcon(provider.icon);
+        scoreElement.insertBefore(iconElement, scoreElement.firstChild);
+    }
+
+    const textSpan = scoreElement.querySelector("span") as HTMLSpanElement | null;
+    if (textSpan) {
+        textSpan.textContent = ` ${provider.formatScore(score, tabConfig.text, tabConfig.decimal)}`;
+    }
+
+    applyCommonStyles(scoreElement, tabConfig.color);
+    setDataAttributes(scoreElement, providerKey, id, score, tabConfig);
 }

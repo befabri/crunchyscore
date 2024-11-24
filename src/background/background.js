@@ -8,18 +8,21 @@ chrome.runtime.onInstalled.addListener(function () {
                     text: "Score",
                     order: "order1",
                     decimal: "decimal1",
+                    iconProvider: false,
                 },
                 tab2: {
                     color: "#ffffff",
                     layout: "layout4",
                     text: "✯",
                     decimal: "decimal1",
+                    iconProvider: true,
                 },
                 tab3: {
                     color: "#ffffff",
                     layout: "layout1",
                     text: "✯",
                     decimal: "decimal1",
+                    iconProvider: true,
                 },
             };
             chrome.storage.local.set(defaultData);

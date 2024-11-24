@@ -53,13 +53,6 @@ chrome.runtime.onMessage.addListener(function (request: RequestType) {
                     })();
                 }
             }
-            if (
-                request.tab1.decimal != config.tab1.decimal ||
-                request.tab2.decimal != config.tab2.decimal ||
-                request.tab3.decimal != config.tab3.decimal
-            ) {
-                location.reload();
-            }
         }
 
         if (request.type == "changeUrl") {

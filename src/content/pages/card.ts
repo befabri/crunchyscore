@@ -1,3 +1,4 @@
+import { DataAttributes } from "../../constants/constants";
 import { insertScore } from "../../helpers/score";
 import { ScoreSelector, ScoreType } from "../../helpers/types";
 import { Anime, AnimeScore } from "../../models/model";
@@ -87,7 +88,9 @@ export async function insertScoreController(animes: AnimeScore[], order?: string
                 const scoreElement = card.querySelector(ScoreSelector.CARD);
                 return {
                     node: card,
-                    score: scoreElement ? parseFloat(scoreElement.getAttribute("data-numberscore") || "0") : 0,
+                    score: scoreElement
+                        ? parseFloat(scoreElement.getAttribute(DataAttributes.ScoreNumber) || "0")
+                        : 0,
                 };
             })
             .sort((a: SortableCard, b: SortableCard) =>
