@@ -1,15 +1,11 @@
 import { Anime, AnimeScore } from "../models/model";
+import { decimalType } from "../services/configService";
 
-function formatScore(score: number, config: { decimal: string; text: string }): string {
-    const roundedScore = roundScore(score, config.decimal);
-    return `${config.text} ${roundedScore}`;
-}
-
-function isHTMLElement(element: any): element is HTMLElement {
+export function isHTMLElement(element: any): element is HTMLElement {
     return element instanceof HTMLElement;
 }
 
-function roundScore(score: number, decimalConfig: string): number {
+export function roundScore(score: number, decimalConfig: decimalType): number {
     switch (decimalConfig) {
         case "decimal1":
             return Math.floor(score * 100) / 100;
@@ -26,7 +22,7 @@ export const delay = (ms: number): Promise<void> => {
     return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-function extractIdFromUrl(url: string): string | null {
+export function extractIdFromUrl(url: string): string | null {
     if (!url) {
         return null;
     }
@@ -40,7 +36,7 @@ export function findAnimeById(anime: Anime, animes: AnimeScore[]): AnimeScore | 
     return animes.find((obj) => obj.id === anime.id);
 }
 
-function getAnimeFromCurrentUrl(): Anime | null {
+export function getAnimeFromCurrentUrl(): Anime | null {
     const url = location.href;
     const id = extractIdFromUrl(url);
     if (!id) {
@@ -49,7 +45,7 @@ function getAnimeFromCurrentUrl(): Anime | null {
     return { id: id, seasonTags: null };
 }
 
-function getAnimeFromMetaProperty(): Anime | null {
+export function getAnimeFromMetaProperty(): Anime | null {
     const metaElement = document.querySelector('meta[property="video:series"]');
     if (!metaElement) return null;
     const ogUrlContent = metaElement.getAttribute("content");
@@ -62,7 +58,7 @@ function getAnimeFromMetaProperty(): Anime | null {
     return { id: id, seasonTags: null };
 }
 
-function isPageTypeByUrl(url: string, targetType: string, targetPosition: number): boolean {
+export function isPageTypeByUrl(url: string, targetType: string, targetPosition: number): boolean {
     if (!url) {
         return false;
     }
@@ -76,26 +72,14 @@ function isPageTypeByUrl(url: string, targetType: string, targetPosition: number
     }
 }
 
-function returnHref(children: HTMLCollection): string {
+export function returnHref(children: HTMLCollection): string {
     return Array.from(children)
         .map((child) => (child as HTMLAnchorElement).href)
         .sort()
         .join("|");
 }
 
-function getLastPartUrl(url: string): string {
+export function getLastPartUrl(url: string): string {
     const parts = url.split("/");
     return parts[parts.length - 1].replace(/-/g, " ");
 }
-
-export {
-    roundScore,
-    extractIdFromUrl,
-    returnHref,
-    getLastPartUrl,
-    formatScore,
-    isHTMLElement,
-    getAnimeFromCurrentUrl,
-    getAnimeFromMetaProperty,
-    isPageTypeByUrl,
-};
