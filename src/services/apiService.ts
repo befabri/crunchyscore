@@ -1,7 +1,7 @@
 import { Anime, AnimeScore } from "../models/model";
 import { updateNotFoundCache } from "./notFoundCacheService";
 
-const BASE_URL = "https://api.crunchyscore.app/api/crunchyroll/score";
+const BASE_URL = "https://api.crunchyscore.app/api/v1/score";
 const BLACKLIST_IDS: string[] = [
     "GY1XXXPQY",
     "G6EXH7VKM",
