@@ -85,5 +85,8 @@
     },
     "provider": {
         "message": "Sélectionnez le fournisseur de scores"
+    },
+    "showIconProvider": {
+        "message": "Afficher le logo Anilist/MyAnimelist"
     }
 }

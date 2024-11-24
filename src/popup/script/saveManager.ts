@@ -7,6 +7,7 @@ interface TabData {
     text: string;
     decimal: string;
     order?: string;
+    iconProvider: boolean;
 }
 
 interface ConfigData {
@@ -20,6 +21,7 @@ function generateTabConfig(browser: "Chrome" | "Firefox", indices: number[]): Co
                 browser === "Firefox"
                     ? getElementById<HexColorPicker>(`colorChoice${index}`).color
                     : getElementById<HTMLInputElement>(`colorChoice${index}`).value,
+            iconProvider: getElementById<HTMLInputElement>(`showIconCheckbox${index}`).checked,
             layout: getElementById<HTMLInputElement>(`layoutChoice${index}`).value,
             text: getElementById<HTMLInputElement>(`textChoice${index}`).value,
             decimal: getElementById<HTMLInputElement>(`decimalChoice${index}`).value,
@@ -52,6 +54,7 @@ function loadTabSettings(browser: "Chrome" | "Firefox"): void {
                 } else {
                     getElementById<HTMLInputElement>(`colorChoice${index + 1}`).value = tabData.color;
                 }
+                getElementById<HTMLInputElement>(`showIconCheckbox${index + 1}`).checked = tabData.iconProvider;
                 getElementById<HTMLInputElement>(`colorText${index + 1}`).value = tabData.color;
                 getElementById<HTMLInputElement>(`layoutChoice${index + 1}`).value = tabData.layout;
                 getElementById<HTMLInputElement>(`textChoice${index + 1}`).value = tabData.text;
