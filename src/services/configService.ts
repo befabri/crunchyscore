@@ -1,9 +1,12 @@
+export type decimalType = "decimal1" | "decimal2" | "decimal3";
+
 export type TabConfig = {
-    color: string;
-    layout: string;
+    color: `#${string}`;
+    layout: "layout1" | "layout2" | "layout3" | "layout4";
     text: string;
-    decimal: string;
+    decimal: decimalType;
     order?: string;
+    iconProvider: boolean;
 };
 
 export enum Provider {
@@ -60,18 +63,21 @@ export const defaultConfig: Config = {
         text: "Score",
         order: "order1",
         decimal: "decimal1",
+        iconProvider: false,
     },
     tab2: {
         color: "#ffffff",
         layout: "layout4",
         text: "✯",
         decimal: "decimal1",
+        iconProvider: true,
     },
     tab3: {
         color: "#ffffff",
         layout: "layout1",
         text: "✯",
         decimal: "decimal1",
+        iconProvider: true,
     },
 };
 
