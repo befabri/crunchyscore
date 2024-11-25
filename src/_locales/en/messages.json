@@ -86,9 +86,6 @@
     "provider": {
         "message": "Select the score provider"
     },
-    "iconCheckboxLabel": {
-        "message": "Display logo of the provider next to the score"
-    },
     "showIconProvider": {
         "message": "Show the AniList/MyAnimeList logo"
     }
