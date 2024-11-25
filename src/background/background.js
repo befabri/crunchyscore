@@ -13,14 +13,14 @@ chrome.runtime.onInstalled.addListener(function () {
                 tab2: {
                     color: "#ffffff",
                     layout: "layout4",
-                    text: "✯",
+                    text: "",
                     decimal: "decimal1",
                     iconProvider: true,
                 },
                 tab3: {
                     color: "#ffffff",
                     layout: "layout1",
-                    text: "✯",
+                    text: "",
                     decimal: "decimal1",
                     iconProvider: true,
                 },
