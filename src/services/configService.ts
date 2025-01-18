@@ -1,11 +1,13 @@
 export type decimalType = "decimal1" | "decimal2" | "decimal3";
+export type orderType = "order1" | "order2" | "order3";
+export type layoutType = "layout1" | "layout2" | "layout3" | "layout4";
 
 export type TabConfig = {
     color: `#${string}`;
-    layout: "layout1" | "layout2" | "layout3" | "layout4";
+    layout: layoutType;
     text: string;
     decimal: decimalType;
-    order?: string;
+    order?: orderType;
     iconProvider: boolean;
 };
 

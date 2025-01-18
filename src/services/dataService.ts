@@ -1,7 +1,6 @@
+import { TIMESTAMP_REFRESH_ANIME_CACHE } from "../constants/constants";
 import { Anime, AnimeScore } from "../models/model";
 import { fetchAndSaveAnimeScores } from "./apiService";
-
-const TIMESTAMP_REFRESH_ANIME_CACHE = "lastRefreshTimeAnime";
 
 export async function saveData(animeFetch: AnimeScore[]): Promise<void> {
     return new Promise((resolve) => {
@@ -36,6 +35,7 @@ export async function getStorageAnimeData(): Promise<AnimeScore[]> {
 }
 
 export async function refreshAnime(): Promise<void> {
+    localStorage.setItem(TIMESTAMP_REFRESH_ANIME_CACHE, Date.now().toString());
     const animesScore = await getStorageAnimeData();
     const animes: Anime[] = animesScore.map((animeScore) => {
         return {
@@ -46,7 +46,6 @@ export async function refreshAnime(): Promise<void> {
     if (animeFetch) {
         await saveData(animeFetch.filter((anime) => anime.score !== 0));
     }
-    localStorage.setItem(TIMESTAMP_REFRESH_ANIME_CACHE, Date.now().toString());
 }
 
 export function getTimestampAnimeRefresh(): number {

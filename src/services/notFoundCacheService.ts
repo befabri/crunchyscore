@@ -1,14 +1,12 @@
+import { NOT_FOUND_CACHE, TIMESTAMP_REFRESH_CACHE } from "../constants/constants";
 import { AnimeScore } from "../models/model";
 import { fetchAndSaveAnimeScores } from "./apiService";
-
-const TIMESTAMP_REFRESH_CACHE = "lastRefreshTime";
-const NOT_FOUND_CACHE = "notFoundCache";
 
 export async function refreshNotFoundCache(): Promise<void> {
     const notFoundCache = getNotFoundCache();
     const urls = Object.values(notFoundCache);
-    await fetchAndSaveAnimeScores(urls);
     localStorage.setItem(TIMESTAMP_REFRESH_CACHE, Date.now().toString());
+    await fetchAndSaveAnimeScores(urls);
 }
 
 export function getNotFoundCache(): Record<string, AnimeScore> {
