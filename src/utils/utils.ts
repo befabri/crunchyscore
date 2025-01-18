@@ -5,16 +5,16 @@ export function isHTMLElement(element: any): element is HTMLElement {
     return element instanceof HTMLElement;
 }
 
-export function roundScore(score: number, decimalConfig: decimalType): number {
+export function formatScore(score: number, decimalConfig: decimalType): string {
     switch (decimalConfig) {
         case "decimal1":
-            return Math.floor(score * 100) / 100;
+            return score.toFixed(2);
         case "decimal2":
-            return Math.floor(score * 10) / 10;
+            return score.toFixed(1);
         case "decimal3":
-            return Math.floor(score);
+            return score.toFixed();
         default:
-            return score;
+            return score.toFixed(2);
     }
 }
 

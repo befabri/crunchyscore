@@ -1,7 +1,7 @@
 import { DataAttributes } from "../constants/constants";
 import { AnimeScore } from "../models/model";
 import { PopupSavedMessage, Provider, TabConfig, config, decimalType } from "../services/configService";
-import { isHTMLElement, roundScore } from "../utils/utils";
+import { formatScore, isHTMLElement } from "../utils/utils";
 import { removeExistingSeparator } from "./dom";
 import { insertToLayout } from "./insertLayout";
 import { ScoreSelector, ScoreType } from "./types";
@@ -19,7 +19,7 @@ const providers: Record<Provider, ProviderObj> = {
         name: "MyAnimeList",
         baseUrl: "https://myanimelist.net/anime/",
         icon: "myanimelist",
-        formatScore: (score, text, decimal) => `${text} ${roundScore(score, decimal)}`,
+        formatScore: (score, text, decimal) => `${text} ${formatScore(score, decimal)}`,
         getUrl: function (id: number) {
             return `${this.baseUrl}${id}`;
         },
@@ -28,7 +28,7 @@ const providers: Record<Provider, ProviderObj> = {
         name: "Anilist",
         baseUrl: "https://anilist.co/anime/",
         icon: "anilist",
-        formatScore: (score, text, decimal) => `${text} ${roundScore(score, decimal)}%`,
+        formatScore: (score, text, _) => `${text} ${score}%`,
         getUrl: function (id: number) {
             return `${this.baseUrl}${id}`;
         },
