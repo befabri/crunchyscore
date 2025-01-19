@@ -35,6 +35,8 @@ const BLACKLIST_IDS: string[] = [
     "GY49P88ER",
     "GYK5X214R",
     "GYVD2XZXY",
+    "GXJHM3GN4",
+    "G4PH0WJPQ",
 ];
 
 export function isBlacklisted(animeId: string): boolean {
