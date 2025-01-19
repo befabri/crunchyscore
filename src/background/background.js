@@ -29,13 +29,3 @@ chrome.runtime.onInstalled.addListener(function () {
         }
     });
 });
-
-chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
-    if (changeInfo.status === "complete") {
-        chrome.tabs.sendMessage(tabId, { type: "changeUrl", url: changeInfo.url }, function () {
-            if (chrome.runtime.lastError) {
-                return;
-            }
-        });
-    }
-});
