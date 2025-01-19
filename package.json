@@ -7,7 +7,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "npm run build:chrome && npm run build:firefox",
         "build:chrome": "vite build --mode chrome",
-        "build:firefox": "vite build --mode firefox"
+        "build:firefox": "vite build --mode firefox",
+        "lint": "tsc --noEmit"
     },
     "type": "module",
     "author": "Benjamin Fabri",
