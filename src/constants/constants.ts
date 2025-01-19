@@ -13,3 +13,4 @@ export const TIMESTAMP_REFRESH_ANIME_CACHE = "lastRefreshTimeAnime";
 export const TIMESTAMP_REFRESH_CACHE = "lastRefreshTime";
 export const NOT_FOUND_CACHE = "notFoundCache";
 export const DEBOUNCE_DURATION = 300;
+export const API_URL = "https://api.crunchyscore.app/api/v1/score";
