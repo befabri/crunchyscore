@@ -1,38 +1,42 @@
-import { insertScore } from "../../helpers/score";
-import { ScoreType } from "../../helpers/types";
-import { fetchAnimeScores, isBlacklisted } from "../../services/apiService";
-import { getStorageAnimeData, saveData } from "../../services/dataService";
-import { findAnimeById, getAnimeFromMetaProperty, isPageTypeByUrl } from "../../utils/utils";
+import { updateScoreByClassName } from "../../helpers/score";
+import { ScoreSelector, ScoreType } from "../../helpers/types";
+import { PopupSavedMessage } from "../../services/configService";
+import { getAnimeFromMetaProperty, isPageTypeByUrl } from "../../utils/utils";
+import { PageHandler } from "./page";
 
-export async function handleWatchPage(): Promise<void> {
-    const targetElem = document.querySelector("div.erc-current-media-info") as HTMLElement;
-    if (targetElem && !document.querySelector(".score-watch")) {
-        const animesStorage = await getStorageAnimeData();
-        const anime = getAnimeFromMetaProperty();
-        if (anime !== null) {
-            const animeScore = findAnimeById(anime, animesStorage);
-            if (animeScore) {
-                insertScore(targetElem, animeScore, ScoreType.WATCH);
-            } else {
-                if (!isBlacklisted(anime.id)) {
-                    const animeFetch = await fetchAnimeScores([anime]);
-                    if (animeFetch && animeFetch.length > 0) {
-                        insertScore(targetElem, animeFetch[0], ScoreType.WATCH);
-                        await saveData(animeFetch);
-                    }
-                }
-            }
-        }
+export class WatchPageHandler extends PageHandler {
+    constructor() {
+        super();
     }
-}
 
-export function getWatchContainer() {
-    return (
-        document.querySelector("div.erc-current-media-info") &&
-        !document.querySelector("div.erc-watch-hero-placeholder")
-    );
-}
+    getTargetElement(): HTMLElement | null {
+        return document.querySelector("div.erc-current-media-info") as HTMLElement;
+    }
 
-export function isWatchPage(url: string): boolean {
-    return isPageTypeByUrl(url, "watch", 3);
+    getScoreSelector(): string {
+        return ScoreSelector.WATCH;
+    }
+
+    getAnime(): any {
+        return getAnimeFromMetaProperty();
+    }
+
+    getScoreType(): ScoreType {
+        return ScoreType.WATCH;
+    }
+
+    getContainer(): boolean {
+        return (
+            !!document.querySelector("div.erc-current-media-info") &&
+            !document.querySelector("div.erc-watch-hero-placeholder")
+        );
+    }
+
+    isPage(url: string): boolean {
+        return isPageTypeByUrl(url, "watch", 3);
+    }
+
+    updateScores(request: PopupSavedMessage): void {
+        updateScoreByClassName("score-watch", request, "div.erc-current-media-info", ScoreType.WATCH);
+    }
 }

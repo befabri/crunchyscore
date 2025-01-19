@@ -1,40 +1,43 @@
-import { insertScore } from "../../helpers/score";
-import { ScoreType } from "../../helpers/types";
-import { fetchAnimeScores, isBlacklisted } from "../../services/apiService";
-import { getStorageAnimeData, saveData } from "../../services/dataService";
-import { findAnimeById, getAnimeFromCurrentUrl, isPageTypeByUrl } from "../../utils/utils";
+import { updateScoreByClassName } from "../../helpers/score";
+import { ScoreSelector, ScoreType } from "../../helpers/types";
+import { PopupSavedMessage } from "../../services/configService";
+import { getAnimeFromCurrentUrl, isPageTypeByUrl } from "../../utils/utils";
+import { PageHandler } from "./page";
 
-export async function handleDetailPage(): Promise<void> {
-    const targetElem = document.querySelector("div.erc-series-hero") as HTMLElement;
-    if (targetElem && !document.querySelector(".score-detail")) {
-        const animesStorage = await getStorageAnimeData();
-        const anime = getAnimeFromCurrentUrl();
-        if (anime !== null) {
-            const animeScore = findAnimeById(anime, animesStorage);
-            if (animeScore) {
-                insertScore(targetElem, animeScore, ScoreType.DETAIL);
-            } else {
-                if (!isBlacklisted(anime.id)) {
-                    const animeFetch = await fetchAnimeScores([anime]);
-                    if (animeFetch && animeFetch.length > 0) {
-                        insertScore(targetElem, animeFetch[0], ScoreType.DETAIL);
-                        await saveData(animeFetch);
-                    }
-                }
-            }
-        }
+export class DetailPageHandler extends PageHandler {
+    constructor() {
+        super();
     }
-}
 
-export function getDetailContainer() {
-    return (
-        document.querySelector("div.erc-series-hero") &&
-        document.querySelector("div.hero-heading-line") &&
-        !document.querySelector("div.erc-series-hero-placeholder") &&
-        !document.querySelector("div.loading--9nt-6")
-    );
-}
+    getTargetElement(): HTMLElement | null {
+        return document.querySelector('div[data-t="series-hero-body"]') as HTMLElement;
+    }
 
-export function isDetailPage(url: string): boolean {
-    return isPageTypeByUrl(url, "series", 3);
+    getScoreSelector(): string {
+        return ScoreSelector.DETAIL;
+    }
+
+    getAnime(): any {
+        return getAnimeFromCurrentUrl();
+    }
+
+    getScoreType(): ScoreType {
+        return ScoreType.DETAIL;
+    }
+
+    getContainer(): boolean {
+        return (
+            !!document.querySelector('div[data-t="series-hero-body"]') &&
+            !!document.querySelector('div[data-t="series-hero-container"]') &&
+            !document.querySelector("div.erc-series-hero-placeholder")
+        );
+    }
+
+    isPage(url: string): boolean {
+        return isPageTypeByUrl(url, "series", 3);
+    }
+
+    updateScores(request: PopupSavedMessage): void {
+        updateScoreByClassName("score-detail", request, 'div[data-t="series-hero-body"]', ScoreType.DETAIL);
+    }
 }

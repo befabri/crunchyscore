@@ -1,72 +1,56 @@
-import { handleScoreUpdate, updateScoreByClassName } from "../helpers/score";
-import { ScoreType } from "../helpers/types";
+import { DEBOUNCE_DURATION } from "../constants/constants";
 import { config, RequestType, updateConfig } from "../services/configService";
 import { getStorageAnimeData } from "../services/dataService";
 import { refreshNotFoundCache } from "../services/notFoundCacheService";
-import { isHTMLElement } from "../utils/utils";
-import {
-    isCardsPage,
-    getCardsFromGridPage,
-    handleCardPage,
-    isSimulcastPage,
-    insertScoreController,
-} from "./pages/card";
-import { isDetailPage, getDetailContainer, handleDetailPage } from "./pages/detail";
-import { isWatchPage, getWatchContainer, handleWatchPage } from "./pages/watch";
+import { CardPageHandler } from "./pages/card";
+import { DetailPageHandler } from "./pages/detail";
+import { WatchPageHandler } from "./pages/watch";
 
 updateConfig();
 
+const detailPage = new DetailPageHandler();
+const watchPage = new WatchPageHandler();
+const cardPage = new CardPageHandler();
+const pageHandlers = [cardPage, detailPage, watchPage];
+
 let globalObserver: MutationObserver | null = null;
+let debounceTimeout: number;
+let isHandlingPage = false;
 
 chrome.runtime.onMessage.addListener(function (request: RequestType) {
     try {
-        if (request.type === "forceRefreshCache") {
-            (async () => {
-                await refreshNotFoundCache();
-            })();
-        }
-        if (request.type === "changeProvider") {
-            (async () => {
-                await updateConfig();
-            })();
-            location.reload();
-        }
-        if (request.type === "popupSaved") {
-            const cards = document.querySelectorAll('[data-t="series-card "]');
-            cards.forEach((card) => {
-                if (isHTMLElement(card)) {
-                    handleScoreUpdate(card, request, ScoreType.CARD);
+        switch (request.type) {
+            case "forceRefreshCache":
+                (async () => {
+                    await refreshNotFoundCache();
+                })();
+                break;
+            case "changeProvider":
+                (async () => {
+                    await updateConfig();
+                })();
+                location.reload();
+                break;
+            case "popupSaved":
+                for (const handler of pageHandlers) {
+                    handler.updateScores(request);
                 }
-            });
-            updateScoreByClassName("score-detail", request, "div.erc-series-hero", ScoreType.DETAIL);
-            updateScoreByClassName("score-watch", request, "div.erc-current-media-info", ScoreType.WATCH);
-            (async () => {
-                await updateConfig();
-            })();
-            if (request.tab1.order != config.tab1.order) {
-                if (request.tab1.order === "order1") {
-                    location.reload();
-                } else {
-                    (async () => {
-                        const data = await getStorageAnimeData();
-                        await insertScoreController(data, request.tab1.order);
-                    })();
+                (async () => {
+                    await updateConfig();
+                })();
+                if (request.tab1.order != config.tab1.order) {
+                    if (request.tab1.order === "order1") {
+                        location.reload();
+                    } else {
+                        (async () => {
+                            const data = await getStorageAnimeData();
+                            await cardPage.insertScoreController(data, request.tab1.order);
+                        })();
+                    }
                 }
-            }
-        }
-
-        if (request.type == "changeUrl") {
-            let intervalId = setInterval(function () {
-                if (
-                    isCardsPage() &&
-                    Array.from(getCardsFromGridPage()).length > 0 &&
-                    isSimulcastPage(location.href)
-                ) {
-                    updateConfig();
-                    handleCardPage();
-                    clearInterval(intervalId);
-                }
-            }, 600);
+                break;
+            default:
+                break;
         }
     } catch (error) {
         console.error("Error SendOnMessage");
@@ -78,11 +62,22 @@ if (!targetNode) {
     console.error("Target node (document.body) not found");
 }
 
-const configObserver = { attributes: true, childList: true, subtree: true };
+async function debounceCallback() {
+    for (const handler of pageHandlers) {
+        if (handler.isPage(location.href) && handler.getContainer()) {
+            isHandlingPage = true;
+            await updateConfig();
+            await handler.handlePage();
+            isHandlingPage = false;
+        }
+    }
+}
 
+const configObserver = { attributes: true, childList: true, subtree: true };
 globalObserver = new MutationObserver(async (mutationsList, _) => {
+    let debounce = false;
     for (const mutation of mutationsList) {
-        if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+        if (mutation.type === "childList" && mutation.addedNodes.length > 0 && !isHandlingPage) {
             const node = mutation.addedNodes[0];
             if (
                 node instanceof Element &&
@@ -90,28 +85,30 @@ globalObserver = new MutationObserver(async (mutationsList, _) => {
                 node.className &&
                 !["tooltip-content"].includes(node.getAttribute("data-t") || "")
             ) {
-                if (
-                    !isSimulcastPage(location.href) &&
-                    isCardsPage() &&
-                    Array.from(getCardsFromGridPage()).length > 0
-                ) {
-                    await updateConfig();
-                    await handleCardPage();
-                    return;
-                }
-                if (isWatchPage(location.href) && getWatchContainer()) {
-                    await updateConfig();
-                    await handleWatchPage();
-                    return;
-                }
-
-                if (isDetailPage(location.href) && getDetailContainer()) {
-                    await updateConfig();
-                    await handleDetailPage();
-                    return;
+                const mutationTarget = mutation.target instanceof Element ? mutation.target : null;
+                const conditions = [
+                    () => mutationTarget && mutationTarget.matches("div.erc-browse-cards-collection"),
+                    () => node.matches("div.erc-browse-collection"),
+                    () => node.matches("div.erc-browse-new"),
+                    () => node.matches("div.erc-genres-collection"),
+                    () => mutationTarget && mutationTarget.matches("div.erc-genres-collection"),
+                    () => node.classList.contains("erc-watch-episode"),
+                    () =>
+                        mutationTarget &&
+                        mutationTarget.getAttribute("data-t")?.endsWith("series-hero-background"),
+                ];
+                for (const condition of conditions) {
+                    if (condition()) {
+                        debounce = true;
+                        break;
+                    }
                 }
             }
         }
+    }
+    if (debounce) {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(debounceCallback, DEBOUNCE_DURATION);
     }
 });
 
