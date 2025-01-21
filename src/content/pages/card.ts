@@ -85,7 +85,7 @@ export class CardPageHandler extends PageHandler {
         return false;
     }
 
-    public isSimulcastPage(url: string): boolean {
+    isSimulcastPage(url: string): boolean {
         return isPageTypeByUrl(url, "seasons", 2);
     }
 
@@ -98,14 +98,14 @@ export class CardPageHandler extends PageHandler {
         });
     }
 
-    public getCardsFromGridPage(): HTMLElement[] {
+    getCardsFromGridPage(): HTMLElement[] {
         return Array.from(
             document.querySelectorAll('[data-t="series-card "]') ||
                 document.querySelectorAll(".browse-card--esJdT")
         );
     }
 
-    public getAnimeNotInserted(animes: AnimeScore[]): Anime[] {
+    getAnimeNotInserted(animes: AnimeScore[]): Anime[] {
         const cards = this.getCardsFromGridPage();
         return cards.reduce<Anime[]>((acc, card) => {
             const animeScore = this.getDataFromCard(card, animes);
@@ -121,7 +121,7 @@ export class CardPageHandler extends PageHandler {
         }, []);
     }
 
-    public async insertScoreController(animes: AnimeScore[], order?: orderType): Promise<Anime[] | null> {
+    async insertScoreController(animes: AnimeScore[], order?: orderType): Promise<Anime[] | null> {
         if (!order) {
             order = config.tab1.order;
         }
